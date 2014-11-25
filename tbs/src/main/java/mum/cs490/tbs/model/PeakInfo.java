@@ -10,6 +10,7 @@ import java.sql.Time;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -23,7 +24,10 @@ public class PeakInfo {
     private Long id;
     private Time peakStart;
     private Time offPeakStart;
+    
+    @ManyToOne
     private CallingCard callingCard;
+    @ManyToOne
     private Service service;
 
     public PeakInfo() {
