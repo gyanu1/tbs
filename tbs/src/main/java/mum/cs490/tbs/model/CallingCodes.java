@@ -19,6 +19,7 @@ import javax.persistence.Id;
 public class CallingCodes implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue
     private Long id;
     private String country;
     private int code;

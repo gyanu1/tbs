@@ -37,7 +37,7 @@
             <props>
                 <prop key="hibernate.hbm2ddl.auto">create</prop>
                 <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.SQLServer2008Dialect</prop>
                 <prop key="hibernate.connection.pool_size">1</prop>
                 <prop key="javax.persistence.validation.mode">none</prop>
             </props>
