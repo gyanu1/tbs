@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+">
+    <!--for mysql datasource -->
+<!--    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url"
+                  value="jdbc:mysql://localhost:3306/tbs" />
+        <property name="username" value="root" />
+        <property name="password" value="" />
+    </bean>-->
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+    <property name="url" value="jdbc:microsoft:sqlserver://10.10.12.227:1433;databaseName=tbs" />
+    <property name="username" value="sa"/>
+    <property name="password" value="mumsql"/>
+   </bean>
+    
+    <!-- Hibernate SessionFactory -->
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan">
+            <list>
+                <value>mum.cs490.tbs.model.CallingCodes</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.show_sql">true</prop>
+                
+                <!--for mysql datasource-->
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>-->
+                
+                <!--for ms sql server-->
+                 <prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+                 <prop key="hbmdl.auto">create</prop>
+              <!-- configuration pool via c3p0 -->
+                <prop key= "hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</prop>      
+                <prop key="hibernate.c3p0.acquire_increment">5</prop>
+                <prop key="hibernate.c3p0.idle_test_period">1800</prop>
+                <prop key="hibernate.c3p0.max_size">600</prop>
+                <prop key="hibernate.c3p0.max_statements">50</prop>
+                <prop key="hibernate.c3p0.min_size">5</prop>
+                <prop key="hibernate.c3p0.timeout">1800</prop>
+            </props>
+        </property>
+    </bean>
+
+    
+    <context:component-scan base-package="mum.cs490.tbs" />
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+     
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+</beans>
