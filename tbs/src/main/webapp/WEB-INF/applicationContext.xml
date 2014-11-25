@@ -19,7 +19,7 @@
     </bean>-->
   <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-    <property name="url" value="jdbc:microsoft:sqlserver://10.10.12.227:1433;databaseName=tbs" />
+    <property name="url" value="jdbc:sqlserver://localhost:1433;DatabaseName=tbs;" />
     <property name="username" value="sa"/>
     <property name="password" value="mumsql"/>
    </bean>
@@ -30,27 +30,16 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan">
             <list>
-                <value>mum.cs490.tbs.model.CallingCodes</value>
+                <value>mum.cs490.tbs.model</value>
             </list>
         </property>
         <property name="hibernateProperties">
             <props>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
                 <prop key="hibernate.show_sql">true</prop>
-                
-                <!--for mysql datasource-->
-                <!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>-->
-                
-                <!--for ms sql server-->
-                 <prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
-                 <prop key="hbmdl.auto">create</prop>
-              <!-- configuration pool via c3p0 -->
-                <prop key= "hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</prop>      
-                <prop key="hibernate.c3p0.acquire_increment">5</prop>
-                <prop key="hibernate.c3p0.idle_test_period">1800</prop>
-                <prop key="hibernate.c3p0.max_size">600</prop>
-                <prop key="hibernate.c3p0.max_statements">50</prop>
-                <prop key="hibernate.c3p0.min_size">5</prop>
-                <prop key="hibernate.c3p0.timeout">1800</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+                <prop key="hibernate.connection.pool_size">1</prop>
+                <prop key="javax.persistence.validation.mode">none</prop>
             </props>
         </property>
     </bean>
