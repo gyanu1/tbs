@@ -8,9 +8,9 @@ package mum.cs490.tbs.controller;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import mum.cs490.tbs.dao.CallingCodeDao;
-import mum.cs490.tbs.model.CallingCodes;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.servlet.http.Part;
+import mum.cs490.tbs.utility.FileUtility;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -19,38 +19,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Named
 @SessionScoped
 public class UserBean implements Serializable {
+    private Part file;
+    static Logger log = Logger.getLogger(UserBean.class.getName());
 
-    private String name;
-    private String mobile;
-   
-    @Autowired
-    private CallingCodeDao callingCodeDao;
-
-    public String getName() {
-        return name;
+    public Part getFile() {
+        return file;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFile(Part file) {
+        this.file = file;
     }
 
-    public String getMobile() {
-        return mobile;
+    public void upload() {
+        log.info("inside file upload : " + file.getSubmittedFileName());
+        if (file != null && file.getSize() > 0) {
+            log.info("file" + file.getContentType());
+            FileUtility.saveUploadedFile("rate", file);
+        }
+     
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
 
-    public UserBean() {
-        this.name = "Capstone";
-        this.mobile = "9814368765";
-        
-    }
-
-    public void checkData(){
-        CallingCodes callCode=new CallingCodes("japan",123);
-        callingCodeDao.create(callCode);
-    }
 
 }
