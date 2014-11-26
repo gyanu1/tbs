@@ -15,48 +15,44 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
-import org.apache.poi.hssf.record.CountryRecord;
 
 /**
  *
  * @author ARijal
  */
-
 @Entity
 public class CallingRateList {
-    
+
     @Id
     @GeneratedValue
     private Long id;
-    
+
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date updateDate;
-    
+
     @OneToMany
     @JoinColumn
     private List<CallingRate> destinationRateList;
-    
+
     @ManyToOne
     private Service service;
     @ManyToOne
     private CallingCodes sourceCountry;
 
-    
-    
     public CallingRateList() {
     }
 
-
     public CallingRateList(Date updateDate, Service service, CallingCodes sourceCountry) {
-        
+
         this.updateDate = updateDate;
         this.service = service;
         this.sourceCountry = sourceCountry;
     }
-    
-    public void addCallingRate(CallingRate callingRate){
-        if (this.destinationRateList ==null)
+
+    public void addCallingRate(CallingRate callingRate) {
+        if (this.destinationRateList == null) {
             this.destinationRateList = new ArrayList<>();
+        }
         this.destinationRateList.add(callingRate);
     }
 
@@ -99,11 +95,5 @@ public class CallingRateList {
     public void setSourceCountry(CallingCodes sourceCountry) {
         this.sourceCountry = sourceCountry;
     }
-    
-    
-    
-    
-    
-    
-    
+
 }

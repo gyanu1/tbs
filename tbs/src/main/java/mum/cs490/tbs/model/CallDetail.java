@@ -5,7 +5,6 @@
  */
 package mum.cs490.tbs.model;
 
-import java.sql.Time;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +26,8 @@ public class CallDetail {
     
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date callDate;
-    private Time callTime;
+     @Temporal(javax.persistence.TemporalType.TIME)
+    private Date callTime;
     @ManyToOne
     private CallingCodes fromCountry;
     @ManyToOne
@@ -41,7 +41,7 @@ public class CallDetail {
     }
 
     
-    public CallDetail(double duration, Date callDate, Time callTime, CallingCodes fromCountry, CallingCodes toCountry, Customer fromCustomer, Customer toCustomer) {
+    public CallDetail(double duration, Date callDate, Date callTime, CallingCodes fromCountry, CallingCodes toCountry, Customer fromCustomer, Customer toCustomer) {
         this.duration = duration;
         this.callDate = callDate;
         this.callTime = callTime;
@@ -75,13 +75,14 @@ public class CallDetail {
         this.callDate = callDate;
     }
 
-    public Time getCallTime() {
+    public Date getCallTime() {
         return callTime;
     }
 
-    public void setCallTime(Time callTime) {
+    public void setCallTime(Date callTime) {
         this.callTime = callTime;
     }
+
 
     public CallingCodes getFromCountry() {
         return fromCountry;
@@ -113,6 +114,11 @@ public class CallDetail {
 
     public void setToCustomer(Customer toCustomer) {
         this.toCustomer = toCustomer;
+    }
+
+    @Override
+    public String toString() {
+        return "CallDetail{" + "id=" + id + ", duration=" + duration + ", callDate=" + callDate + ", callTime=" + callTime + ", fromCountry=" + fromCountry + ", toCountry=" + toCountry + ", fromCustomer=" + fromCustomer + ", toCustomer=" + toCustomer + '}';
     }
     
     
