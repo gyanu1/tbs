@@ -10,11 +10,25 @@ and open the template in the editor.
 .side_menu{
     width: 20%;
     float: left;
-    background: #c7ddef;
+    background: #F6F5F6;
+    border-radius: 8px;
+    border:1px solid ;
+     margin-top: 7%;
 }
 
 .content{
     width: 78%;
     float: left;
     padding-left: 2%;
+    margin-top: 7%;
+    margin-bottom: 7%;
 }
+
+.top_head{
+    background-color: #595959;
+}
+
+.form-padding{
+    padding: 2%;
+}
+

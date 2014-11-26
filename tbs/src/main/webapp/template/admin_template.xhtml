@@ -8,14 +8,21 @@
         <ui:include src="../sections/include_js_css.xhtml" />
     </h:head>
     <h:body>
+        <ui:insert name="side_menu">
+            <ui:include src="../sections/top_bar.xhtml" />
+        </ui:insert>
         <div>
             <ui:insert name="side_menu">
                 <ui:include src="../sections/side_menu.xhtml" />
             </ui:insert>
-              <ui:insert  name="content">
-                
+            <ui:insert  name="content">
+                <!--content goes here-->
             </ui:insert>
+
         </div>
+        <ui:insert name="footer">
+            <ui:include src="../sections/footer.xhtml" />
+        </ui:insert>
     </h:body>
 </html>
 
