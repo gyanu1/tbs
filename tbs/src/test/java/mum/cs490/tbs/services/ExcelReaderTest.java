@@ -6,11 +6,11 @@
 
 package mum.cs490.tbs.services;
 
-import mum.cs490.tbs.model.Country;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import junit.framework.Assert;
+import mum.cs490.tbs.model.CallingCodes;
 import org.junit.Test;
 
 /**
@@ -21,8 +21,8 @@ public class ExcelReaderTest {
     
     @Test
     public void excelReaderTest() throws IOException{
-        CountryCodeReader excelReader=new CountryCodeReader();
-        Map<Integer,List<Country>>  excelSheets=excelReader.loadWorkBook("data/calling_code.xls");
+        CallingCodeReader excelReader=new CallingCodeReader();
+        Map<Integer,List<CallingCodes>>  excelSheets=excelReader.loadWorkBook("data/calling_code.xls");
         System.out.println(excelSheets);
         Assert.assertFalse(excelSheets.isEmpty());
     }

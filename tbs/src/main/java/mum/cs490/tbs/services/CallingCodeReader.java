@@ -5,18 +5,18 @@
  */
 package mum.cs490.tbs.services;
 
-import mum.cs490.tbs.model.Country;
+import mum.cs490.tbs.model.CallingCodes;
 import org.apache.poi.ss.usermodel.Row;
 
 /**
  *
  * @author puneetkhanal
  */
-public class CountryCodeReader extends ExcelReader<Country> {
+public class CallingCodeReader extends ExcelReader<CallingCodes> {
 
     @Override
-    public Country getRow(Row row) {
-        Country country = new Country(row.getCell(0).getStringCellValue(), new Double(row.getCell(1).getNumericCellValue()).intValue());
+    public CallingCodes getRow(Row row) {
+        CallingCodes country = new CallingCodes(row.getCell(0).getStringCellValue(), new Double(row.getCell(1).getNumericCellValue()).intValue());
         return country;
     }
 
