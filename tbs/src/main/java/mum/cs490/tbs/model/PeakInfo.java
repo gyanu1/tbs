@@ -5,7 +5,6 @@
  */
 package mum.cs490.tbs.model;
 
-import com.mchange.rmi.CallingCard;
 import java.sql.Time;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,8 +24,8 @@ public class PeakInfo {
     private Time peakStart;
     private Time offPeakStart;
     
-    @ManyToOne
-    private CallingCard callingCard;
+//    @ManyToOne
+//    private CallingCard callingCard;
     @ManyToOne
     private Service service;
 
@@ -54,13 +53,13 @@ public class PeakInfo {
         this.offPeakStart = offPeakStart;
     }
 
-    public CallingCard getCallingCard() {
-        return callingCard;
-    }
-
-    public void setCallingCard(CallingCard callingCard) {
-        this.callingCard = callingCard;
-    }
+//    public CallingCard getCallingCard() {
+//        return callingCard;
+//    }
+//
+//    public void setCallingCard(CallingCard callingCard) {
+//        this.callingCard = callingCard;
+//    }
 
     public Service getService() {
         return service;

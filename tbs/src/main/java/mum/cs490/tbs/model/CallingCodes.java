@@ -8,7 +8,6 @@ package mum.cs490.tbs.model;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
@@ -76,6 +75,9 @@ public class CallingCodes implements Serializable {
     public CallingCodes(String country, int code) {
         this.country = country;
         this.code = code;
+    }
+
+    public CallingCodes() {
     }
 
 }

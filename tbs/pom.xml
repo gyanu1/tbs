@@ -55,11 +55,11 @@
             <version>5.1</version>
         </dependency>
         <!-- just for testing-->
-<!--        <dependency>
+       <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.34</version>
-        </dependency>-->
+        </dependency>
         
         <!--sql server connector-->
         <dependency>
