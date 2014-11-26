@@ -9,6 +9,7 @@ package mum.cs490.tbs.services;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import mum.cs490.tbs.model.CallDetail;
 
 import mum.cs490.tbs.model.CallingCodes;
 import mum.cs490.tbs.model.CallingRate;
@@ -39,9 +40,9 @@ public class ExcelReaderTest {
     
     @Test
     public void callDetailsReaderTest() throws IOException{
-        RateReader excelReader=new RateReader();
-        Map<String,List<CallingRate>>  excelSheets=excelReader.loadWorkBook("data/Calls_Dec2013.xls");
-        System.out.println(excelSheets);
+        CallDetailsReader excelReader=new CallDetailsReader();
+        Map<String,List<CallDetail>>  excelSheets=excelReader.loadWorkBook("data/Calls_Dec2013.xls");
+        System.out.println(excelSheets.get("Dec_Calls").get(0));
         Assert.assertFalse(excelSheets.isEmpty());
     }
 }

@@ -9,6 +9,8 @@ package mum.cs490.tbs.controller;
  *
  * @author PuKhanal
  */
-public enum UploadType {
-    rate,call_details,country_code
+public class Main {
+    public static void main(String[] args) {
+
+    }
 }

@@ -5,8 +5,11 @@
  */
 package mum.cs490.tbs.services;
 
+import java.util.Calendar;
+import java.util.Date;
 import mum.cs490.tbs.model.CallDetail;
 import mum.cs490.tbs.model.CallingCodes;
+import mum.cs490.tbs.model.Customer;
 import org.apache.poi.ss.usermodel.Row;
 
 /**
@@ -20,7 +23,22 @@ public class CallDetailsReader extends ExcelReader<CallDetail> {
         CallDetail callDetail = new CallDetail();
         callDetail.setFromCountry(new CallingCodes(null, new Double(row.getCell(0).getNumericCellValue()).intValue()));
         callDetail.setToCountry(new CallingCodes(null, new Double(row.getCell(1).getNumericCellValue()).intValue()));
-//         callDetail.set
+
+        Customer fromCustomer = new Customer();
+        fromCustomer.setTelephoneNumber(new Double(row.getCell(2).getNumericCellValue()).longValue());
+        Customer toCustomer = new Customer();
+        toCustomer.setTelephoneNumber(new Double(row.getCell(3).getNumericCellValue()).longValue());
+        callDetail.setDuration(row.getCell(4).getNumericCellValue());
+        Date date = row.getCell(5).getDateCellValue();
+        callDetail.setCallDate(row.getCell(5).getDateCellValue());
+        double time = row.getCell(6).getNumericCellValue();
+        int minute = new Double(time % 100).intValue();
+        int hour = new Double(time / 100).intValue();
+//        System.out.println(time+":"+hour+":"+minute);
+        Calendar cal = Calendar.getInstance();
+        cal.set(date.getYear(), date.getMonth(), date.getDate(), hour, minute);
+        callDetail.setCallTime(cal.getTime());
+//        System.out.println(cal.getTime());
         return callDetail;
     }
 
