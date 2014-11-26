@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package mum.cs490.tbs.services;
+package mum.cs490.tbs.model;
 
 /**
  *
