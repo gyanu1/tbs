@@ -7,4 +7,14 @@ and open the template in the editor.
     Created on : Nov 26, 2014, 8:46:18 AM
     Author     : gyanu
 */
+.side_menu{
+    width: 20%;
+    float: left;
+    background: #c7ddef;
+}
 
+.content{
+    width: 78%;
+    float: left;
+    padding-left: 2%;
+}

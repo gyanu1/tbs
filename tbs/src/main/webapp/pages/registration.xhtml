@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Namaste Telecom Billing System</title>
+        <ui:include src="../sections/include_js_css.xhtml" />
+    </h:head>
+    <h:body>
+        <div>
+            <ui:composition template="../template/admin_template.xhtml" >
+                <ui:define name="content">
+                    <div class="content">
+                        <h:form enctype="multipart/form-data">
+                            <h3>Customer Registration</h3>
+
+                            <div class="input-group">
+                                <span class="input-group-addon">Name: </span>
+                                <h:inputText  class="form-control"/>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">Country: </span>
+                                <h:inputText  class="form-control"/>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">State: </span>
+                                <h:inputText  class="form-control"/>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">City: </span>
+                                <h:inputText  class="form-control"/>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">Street: </span>
+                                <h:inputText  class="form-control"/>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">Zip: </span>
+                                <h:inputText  class="form-control"/>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">Telephone: </span>
+                                <h:inputText  class="form-control"/>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">Service Name: </span>
+                                <h:inputText  class="form-control"/>
+                            </div>
+                            <div class="input-group">
+                                <h:commandButton value="Register" class="btn btn-default" action="#{fileUploadBean.upload()}"  />
+                            </div>
+                        </h:form>
+                    </div>
+                </ui:define>
+            </ui:composition>
+        </div>
+    </h:body>
+</html>
+
