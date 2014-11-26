@@ -30,14 +30,7 @@ public class UserBean implements Serializable {
         this.file = file;
     }
 
-    public void upload() {
-        log.info("inside file upload : " + file.getSubmittedFileName());
-        if (file != null && file.getSize() > 0) {
-            log.info("file" + file.getContentType());
-            FileUtility.saveUploadedFile("rate", file);
-        }
-     
-    }
+    
 
 
 
