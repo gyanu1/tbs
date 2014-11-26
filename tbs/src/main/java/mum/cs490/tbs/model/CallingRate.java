@@ -9,6 +9,7 @@ package mum.cs490.tbs.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -24,15 +25,18 @@ public class CallingRate {
     
     private double peakRate;
     private double offPeakRate;
-    private CallingCodes destinationCountry;
+    @ManyToOne
+    private CallingCodes destinationCountry;  
+    @ManyToOne
+    private Rateinfo rateinfo;
 
     public CallingRate() {
     }
 
-    public CallingRate(double peakRate, double offPeakRate, CallingCodes destinationCountry) {
+    public CallingRate(double peakRate, CallingCodes destinationCountry, Rateinfo rateinfo) {
         this.peakRate = peakRate;
-        this.offPeakRate = offPeakRate;
         this.destinationCountry = destinationCountry;
+        this.rateinfo = rateinfo;
     }
 
     public Long getId() {
