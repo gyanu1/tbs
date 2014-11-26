@@ -31,7 +31,7 @@ public class RatesBean implements Serializable{
     
     public void save(){
         log.info("inside method save");
-         log.info("file name : "+file.getFileName());
+        log.info("file name : "+file.getFileName());
     }
     
 }
