@@ -25,32 +25,29 @@ import org.apache.poi.ss.usermodel.Row;
  */
 public abstract class ExcelReader<T> {
 
-    public Map<Integer, List<T>> loadWorkBook(String filepath) throws FileNotFoundException, IOException {
+    public Map<String, List<T>> loadWorkBook(String filepath) throws FileNotFoundException, IOException {
         FileInputStream file = new FileInputStream(new File(filepath));
         //Get the workbook instance for XLS file 
         HSSFWorkbook workbook = new HSSFWorkbook(file);
-        Map<Integer, List<T>> sheetRows = new HashMap<>();
+        Map<String, List<T>> sheetRows = new HashMap<>();
         for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
-            if (!sheetRows.containsKey(i)) {
-                sheetRows.put(i, new ArrayList<T>());
-            }
             HSSFSheet sheet = workbook.getSheetAt(i);
-
-            //Iterate through each rows from first sheet
-            
+            if (!sheetRows.containsKey(sheet.getSheetName())) {
+                sheetRows.put(sheet.getSheetName(), new ArrayList<T>());
+            }
+            //Iterate through each rows from first sheets
             Iterator<Row> rowIterator = sheet.iterator();
             boolean firstRow=true;
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
 
                 if(!firstRow){
-                    sheetRows.get(i).add(getRow(row));
+                    sheetRows.get(sheet.getSheetName()).add(getRow(row));
                 }else{
                     firstRow=false;
                 }
             }
         }
-
         file.close();
         return sheetRows;
     }

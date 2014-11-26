@@ -16,6 +16,7 @@ import javax.persistence.Id;
  */
 @Entity
 public class CallingCodes implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
@@ -53,7 +54,7 @@ public class CallingCodes implements Serializable {
 
     @Override
     public String toString() {
-        return "mum.cs490.tbs.model.CallingCodes[ id=" + id + " ]";
+        return "CallingCodes{" + "id=" + id + ", country=" + country + ", code=" + code + '}';
     }
 
     public String getCountry() {

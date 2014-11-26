@@ -67,6 +67,11 @@ public class CallingRate {
     public void setDestinationCountry(CallingCodes destinationCountry) {
         this.destinationCountry = destinationCountry;
     }
+
+    @Override
+    public String toString() {
+        return "CallingRate{" + "id=" + id + ", peakRate=" + peakRate + ", offPeakRate=" + offPeakRate + ", destinationCountry=" + destinationCountry + '}';
+    }
     
     
     
