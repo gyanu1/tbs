@@ -15,7 +15,6 @@ public class CountryCodeReader extends ExcelReader<Country> {
 
     @Override
     public Country getRow(Row row) {
-        System.out.println(row.getCell(0).getStringCellValue());
         Country country = new Country(row.getCell(0).getStringCellValue(), new Double(row.getCell(1).getNumericCellValue()).intValue());
         return country;
     }
