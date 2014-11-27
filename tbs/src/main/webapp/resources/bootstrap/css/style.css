@@ -10,11 +10,39 @@ and open the template in the editor.
 .side_menu{
     width: 20%;
     float: left;
-    background: #c7ddef;
+    background: #F6F5F6;
+    border-radius: 8px;
+    border:1px solid ;
+    padding-left: 1%;
+    margin-bottom: 2%;
+    margin-top: 7%;
 }
 
 .content{
     width: 78%;
     float: left;
     padding-left: 2%;
+    margin-bottom: 2%;
+    padding-top: 7%;
+}
+
+.top_head{
+    background-color: #595959;
+}
+
+.form-padding{
+    padding: 2%;
+}
+
+.body-tbs{
+    padding-left: 2%;
+    padding-right: 2%;
+
+}
+
+.footer-tbs{
+    height: 16%;
+    background-color: #595959;
+    text-align: center;
+    padding: 1%;
 }
