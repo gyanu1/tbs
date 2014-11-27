@@ -20,26 +20,13 @@ public class Service implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
-    private Long id;
     private String serviceName;
 
     public Service() {
     }
 
-    public Service(Long id, String serviceName) {
-        this.id = id;
+    public Service(String serviceName) {
         this.serviceName = serviceName;
-    }
-    
-    
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getServiceName() {
