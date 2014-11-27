@@ -18,6 +18,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserAuthenticationService implements UserDetailsService {
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Transactional(readOnly = true)
     @Override
@@ -56,14 +59,12 @@ public class UserAuthenticationService implements UserDetailsService {
                 true, true, true, true, authorities);
     }
 
-    private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
+    private List<GrantedAuthority> buildUserAuthority(UserRole role) {
 
         Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
 
         // Build user's authorities
-        for (UserRole userRole : userRoles) {
-            setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
-        }
+        setAuths.add(new SimpleGrantedAuthority(role.getRole()));
 
         List<GrantedAuthority> Result = new ArrayList<GrantedAuthority>(setAuths);
 

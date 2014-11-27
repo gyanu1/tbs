@@ -7,6 +7,7 @@ package mum.cs490.tbs.dao;
 
 import java.util.List;
 import mum.cs490.tbs.model.User;
+import mum.cs490.tbs.model.UserRole;
 
 /**
  *
@@ -16,6 +17,8 @@ public interface UserDao {
 
     public List<User> findUserByName(String name);
 
-    public User SaveUser(User user);
+    public void saveUser(User user);
+
+    public void saveUserRole(UserRole role);
 
 }

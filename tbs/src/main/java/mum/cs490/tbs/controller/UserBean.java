@@ -6,11 +6,16 @@
 package mum.cs490.tbs.controller;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import javax.servlet.http.Part;
-import mum.cs490.tbs.utility.FileUtility;
+import mum.cs490.tbs.dao.UserDao;
+import mum.cs490.tbs.model.User;
+import mum.cs490.tbs.model.UserRole;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -19,19 +24,31 @@ import org.apache.log4j.Logger;
 @Named
 @SessionScoped
 public class UserBean implements Serializable {
-    private Part file;
     static Logger log = Logger.getLogger(UserBean.class.getName());
 
-    public Part getFile() {
-        return file;
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private PasswordEncoder encoder;
+
+    @Transactional
+    public void createUser() {
+        List<User> userList = userDao.findUserByName("admin");
+        if (userList.isEmpty()) {
+            UserRole role = new UserRole("ROLE_ADMIN");
+            userDao.saveUserRole(role);
+            User user = new User("admin", encoder.encode("admin123"));
+            user.setUserRole(role);
+            userDao.saveUser(user);
+            role = new UserRole("ROLE_USER");
+            userDao.saveUserRole(role);
+            user = new User("salesrep", encoder.encode("salesrep123"));
+            user.setUserRole(role);
+            userDao.saveUser(user);
+        }
+        
     }
-
-    public void setFile(Part file) {
-        this.file = file;
-    }
-
-    
-
 
 
 }

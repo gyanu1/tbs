@@ -6,13 +6,13 @@
 package mum.cs490.tbs.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  *
@@ -26,8 +26,9 @@ public class User implements Serializable {
     private Long id;
     private String username;
     private String password;
-    @OneToMany(mappedBy = "user")
-    private Set<UserRole> userRole = new HashSet<UserRole>(0);
+    @ManyToOne
+    @Cascade(CascadeType.PERSIST)
+    private UserRole role;
 
     public Long getId() {
         return id;
@@ -78,12 +79,20 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Set<UserRole> getUserRole() {
-        return userRole;
+    public UserRole getUserRole() {
+        return role;
     }
 
-    public void setUserRole(Set<UserRole> userRole) {
-        this.userRole = userRole;
+    public void setUserRole(UserRole userRole) {
+        this.role = userRole;
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public User() {
     }
 
 }

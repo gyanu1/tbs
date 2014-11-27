@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 /**
  *
@@ -22,10 +21,7 @@ public class UserRole implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne
-    private User user;
     private String role;
-
     public Long getId() {
         return id;
     }
@@ -59,14 +55,6 @@ public class UserRole implements Serializable {
         return "mum.cs490.tbs.model.UserRole[ id=" + id + " ]";
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public String getRole() {
         return role;
     }
@@ -75,5 +63,11 @@ public class UserRole implements Serializable {
         this.role = role;
     }
 
+    public UserRole(String role) {
+        this.role = role;
+    }
+
+    public UserRole() {
+    }
 
 }
