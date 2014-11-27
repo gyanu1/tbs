@@ -16,6 +16,6 @@ public class MailServiceTest extends BaseTestCase{
     
     @Test
     public void mailTest() throws MessagingException{
-        mailService.sendMail("puneetkhanal@gmail.com", "hi", "hi");
+//        mailService.sendMail("puneetkhanal@gmail.com", "hi", "hi");
     }
 }

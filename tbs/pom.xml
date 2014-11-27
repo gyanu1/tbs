@@ -55,7 +55,7 @@
             <version>5.1</version>
         </dependency>
         <!-- just for testing-->
-       <dependency>
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.34</version>
@@ -109,12 +109,12 @@
             <artifactId>spring-tx</artifactId>
             <version>${spring.version}</version>
         </dependency>
-         <dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
             <version>${spring.version}</version>
         </dependency>
-         <dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
             <version>${spring.version}</version>
@@ -140,7 +140,7 @@
          </dependency>
         
         <!--jasper and ireport dependency-->
-        <dependency>
+<!--        <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
             <version>${jasper.version}</version>
@@ -149,7 +149,7 @@
             <groupId>com.lowagie</groupId>
             <artifactId>itext</artifactId>
             <version>4.2.1</version>
-        </dependency>
+        </dependency>-->
         
         <!--apache poi-->
         <dependency>
@@ -209,6 +209,19 @@
             <artifactId>mail</artifactId>
             <version>1.4</version>
         </dependency> 
+        
+        <dependency>
+
+            <groupId>net.sourceforge.dynamicreports</groupId>
+
+            <artifactId>dynamicreports-core</artifactId>
+
+            <version>3.2.1</version>
+
+        </dependency>
+
+       
+
     </dependencies>
 
     <build>
