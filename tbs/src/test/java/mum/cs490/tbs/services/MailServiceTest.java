@@ -6,12 +6,14 @@
 package mum.cs490.tbs.services;
 
 import javax.mail.MessagingException;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  *
  * @author PuKhanal
  */
+@Ignore
 public class MailServiceTest extends BaseTestCase{
     
     @Test
