@@ -19,7 +19,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
  */
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:applicationContext.xml")
+@ContextConfiguration("classpath:testApplicationContext.xml")
 @TransactionConfiguration(defaultRollback = false)
 @Transactional
 public class BaseTestCase {
