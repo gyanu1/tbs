@@ -8,6 +8,8 @@
             org.springframework.web.jsf.el.SpringBeanFacesELResolver
         </el-resolver>
     </application>
-
+    <lifecycle>
+        <!--<phase-listener>mum.cs490.tbs.controller.LoginPhaseListener</phase-listener>-->
+    </lifecycle>
     
 </faces-config>

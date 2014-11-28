@@ -5,10 +5,17 @@
  */
 package mum.cs490.tbs.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import mum.cs490.tbs.dao.UserDao;
 import mum.cs490.tbs.model.User;
 import mum.cs490.tbs.model.UserRole;
@@ -48,6 +55,27 @@ public class UserBean implements Serializable {
             userDao.saveUser(user);
         }
         
+    }
+
+    // This is the action method called when the user clicks the "login" button
+    public String doLogin() throws IOException, ServletException {
+        log.info("inside method doLogin ");
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+
+        RequestDispatcher dispatcher = ((ServletRequest) context.getRequest())
+                .getRequestDispatcher("/j_spring_security_check");
+
+        dispatcher.forward((ServletRequest) context.getRequest(),
+                (ServletResponse) context.getResponse());
+
+        FacesContext.getCurrentInstance().responseComplete();
+        // It's OK to return null here because Faces is just going to exit.
+        return null;
+    }
+
+    public String logout() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "login";
     }
 
 
