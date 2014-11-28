@@ -35,7 +35,7 @@
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
         <dispatcher>FORWARD</dispatcher>
-        <dispatcher>REQUEST</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
     </filter-mapping>
     
     <context-param>
@@ -58,6 +58,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>pages/login.xhtml</welcome-file>
+        <welcome-file>login.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>

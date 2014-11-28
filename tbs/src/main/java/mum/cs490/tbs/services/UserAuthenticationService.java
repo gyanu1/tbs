@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import mum.cs490.tbs.dao.UserDao;
-import mum.cs490.tbs.model.User;
+import mum.cs490.tbs.model.TbsUser;
 import mum.cs490.tbs.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -38,12 +38,12 @@ public class UserAuthenticationService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String username)
             throws UsernameNotFoundException {
 
-        List<User> userList = userDao.findUserByName(username);
-        User user = null;
+        List<TbsUser> userList = userDao.findUserByName(username);
+        TbsUser user = null;
         if (!userList.isEmpty() && userList.size() == 1) {
             user = userList.get(0);
         } else {
-            return null;
+            throw new UsernameNotFoundException("invalid login");
         }
         List<GrantedAuthority> authorities
                 = buildUserAuthority(user.getUserRole());
@@ -52,8 +52,8 @@ public class UserAuthenticationService implements UserDetailsService {
 
     }
 
-    // org.springframework.security.core.userdetails.User
-    private org.springframework.security.core.userdetails.User buildUserForAuthentication(User user,
+    // org.springframework.security.core.userdetails.TbsUser
+    private org.springframework.security.core.userdetails.User buildUserForAuthentication(TbsUser user,
             List<GrantedAuthority> authorities) {
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                 true, true, true, true, authorities);

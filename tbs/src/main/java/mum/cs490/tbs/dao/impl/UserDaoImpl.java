@@ -8,7 +8,7 @@ package mum.cs490.tbs.dao.impl;
 import java.util.List;
 import javax.annotation.Resource;
 import mum.cs490.tbs.dao.UserDao;
-import mum.cs490.tbs.model.User;
+import mum.cs490.tbs.model.TbsUser;
 import mum.cs490.tbs.model.UserRole;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -27,14 +27,15 @@ public class UserDaoImpl implements UserDao {
 
     @Transactional
     @Override
-    public List<User> findUserByName(String name) {
-        Query query = sessionFactory.getCurrentSession().createQuery("from User where username=:username");
+
+    public List<TbsUser> findUserByName(String name) {
+        Query query = sessionFactory.getCurrentSession().createQuery("from TbsUser where username=:username");
         query.setParameter("username", name);
         return  query.list();
     }
 
-    @Override
-    public void saveUser(User user) {
+
+    public void saveUser(TbsUser user) {
         sessionFactory.getCurrentSession().saveOrUpdate(user);
     }
 
