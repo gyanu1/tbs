@@ -21,7 +21,7 @@ public class Customer {
    
     @Id
     private Long telephoneNumber;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Service Service;
 
     public Customer() {

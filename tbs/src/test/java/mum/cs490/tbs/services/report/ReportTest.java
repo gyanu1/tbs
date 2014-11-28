@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.util.*;
 
-import junit.framework.Assert;
 import mum.cs490.tbs.report.ChartColumn;
 import mum.cs490.tbs.report.Component;
 import mum.cs490.tbs.report.ComponentException;
@@ -23,6 +22,7 @@ import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
 import net.sf.dynamicreports.report.exception.DRException;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

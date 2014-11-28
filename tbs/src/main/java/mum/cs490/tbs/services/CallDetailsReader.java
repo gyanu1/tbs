@@ -19,15 +19,17 @@ import org.apache.poi.ss.usermodel.Row;
 public class CallDetailsReader extends ExcelReader<CallDetail> {
 
     @Override
-    public CallDetail getRow(Row row) {
+    public CallDetail getRow(Row row, String sheetName) {
         CallDetail callDetail = new CallDetail();
         callDetail.setFromCountry(new CallingCodes(null, new Double(row.getCell(0).getNumericCellValue()).intValue()));
         callDetail.setToCountry(new CallingCodes(null, new Double(row.getCell(1).getNumericCellValue()).intValue()));
 
         Customer fromCustomer = new Customer();
         fromCustomer.setTelephoneNumber(new Double(row.getCell(2).getNumericCellValue()).longValue());
+        callDetail.setFromCustomer(fromCustomer);
         Customer toCustomer = new Customer();
         toCustomer.setTelephoneNumber(new Double(row.getCell(3).getNumericCellValue()).longValue());
+//        callDetail.setToCustomer(toCustomer);
         callDetail.setDuration(row.getCell(4).getNumericCellValue());
         Date date = row.getCell(5).getDateCellValue();
         callDetail.setCallDate(row.getCell(5).getDateCellValue());

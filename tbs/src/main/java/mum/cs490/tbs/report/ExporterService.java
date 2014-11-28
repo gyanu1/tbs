@@ -12,26 +12,6 @@ public class ExporterService {
 
     private Logger logger = Logger.getLogger(ExporterService.class.getName());
 
-    public void exportToCsv(JasperConcatenatedReportBuilder report, String location, String name) {
-        try {
-            report.toCsv(getCsvExporter(location, name));
-            logSuccessMessage(name, "csv");
-        } catch (DRException e) {
-            e.printStackTrace();
-            logErrorMessage(name, "csv", e.getMessage());
-        }
-    }
-
-    public void exportToCsv(JasperReportBuilder report, String location, String name) {
-        try {
-            report.toCsv(getCsvExporter(location, name));
-            logSuccessMessage(name, "csv");
-        } catch (DRException e) {
-            e.printStackTrace();
-            logErrorMessage(name, "csv", e.getMessage());
-        }
-
-    }
 
     public void exportToDocx(JasperConcatenatedReportBuilder report, String location, String name) {
         try {
@@ -132,27 +112,7 @@ public class ExporterService {
         }
     }
 
-    public void exportToRtf(JasperConcatenatedReportBuilder report, String location, String name) {
-        try {
-            report.toRtf(getRtfExporter(location, name));
-            logSuccessMessage(name, "rtf");
-        } catch (DRException e) {
-            e.printStackTrace();
-            logErrorMessage(name, "rtf", e.getMessage());
-        }
-    }
-
-    public void exportToRtf(JasperReportBuilder report, String location, String name) {
-        try {
-            report.toRtf(getRtfExporter(location, name));
-            logSuccessMessage(name, "rtf");
-        } catch (DRException e) {
-            e.printStackTrace();
-            logErrorMessage(name, "rtf", e.getMessage());
-        }
-
-    }
-
+   
     public void exportToXls(JasperConcatenatedReportBuilder report, String location, String name) {
         try {
             report.toXls(getXlsExporter(location, name));
@@ -173,10 +133,6 @@ public class ExporterService {
         }
     }
 
-    private JasperCsvExporterBuilder getCsvExporter(String location, String name) {
-        JasperCsvExporterBuilder csvExporter = export.csvExporter(location + "/" + name + ".csv");
-        return csvExporter;
-    }
 
     private JasperDocxExporterBuilder getDocxExporter(String location, String name) {
         JasperDocxExporterBuilder docxExporter = export.docxExporter(
@@ -194,12 +150,7 @@ public class ExporterService {
                 .setEncrypted(true).setUserPassword(password);
         return pdfExporter;
     }
-
-    private JasperRtfExporterBuilder getRtfExporter(String location, String name) {
-        JasperRtfExporterBuilder rtfExporter = export.rtfExporter(location + "/" + name + ".rtf");
-        return rtfExporter;
-    }
-
+    
     private JasperXhtmlExporterBuilder getXHtmlExporter(String location, String name) {
         JasperXhtmlExporterBuilder xHtmlExporter = export
                 .xhtmlExporter(location + "/" + name + ".html")

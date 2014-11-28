@@ -20,12 +20,14 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext.xml")
-@TransactionConfiguration
+@TransactionConfiguration(defaultRollback = false)
 @Transactional
 public class BaseTestCase {
 
-  @Autowired
-  protected MailService mailService;
+    @Autowired
+    protected MailService mailService;
+
+    @Autowired
+    protected IUpdateService updateService;
 
 }
-

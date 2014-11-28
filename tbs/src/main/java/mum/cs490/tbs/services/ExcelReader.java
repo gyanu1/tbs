@@ -41,7 +41,7 @@ public abstract class ExcelReader<T> {
                 Row row = rowIterator.next();
 
                 if(!firstRow){
-                    sheetRows.get(sheet.getSheetName()).add(getRow(row));
+                    sheetRows.get(sheet.getSheetName()).add(getRow(row, sheet.getSheetName()));
                 }else{
                     firstRow=false;
                 }
@@ -51,5 +51,5 @@ public abstract class ExcelReader<T> {
         return sheetRows;
     }
 
-    public abstract T getRow(Row row) ;
+    public abstract T getRow(Row row, String sheetName);
 }
