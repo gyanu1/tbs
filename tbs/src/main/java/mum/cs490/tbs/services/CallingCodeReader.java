@@ -15,7 +15,7 @@ import org.apache.poi.ss.usermodel.Row;
 public class CallingCodeReader extends ExcelReader<CallingCodes> {
 
     @Override
-    public CallingCodes getRow(Row row) {
+    public CallingCodes getRow(Row row, String sheetName) {
         CallingCodes country = new CallingCodes(row.getCell(0).getStringCellValue(), new Double(row.getCell(1).getNumericCellValue()).intValue());
         return country;
     }

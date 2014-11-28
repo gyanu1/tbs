@@ -6,6 +6,7 @@
 package mum.cs490.tbs.model;
 
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,66 +20,41 @@ import javax.persistence.ManyToOne;
 @Entity
 public class CallingRate {
     
-    @Id
-    @GeneratedValue
-    private Long id;
+    @EmbeddedId
+    private RateId id;
+    private double peak;
+    private double offPeak;
     
-    private double peakRate;
-    private double offPeakRate;
-    @ManyToOne
-    private CallingCodes destinationCountry;  
-    @ManyToOne
-    private Rateinfo rateinfo;
 
     public CallingRate() {
     }
 
-    public CallingRate(double peakRate, CallingCodes destinationCountry, Rateinfo rateinfo) {
-        this.peakRate = peakRate;
-        this.destinationCountry = destinationCountry;
-        this.rateinfo = rateinfo;
-    }
 
-    public Long getId() {
+    public RateId getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(RateId id) {
         this.id = id;
     }
 
-    public double getPeakRate() {
-        return peakRate;
+    public double getPeak() {
+        return peak;
     }
 
-    public void setPeakRate(double peakRate) {
-        this.peakRate = peakRate;
+    public void setPeak(double peak) {
+        this.peak = peak;
     }
 
-    public double getOffPeakRate() {
-        return offPeakRate;
+    public double getOffPeak() {
+        return offPeak;
     }
 
-    public void setOffPeakRate(double offPeakRate) {
-        this.offPeakRate = offPeakRate;
+    public void setOffPeak(double offPeak) {
+        this.offPeak = offPeak;
     }
 
-    public CallingCodes getDestinationCountry() {
-        return destinationCountry;
-    }
-
-    public void setDestinationCountry(CallingCodes destinationCountry) {
-        this.destinationCountry = destinationCountry;
-    }
-
-    @Override
-    public String toString() {
-        return "CallingRate{" + "id=" + id + ", peakRate=" + peakRate + ", offPeakRate=" + offPeakRate + ", destinationCountry=" + destinationCountry + '}';
-    }
-    
-    
-    
-    
+   
     
     
     

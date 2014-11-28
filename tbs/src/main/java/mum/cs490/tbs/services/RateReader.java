@@ -5,8 +5,11 @@
  */
 package mum.cs490.tbs.services;
 
+import java.util.Date;
 import mum.cs490.tbs.model.CallingCodes;
 import mum.cs490.tbs.model.CallingRate;
+import mum.cs490.tbs.model.RateId;
+import mum.cs490.tbs.model.Service;
 import org.apache.poi.ss.usermodel.Row;
 
 /**
@@ -16,11 +19,17 @@ import org.apache.poi.ss.usermodel.Row;
 public class RateReader extends ExcelReader<CallingRate> {
 
     @Override
-    public CallingRate getRow(Row row) {
+    public CallingRate getRow(Row row, String sheetName) {
         CallingRate callingRate = new CallingRate();
-        callingRate.setDestinationCountry(new CallingCodes(null, new Double(row.getCell(0).getNumericCellValue()).intValue()));
-        callingRate.setPeakRate(row.getCell(1).getNumericCellValue());
-        callingRate.setOffPeakRate(row.getCell(2).getNumericCellValue());
+        RateId rateId = new RateId();
+        rateId.setDestinationCountry(new CallingCodes(null, new Double(row.getCell(0).getNumericCellValue()).intValue()));
+        rateId.setUpdateDate(new Date(System.currentTimeMillis()));
+        String[] split = sheetName.split("_");
+        rateId.setService(new Service(split[0]));
+        rateId.setSheetName(sheetName);
+        callingRate.setId(rateId);
+        callingRate.setPeak(row.getCell(1).getNumericCellValue());
+        callingRate.setOffPeak(row.getCell(2).getNumericCellValue());
         return callingRate;
     }
 

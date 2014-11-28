@@ -10,9 +10,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import mum.cs490.tbs.model.CallDetail;
-
 import mum.cs490.tbs.model.CallingCodes;
 import mum.cs490.tbs.model.CallingRate;
+import mum.cs490.tbs.model.Customer;
+import mum.cs490.tbs.model.PeakInfo;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,6 +44,22 @@ public class ExcelReaderTest {
         CallDetailsReader excelReader=new CallDetailsReader();
         Map<String,List<CallDetail>>  excelSheets=excelReader.loadWorkBook("data/Calls_Dec2013.xls");
         System.out.println(excelSheets.get("Dec_Calls").get(0));
+        Assert.assertFalse(excelSheets.isEmpty());
+    }
+    
+    @Test
+    public void peakInfoReaderTest() throws IOException{
+        PeakInfoReader excelReader=new PeakInfoReader();
+        Map<String,List<PeakInfo>>  excelSheets=excelReader.loadWorkBook("data/Peak.xls");
+//        System.out.println(excelSheets.get("Dec_Calls").get(0));
+        Assert.assertFalse(excelSheets.isEmpty());
+    }
+    
+    @Test
+    public void customerInfoReaderTest() throws IOException{
+       CustomerInfoReader excelReader=new CustomerInfoReader();
+        Map<String,List<Customer>>  excelSheets=excelReader.loadWorkBook("data/Customers.xls");
+//        System.out.println(excelSheets.get("Dec_Calls").get(0));
         Assert.assertFalse(excelSheets.isEmpty());
     }
 }

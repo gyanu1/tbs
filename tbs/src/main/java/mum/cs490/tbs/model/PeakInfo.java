@@ -5,7 +5,8 @@
  */
 package mum.cs490.tbs.model;
 
-import java.sql.Time;
+import java.util.Date;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,69 +16,42 @@ import javax.persistence.ManyToOne;
  *
  * @author ARijal
  */
-
 @Entity
 public class PeakInfo {
-    @Id
-    @GeneratedValue
-    private Long id;
-    private Time peakStart;
-    private Time offPeakStart;
-    
-//    @ManyToOne
-//    private CallingCard callingCard;
-    @ManyToOne
-    private Service service;
+
+
+    private Date peakStart;
+    private Date offPeakStart;
+
+    @EmbeddedId
+    private PeakId peakId;
 
     public PeakInfo() {
     }
-    
-    public PeakInfo(Time peakStart, Time offPeakStart) {
-        this.peakStart = peakStart;
-        this.offPeakStart = offPeakStart;
-    }
 
-    public Time getPeakStart() {
+    public Date getPeakStart() {
         return peakStart;
     }
 
-    public void setPeakStart(Time peakStart) {
+    public void setPeakStart(Date peakStart) {
         this.peakStart = peakStart;
     }
 
-    public Time getOffPeakStart() {
+    public Date getOffPeakStart() {
         return offPeakStart;
     }
 
-    public void setOffPeakStart(Time offPeakStart) {
+    public void setOffPeakStart(Date offPeakStart) {
         this.offPeakStart = offPeakStart;
     }
 
-//    public CallingCard getCallingCard() {
-//        return callingCard;
-//    }
-//
-//    public void setCallingCard(CallingCard callingCard) {
-//        this.callingCard = callingCard;
-//    }
-
-    public Service getService() {
-        return service;
+    public PeakId getPeakId() {
+        return peakId;
     }
 
-    public void setService(Service service) {
-        this.service = service;
-    }
-    
-    
-    
-    public Long getId() {
-        return id;
+    public void setPeakId(PeakId peakId) {
+        this.peakId = peakId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    
+
 }

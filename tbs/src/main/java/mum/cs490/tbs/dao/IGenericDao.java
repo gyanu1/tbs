@@ -11,8 +11,8 @@ import java.util.List;
  *
  * @author Ajay
  */
-public interface DAO<T> {
-    public void create(T t);
+public interface IGenericDao<T> {
+    public void store(T t);
     public void update(T t);
     public List<T> getAll();
     

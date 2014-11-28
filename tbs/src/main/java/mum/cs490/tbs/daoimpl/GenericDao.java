@@ -7,22 +7,27 @@ package mum.cs490.tbs.daoimpl;
 
 import java.util.List;
 import javax.annotation.Resource;
-import mum.cs490.tbs.dao.DAO;
+import mum.cs490.tbs.dao.IGenericDao;
 import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Ajay
  */
-public class DAOImpl<T> implements DAO<T>{
+@Repository
+@Transactional(propagation = Propagation.MANDATORY, rollbackFor = Throwable.class)
+public class GenericDao<T> implements IGenericDao<T>{
 
     T tt;
     @Resource(name="sessionFactory")
     SessionFactory sessionFactory;
     
     @Override
-    public void create(T t) {
-        sessionFactory.getCurrentSession().persist(t);
+    public void store(T t) {
+        sessionFactory.getCurrentSession().merge(t);
     }
 
     @Override

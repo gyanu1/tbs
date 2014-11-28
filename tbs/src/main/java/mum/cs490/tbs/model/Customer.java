@@ -5,6 +5,7 @@
  */
 package mum.cs490.tbs.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,9 +18,8 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Customer {
+   
     @Id
-    @GeneratedValue
-    private Long id;
     private Long telephoneNumber;
     @ManyToOne
     private Service Service;
@@ -30,15 +30,6 @@ public class Customer {
     public Customer(Long telephoneNumber, Service Service) {
         this.telephoneNumber = telephoneNumber;
         this.Service = Service;
-    }
-
-    
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Long getTelephoneNumber() {

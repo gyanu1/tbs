@@ -28,7 +28,7 @@
         </property>
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.connection.pool_size">1</prop>
@@ -37,6 +37,8 @@
         </property>
     </bean>
 
+
+<bean id="updateService" class="mum.cs490.tbs.services.UpdateService"/>
     
     <context:component-scan base-package="mum.cs490.tbs" />
     <tx:annotation-driven transaction-manager="transactionManager"/>
