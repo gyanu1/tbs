@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Namaste Telecom Billing System</title>
+        <ui:include src="../sections/include_js_css.xhtml" />
+    </h:head>
+    <h:body>
+        <div>
+            <ui:composition template="../template/admin_template.xhtml" >
+                <ui:define name="content">
+                    <div class="content">
+                        <h3>Monthly Customer Bill</h3>
+                        <h:form>
+                            <div  style="width:63%" class="form-group ">
+                                <div style="width:65%;float: left">
+                                    <p:outputLabel for="customer" value="Search Customer:"  class="pull-left" />
+                                <p:selectOneListbox id="customer" value="#{userBean.customer}" class="pull-right" filter="true" filterMatchMode="contains">
+                                    <f:selectItems value="#{userBean.customerList}" var="customer" itemLabel="#{customer.telephoneNumber}" itemValue="#{customer.telephoneNumber}" />
+                                </p:selectOneListbox>
+                                </div>
+                                <div style="width:20%;float: right">
+                                     <h:commandButton value="Generate Monthly Bill"   class="pull-right"/>
+                                </div>
+                                
+                               
+                            </div>
+
+
+                        </h:form>
+                    </div>
+                </ui:define>
+            </ui:composition>
+        </div>
+    </h:body>
+</html>

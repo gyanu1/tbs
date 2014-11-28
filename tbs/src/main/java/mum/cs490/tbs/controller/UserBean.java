@@ -7,6 +7,7 @@ package mum.cs490.tbs.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -16,7 +17,10 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import mum.cs490.tbs.dao.IGenericDao;
 import mum.cs490.tbs.dao.UserDao;
+import mum.cs490.tbs.model.Customer;
+import mum.cs490.tbs.model.Service;
 import mum.cs490.tbs.model.TbsUser;
 import mum.cs490.tbs.model.UserRole;
 import org.apache.log4j.Logger;
@@ -38,6 +42,11 @@ public class UserBean implements Serializable {
 
     @Autowired
     private PasswordEncoder encoder;
+    
+    @Autowired 
+    private IGenericDao dao;
+    
+    private Customer customer;
 
     @Transactional
     public void createUser() {
@@ -78,6 +87,36 @@ public class UserBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "logout";
     }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public UserBean() {
+        customer=new Customer();
+    }
+    
+    public List<Customer> getCustomerList() {
+        List<Customer> customerList = new ArrayList<>();
+        customerList.add(new Customer(9841497163L, new Service("ntc")));
+        customerList.add(new Customer(984763163L, new Service("ncell")));
+        customerList.add(new Customer(976563163L, new Service("airtel")));
+         customerList.add(new Customer(9841497163L, new Service("ntc")));
+        customerList.add(new Customer(984763163L, new Service("ncell")));
+        customerList.add(new Customer(976563163L, new Service("airtel")));
+         customerList.add(new Customer(9841497163L, new Service("ntc")));
+        customerList.add(new Customer(984763163L, new Service("ncell")));
+        customerList.add(new Customer(976563163L, new Service("airtel")));
+        return customerList;
+    }
+    
+      public List<Service> getServiceList() {
+          return dao.getAll();
+      }
 
 
 }
