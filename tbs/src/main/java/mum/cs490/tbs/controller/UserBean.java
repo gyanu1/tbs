@@ -17,7 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import mum.cs490.tbs.dao.UserDao;
-import mum.cs490.tbs.model.User;
+import mum.cs490.tbs.model.TbsUser;
 import mum.cs490.tbs.model.UserRole;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,16 +41,16 @@ public class UserBean implements Serializable {
 
     @Transactional
     public void createUser() {
-        List<User> userList = userDao.findUserByName("admin");
+        List<TbsUser> userList = userDao.findUserByName("admin");
         if (userList.isEmpty()) {
             UserRole role = new UserRole("ROLE_ADMIN");
             userDao.saveUserRole(role);
-            User user = new User("admin", encoder.encode("admin123"));
+            TbsUser user = new TbsUser("admin", encoder.encode("admin123"));
             user.setUserRole(role);
             userDao.saveUser(user);
             role = new UserRole("ROLE_USER");
             userDao.saveUserRole(role);
-            user = new User("salesrep", encoder.encode("salesrep123"));
+            user = new TbsUser("salesrep", encoder.encode("salesrep123"));
             user.setUserRole(role);
             userDao.saveUser(user);
         }
