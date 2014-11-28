@@ -24,8 +24,9 @@ public class FileUtility {
 
     static Logger log = Logger.getLogger(UserBean.class.getName());
 
-    public static boolean saveUploadedFile(String folder, Part file) {
+    public static File saveUploadedFile(String folder, Part file) {
         boolean saved = false;
+        File serverFile = null;
         if (file.getSize() > 0) {
             try {
                 InputStream input = file.getInputStream();
@@ -49,7 +50,7 @@ public class FileUtility {
                     fileDir.mkdirs();
                 }
                 //create the file on server
-                File serverFile = new File(fileDir.getAbsolutePath() + File.separator + file.getSubmittedFileName());
+                serverFile = new File(fileDir.getAbsolutePath() + File.separator + file.getSubmittedFileName());
 
                 try (BufferedOutputStream fileStream = new BufferedOutputStream(new FileOutputStream(serverFile))) {
                     fileStream.write(IOUtils.toByteArray(input));
@@ -62,7 +63,7 @@ public class FileUtility {
         } else {
             log.info("Failed due to  empty upload file.");
         }
-        return saved;
+        return serverFile;
     }
 
 }

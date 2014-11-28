@@ -5,19 +5,22 @@
  */
 package mum.cs490.tbs.services;
 
+import mum.cs490.tbs.model.CallDetail;
+import mum.cs490.tbs.utility.FileType;
+
 /**
  *
  * @author PuKhanal
  */
 public class ReaderFactory {
 
-    public static ExcelReader getReader(ReaderType type) {
+    public static ExcelReader getReader(FileType type) {
         switch (type) {
-            case call_details:
+            case CALL_DETAIL:
                 return new CallDetailsReader();
-            case rate:
+            case RATE:
                 return new RateReader();
-            case calling_code:
+            case CALLING_CODES:
                 return new CallingCodeReader();
         }
         throw new IllegalArgumentException("Reader type undefined.");
