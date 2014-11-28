@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Namaste Telecom Billing System</title>
         <ui:include src="../sections/include_js_css.xhtml" />
@@ -12,13 +13,14 @@
             <ui:include src="../sections/top_bar.xhtml" />
         </ui:insert>
         <div class="body-tbs">
-            <ui:insert name="side_menu">
-                <ui:include src="../sections/side_menu.xhtml" />
-            </ui:insert>
-            <ui:insert  name="content">
-                <!--content goes here-->
-            </ui:insert>
-
+            <f:view>
+                <ui:insert name="side_menu">
+                    <ui:include src="../sections/side_menu.xhtml" />
+                </ui:insert>
+                <ui:insert  name="content">
+                    <!--content goes here-->
+                </ui:insert>
+            </f:view>
         </div>
         <ui:insert name="footer">
             <ui:include src="../sections/footer.xhtml" />

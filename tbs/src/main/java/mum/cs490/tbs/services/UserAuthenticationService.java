@@ -43,7 +43,7 @@ public class UserAuthenticationService implements UserDetailsService {
         if (!userList.isEmpty() && userList.size() == 1) {
             user = userList.get(0);
         } else {
-            return null;
+            throw new UsernameNotFoundException("invalid login");
         }
         List<GrantedAuthority> authorities
                 = buildUserAuthority(user.getUserRole());

@@ -11,7 +11,7 @@
                     <li><h:link value="Upload Rate"   outcome="index"/></li>
                     <li><h:link value="Customer Registration" outcome="registration" /></li>
                     <li><h:link value="Miscellaneous"  /></li>
-                    <li><h:link value="Log Out" onclick="#{userBean.logout()}"  /></li>
+                    <li><h:outputLink value="#{request.contextPath}/j_spring_security_logout">logout</h:outputLink></li>
                 </ul>
             </div>
             </ui:insert>
