@@ -15,12 +15,15 @@ import mum.cs490.tbs.model.Customer;
 import mum.cs490.tbs.model.PeakInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author puneetkhanal
  */
 @Service("updateService")
+@Transactional(propagation = Propagation.REQUIRES_NEW)
 public class UpdateService implements IUpdateService {
 
     @Autowired

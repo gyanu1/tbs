@@ -29,5 +29,8 @@ public class BaseTestCase {
 
     @Autowired
     protected IUpdateService updateService;
+    
+    @Autowired
+    protected IReportService reportService;
 
 }
