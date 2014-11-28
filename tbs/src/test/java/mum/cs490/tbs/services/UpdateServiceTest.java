@@ -52,16 +52,16 @@ public class UpdateServiceTest extends BaseTestCase {
         updateService.storeCallingCodes(data);
         
         
-//        reader.setReader(new CallDetailsReader());
-//        Map<String,List<CallDetail>> data1=reader.read("data/Calls_Dec2013.xls");
-//        updateService.storeCallDetails(data1);
-//        
-//        System.out.println(data1.get("Dec_Calls").get(0));
+        reader.setReader(new CallDetailsReader());
+        Map<String,List<CallDetail>> data1=reader.read("data/Calls_Dec2013.xls");
+        updateService.storeCallDetails(data1);
+        
+        System.out.println(data1.get("Dec_Calls").get(0));
         
         
-//        reader.setReader(new RateReader());
-//        Map<String,List<CallingRate>> data2=reader.read("data/Rates_20130901.xls");
-//        updateService.updateRate(data2);
+        reader.setReader(new RateReader());
+        Map<String,List<CallingRate>> data2=reader.read("data/Rates_20130901.xls");
+        updateService.updateRate(data2);
         
         
        

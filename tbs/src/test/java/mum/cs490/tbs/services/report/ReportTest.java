@@ -1,8 +1,14 @@
 package mum.cs490.tbs.services.report;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
+import mum.cs490.tbs.model.CallingCodes;
+import mum.cs490.tbs.model.CallingRate;
+import mum.cs490.tbs.model.Customer;
+import mum.cs490.tbs.model.PeakInfo;
+import mum.cs490.tbs.model.Service;
 
 import mum.cs490.tbs.report.ChartColumn;
 import mum.cs490.tbs.report.Component;
@@ -10,9 +16,14 @@ import mum.cs490.tbs.report.ComponentException;
 import mum.cs490.tbs.report.DataSource;
 import mum.cs490.tbs.report.DynamicComponentBuilder;
 import mum.cs490.tbs.report.ExporterService;
-import mum.cs490.tbs.report.ReportService;
+import mum.cs490.tbs.report.ReportUtil;
 import mum.cs490.tbs.report.TableColumn;
 import mum.cs490.tbs.report.TemplateProvider;
+import mum.cs490.tbs.services.BaseTestCase;
+import mum.cs490.tbs.services.CallingCodeReader;
+import mum.cs490.tbs.services.CustomerInfoReader;
+import mum.cs490.tbs.services.PeakInfoReader;
+import mum.cs490.tbs.services.Reader;
 import mum.cs490.tbs.utility.FileUtil;
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import static net.sf.dynamicreports.report.builder.DynamicReports.col;
@@ -26,13 +37,40 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ReportTest {
+public class ReportTest extends BaseTestCase{
 
     private DynamicComponentBuilder componentBuilder = new DynamicComponentBuilder();
-    private ReportService reportService = new ReportService();
+    private ReportUtil reportUtil = new ReportUtil();
     private ExporterService exporterService = new ExporterService();
     public static String testOutputPath = "components/";
 
+    
+//    @BeforeClass
+//    public void beforeClass() throws IOException{
+//        List<Service> services = new ArrayList<>();
+//        Reader reader = new Reader();
+//
+//        reader.setReader(new PeakInfoReader());
+//        Map<String, List<PeakInfo>> data3 = reader.read("data/Peak.xls");
+//
+//        for (PeakInfo peakInfo : data3.get("Sheet1")) {
+//            services.add(peakInfo.getPeakId().getService());
+//        }
+//
+//        updateService.storeServices(services);
+//
+//        updateService.storePeakInfo(data3);
+//
+//         reader.setReader(new CustomerInfoReader());
+//        Map<String,List<Customer>> data4=reader.read("data/Customers.xls");
+//        
+//        
+//        updateService.storeCustomers(data4.get("Sheet1"));
+//      
+//        reader.setReader(new CallingCodeReader());
+//        Map<String,List<CallingCodes>> data=reader.read("data/calling_code.xls");
+//        updateService.storeCallingCodes(data);
+//    }
     private static ChartColumn createChartColumn(String name,
             TextColumnBuilder<?> textColumnBuilder, boolean isSeries, boolean isCategory) {
 
@@ -133,10 +171,12 @@ public class ReportTest {
         columns.add(createColumn("", rollColumn, true, false));
         columns.add(createColumn("", marksColumn, true, false));
 
+        List<CallingRate> callingRateList=reportService.getRateList("USA", "Spectra");
+        System.out.println(callingRateList.size());
         dataSource = createDataSource();
         Component component = new Component();
         component.setColumns(columns);
-        JasperReportBuilder table = reportService.getDynamicReport(
+        JasperReportBuilder table = reportUtil.getDynamicReport(
                 componentBuilder.createTable(component, dataSource), new JREmptyDataSource());
         table.setTemplateDesign(TemplateProvider.getTemplate("report_layout/defaulttemplate.jrxml"));
         exporterService.exportToPdf(table, testOutputPath, "RateSheet");

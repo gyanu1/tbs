@@ -10,5 +10,5 @@ package mum.cs490.tbs.utility;
  * @author GMaharjan
  */
 public enum FileType {
-    RATE,CALL_DETAIL,CALLING_CODES
+    RATE,CALL_DETAIL
 }

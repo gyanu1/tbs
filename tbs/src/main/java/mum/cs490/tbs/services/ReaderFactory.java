@@ -20,8 +20,6 @@ public class ReaderFactory {
                 return new CallDetailsReader();
             case RATE:
                 return new RateReader();
-            case CALLING_CODES:
-                return new CallingCodeReader();
         }
         throw new IllegalArgumentException("Reader type undefined.");
     }
