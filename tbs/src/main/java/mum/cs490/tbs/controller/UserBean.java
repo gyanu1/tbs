@@ -106,7 +106,8 @@ public class UserBean implements Serializable {
     }
 
     public UserBean() {
-        customer=new Customer();
+        customer = new Customer();
+        customer.setService(new Service());
     }
     
     public List<Customer> getCustomerList() {
@@ -159,6 +160,8 @@ public class UserBean implements Serializable {
     @Transactional
     public void saveCustomer() {
         log.info("inside method saveCustomer");
+        Service service = serviceDao.findByName(customer.getService().getServiceName());
+        customer.setService(service);
         customerDao.store(customer);
     }
     

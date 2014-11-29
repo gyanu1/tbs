@@ -16,6 +16,7 @@
                     <div class="content">
                         <h:form >
                             <h3>Customer Registration</h3>
+                            <h:messages errorClass="alert-danger" />
                             <h:panelGrid columns="2" >
                                 <span class="input-group-addon">Firstname: </span>
                                 <h:inputText  class="form-control" value="#{userBean.customer.firstname}"/>
@@ -34,9 +35,9 @@
                                 <span class="input-group-addon">Zip: </span>
                                 <h:inputText  class="form-control" value="#{userBean.customer.zip}"/>
                                 <span class="input-group-addon">Telephone: </span>
-                                <h:inputText  class="form-control" value="#{userBean.customer.telephoneNumber}"/>
+                                <h:inputText  class="form-control" value="#{userBean.customer.telephoneNumber}" required="true"/>
                                 <span class="input-group-addon">Service Name: </span>
-                                <p:selectOneListbox style="height: 20%"  value="#{userBean.customer.service}">
+                                <p:selectOneListbox style="height: 20%"  value="#{userBean.customer.service.serviceName}">
                                     <f:selectItems value="#{userBean.serviceList}" var="service" itemLabel="#{service.serviceName}" itemValue="#{service.serviceName}" />
                                 </p:selectOneListbox>
                                 <h:commandButton value="Register" class="btn btn-default" action="#{userBean.saveCustomer()}"  />

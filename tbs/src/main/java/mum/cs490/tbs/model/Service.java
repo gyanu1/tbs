@@ -20,7 +20,6 @@ public class Service implements Serializable {
 
     @Id
     private String serviceName;
-
     public Service() {
     }
 
