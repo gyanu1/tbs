@@ -19,9 +19,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import mum.cs490.tbs.dao.UserDao;
 import mum.cs490.tbs.dao.impl.CallingCodesDao;
+import mum.cs490.tbs.dao.impl.CallingRateDao;
 import mum.cs490.tbs.dao.impl.CustomerDao;
 import mum.cs490.tbs.dao.impl.ServiceDao;
 import mum.cs490.tbs.model.CallingCodes;
+import mum.cs490.tbs.model.CallingRate;
 import mum.cs490.tbs.model.Customer;
 import mum.cs490.tbs.model.Service;
 import mum.cs490.tbs.model.TbsUser;
@@ -52,10 +54,14 @@ public class UserBean implements Serializable {
     private ServiceDao serviceDao;
     @Autowired
     private CustomerDao customerDao;
+    @Autowired
+    private CallingRateDao callingRateDao;
 
   
     
     private Customer customer;
+    private Service Service;
+
 
     @Transactional
     public void createUser() {
@@ -108,6 +114,7 @@ public class UserBean implements Serializable {
     public UserBean() {
         customer = new Customer();
         customer.setService(new Service());
+        Service = new Service();
     }
     
     public List<Customer> getCustomerList() {
@@ -133,12 +140,7 @@ public class UserBean implements Serializable {
     @Transactional
     public List<CallingCodes> getCallingCodesList() {
         log.info("inside method getCallingCodesList");
-        List<CallingCodes> callList = callingCodesDao.getAll();
-        for (CallingCodes code : callList) {
-          //  log.info("Country : " + code.getCountry());
-        }
-        log.info("data size" + callList.size());
-        return callList;
+        return callingCodesDao.getAll();
     }
 
     @Transactional
@@ -163,11 +165,21 @@ public class UserBean implements Serializable {
         Service service = serviceDao.findByName(customer.getService().getServiceName());
         customer.setService(service);
         customerDao.store(customer);
+        customer = new Customer();
     }
-    
-     public void pusCustomer() {
-        log.info("inside method saveCustomer");
-        customerDao.store(customer);
+
+    @Transactional
+    public List<CallingRate> getCallingRates() {
+        return callingRateDao.getAll();
+
+    }
+
+    public Service getService() {
+        return Service;
+    }
+
+    public void setService(Service Service) {
+        this.Service = Service;
     }
 
 }

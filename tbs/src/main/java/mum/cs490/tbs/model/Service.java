@@ -8,6 +8,7 @@ package mum.cs490.tbs.model;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
  *
@@ -20,6 +21,11 @@ public class Service implements Serializable {
 
     @Id
     private String serviceName;
+
+    //src country
+    @Transient
+    private String country;
+
     public Service() {
     }
 
@@ -35,5 +41,12 @@ public class Service implements Serializable {
         this.serviceName = serviceName;
     }
 
-    
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
 }

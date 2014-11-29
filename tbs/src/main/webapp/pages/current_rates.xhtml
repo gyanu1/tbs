@@ -14,9 +14,47 @@
             <ui:composition template="../template/admin_template.xhtml" >
                 <ui:define name="content">
                     <div class="content">
-                            <h3>Current Rates</h3>
+                        <h3>Current Rates</h3>
+                        <h:form>
+                            <h:messages errorClass="alert-danger" />
+                            <h:panelGrid columns="6" cellspacing="10">
+                                <h:panelGroup>
+                                    <p>Select Country:</p>
+                                    <p:selectOneListbox  value="#{userBean.service.country}">
+                                        <f:selectItems value="#{userBean.callingCodesList}" var="callCode" itemLabel="#{callCode.country}" itemValue="#{callCode.country}" />
+                                    </p:selectOneListbox>    
+                                </h:panelGroup>
+                                <h:panelGroup>
+                                    <p> Service Name: </p>
+                                    <p:selectOneListbox  value="#{userBean.service.serviceName}">
+                                        <f:selectItems value="#{userBean.serviceList}" var="service" itemLabel="#{service.serviceName}" itemValue="#{service.serviceName}" />
+                                    </p:selectOneListbox>
+                                </h:panelGroup>
+                                <h:commandButton value="Show Current Rate" action="${userBean.callingRates}"/>
+                                <h:link value="Download" class="btn btn-default" />
+                            </h:panelGrid>
+                        </h:form>
                     </div>
-                </ui:define>
+                    <div class="content-secondary">
+                        <h3>Current Calling Rates</h3>
+
+                        <p:dataTable var="rate" value="#{userBean.callingRates}" >
+                            <p:column headerText="destination country code">
+                                <h:outputText value="#{rate.id.destinationCountry.country}"/>
+                            </p:column>
+                        <p:column headerText="service">
+                            <h:outputText value="#{rate.id.service.serviceName}"/>
+                        </p:column>
+                    <p:column headerText="offPeak">
+                        <h:outputText value="#{rate.offPeak}"/>
+                    </p:column>
+                <p:column headerText="peak">
+                    <h:outputText value="#{rate.peak}"/>
+                </p:column>
+            </p:dataTable>
+
+            </div>
+            </ui:define>
             </ui:composition>
         </div>
     </h:body>
