@@ -15,7 +15,7 @@ import mum.cs490.tbs.report.Component;
 import mum.cs490.tbs.report.ComponentException;
 import mum.cs490.tbs.report.DataSource;
 import mum.cs490.tbs.report.DynamicComponentBuilder;
-import mum.cs490.tbs.report.ExporterService;
+import mum.cs490.tbs.report.ExportService;
 import mum.cs490.tbs.report.ReportUtil;
 import mum.cs490.tbs.report.TableColumn;
 import mum.cs490.tbs.report.TemplateProvider;
@@ -38,14 +38,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ReportTest extends BaseTestCase{
+public class ReportTest extends BaseTestCase {
 
     private DynamicComponentBuilder componentBuilder = new DynamicComponentBuilder();
     private ReportUtil reportUtil = new ReportUtil();
-    private ExporterService exporterService = new ExporterService();
+    private ExportService exporterService = new ExportService();
     public static String testOutputPath = "components/";
 
-    
 //    @BeforeClass
 //    public void beforeClass() throws IOException{
 //        List<Service> services = new ArrayList<>();
@@ -154,35 +153,15 @@ public class ReportTest extends BaseTestCase{
 
     @Test
     public void createRateSheet() throws ComponentException, FileNotFoundException, DRException {
-            // create rate sheet destination country name, peak rate, off-peak rate: Spectra_France
+        // create rate sheet destination country name, peak rate, off-peak rate: Spectra_France
         // rate sheet: destination countries are listed in alphabetical order, rates on single page, page header showing telephone company information, service namre, from country and date, page footer showing starting times for peak and off-peak periods
-        // create customer bills: phone number, destination country name, length of call, time of call, cost of the call, amount due, header has name, street address, city, state, zip, code, and country, telephone number, header has company logo
+        
         // generate sales rep commission information
         // generate traffic summary excel sheet with four coulumns service name, from country name, to country name, total minutes of call
 
-        Collection<TableColumn> columns;
-
-        JRDataSource dataSource;
-
-       
-        TextColumnBuilder<String> userColumn = col.column("Destination Country", "id.destinationCountry.country", type.stringType());
-        TextColumnBuilder<Double> rollColumn = col.column("Peak", "peak", type.doubleType());
-        TextColumnBuilder<Double> marksColumn = col.column("Off Peak", "offPeak", type.doubleType());
-        columns = new ArrayList<TableColumn>();
-        columns.add(createColumn("", userColumn, false, true));
-        columns.add(createColumn("", rollColumn, true, false));
-        columns.add(createColumn("", marksColumn, true, false));
-
-        List<CallingRate> callingRateList=reportService.getRateList("USA", "Spectra");
-        System.out.println(callingRateList.size());
-        dataSource = createDataSource();
-        Component component = new Component();
-        component.setColumns(columns);
-        JasperReportBuilder table = reportUtil.getDynamicReport(
-                componentBuilder.createTable(component, new JRBeanCollectionDataSource(callingRateList)), new JREmptyDataSource());
-        table.setTemplateDesign(TemplateProvider.getTemplate("report_layout/defaulttemplate.jrxml"));
-        exporterService.exportToPdf(table, testOutputPath, "RateSheet");
-        Assert.assertTrue(FileUtil.fileExists(testOutputPath + "RateSheet.pdf"));
+        String outputPath=reportService.exportRateSheet("USA", "Spectra");
+        System.out.println(outputPath);
+        Assert.assertTrue(FileUtil.fileExists(outputPath));
     }
 
 }

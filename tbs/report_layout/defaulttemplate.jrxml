@@ -3,9 +3,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="22"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="reportLayoutPath" class="java.lang.String"/>
-	<field name="title" class="java.lang.String"/>
-	<field name="version" class="java.lang.String"/>
+	
 	<background>
 		<band height="842">
 			<image>
@@ -27,14 +25,7 @@
 		<band height="100">
 			<frame>
 				<reportElement mode="Opaque" x="35" y="0" width="532" height="50" backcolor="#A4B929" uuid="479ba8d1-250c-438d-bd54-e7682c3e2991"/>
-				<textField>
-					<reportElement x="312" y="0" width="213" height="18" forecolor="#FFFFFF" uuid="ccdf9d6f-2adc-409d-8111-10a517ae5e76"/>
-					<box topPadding="4"/>
-					<textElement markup="none">
-						<font fontName="SansSerif" size="12"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
-				</textField>
+				
 				<staticText>
 					<reportElement x="312" y="18" width="213" height="14" forecolor="#FFFFFF" uuid="f2d9d64d-5551-4ed9-ac98-1b51efafd93b"/>
 					<box topPadding="2"/>

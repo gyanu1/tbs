@@ -14,7 +14,11 @@ import mum.cs490.tbs.model.CallingRate;
  */
 public interface IReportService {
     
-    public List<CallingRate> getRateList(String country, String service);
+    public String exportRateSheet(String country, String service);
+    
+    public String generateCustomerBill(Long telephoneNo);
+    
+    public String generateTrafficSummary();
     
     
 }

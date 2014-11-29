@@ -2,13 +2,11 @@ package mum.cs490.tbs.report;
 
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.builder.DynamicReports;
-import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.jasperreports.engine.JRDataSource;
 import org.apache.log4j.Logger;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 
 import static net.sf.dynamicreports.report.builder.DynamicReports.*;
@@ -48,37 +46,29 @@ public class DynamicComponentBuilder {
         return paragraphReport;
     }
 
-    public ComponentBuilder<?, ?> createTable(Component component, JRDataSource dataSource)
+    public JasperReportBuilder createTable(Component component, JRDataSource dataSource)
             throws ComponentException {
 
 //		setColumns(component);
         Collection<TableColumn> columns = (Collection<TableColumn>) component.getColumns();
         JasperReportBuilder table;
         table = report();
-        table.setPageMargin(DynamicReports.margin(50));
+        table.setPageMargin(DynamicReports.margin(20));
+
+        table.setPageColumnsPerPage(2);
+
+        table.setPageColumnSpace(10);
         table.setTemplate(TableTemplate.reportTemplate);
-        BigDecimal totalPercentageWidth = new BigDecimal(0);
-        for (TableColumn column : columns) {
-            if (column.getPercentageWidth() != null) {
-                BigDecimal roundedWidth = column.getPercentageWidth().setScale(3,
-                        BigDecimal.ROUND_DOWN);
-                BigDecimal sum = totalPercentageWidth.add(roundedWidth);
-                totalPercentageWidth = sum;
-                if (sum.compareTo(new BigDecimal(1)) > 0) {
-                    logger.warn(this.getClass().getSimpleName()
-                            + ";create table;invlaid column widths for table component" + component);
-//                    resetColumWidths(columns, component);
-                    break;
-                }
-            }
-        }
+
         for (TableColumn column : columns) {
 
             table.addColumn(column.getTextColumnBuilder());
+//            column.getTextColumnBuilder().setWidth(column.getWidth());
         }
 
         table.setDataSource(dataSource);
-        return cmp.subreport(table);
+
+        return table;
 
     }
 

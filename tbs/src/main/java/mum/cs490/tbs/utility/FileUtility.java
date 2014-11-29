@@ -66,4 +66,26 @@ public class FileUtility {
         return serverFile;
     }
 
+    public static String getServerFilePath(String folder) {
+        ClassLoader c = FileUtility.class.getClassLoader();
+        URLClassLoader u = (URLClassLoader) c;
+        URL[] urls = u.getURLs();
+        String path = "";
+        for (URL i : urls) {
+            if (i.toString().contains("WEB-INF")) {
+                path = i.toString();
+                log.info("url: " + i);
+                break;
+            }
+        }
+        String tokens[] = path.split("WEB-INF");
+        path = tokens[0];
+        path = path.replaceFirst("file:", "");
+        File fileDir = new File(path + File.separator + "uploads" + File.separator + folder);
+        if (!fileDir.exists()) {
+            fileDir.mkdirs();
+        }
+        return fileDir.getAbsolutePath();
+    }
+
 }

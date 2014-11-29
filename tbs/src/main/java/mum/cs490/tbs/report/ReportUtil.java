@@ -16,11 +16,11 @@ public class ReportUtil {
     public ReportUtil() {
     }
 
-    public JasperConcatenatedReportBuilder concatenateReports(JasperReportBuilder[] builder) {
+    public static JasperConcatenatedReportBuilder concatenateReports(JasperReportBuilder[] builder) {
         return concatenatedReport().concatenate(builder);
     }
 
-    public JasperReportBuilder getDynamicReport(Component component,
+    public static JasperReportBuilder getDynamicReport(Component component,
             ComponentBuilder<?, ?> componentBuilder) throws JRException {
         JasperReportBuilder report = report();
         report.summary(componentBuilder);
@@ -28,16 +28,16 @@ public class ReportUtil {
 
     }
 
-    public JasperReportBuilder getDynamicReport(ComponentBuilder<?, ?> componentBuilder,
+    public static JasperReportBuilder getDynamicReport(ComponentBuilder<?, ?> componentBuilder,
             JRDataSource dataSource) {
         JasperReportBuilder report = report();
         report.setPageMargin(DynamicReports.margin());
-        report.summary(componentBuilder);
+        report.detail(componentBuilder);
         report.setDataSource(dataSource == null ? new JREmptyDataSource(0) : dataSource);
         return report;
     }
 
-    public JasperReportBuilder getJasperReport() {
+    public static JasperReportBuilder getJasperReport() {
         JasperReportBuilder report = report();
         report.setDataSource(new JREmptyDataSource());
         return report;
