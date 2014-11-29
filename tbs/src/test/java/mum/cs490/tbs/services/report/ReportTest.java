@@ -32,6 +32,7 @@ import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
 import net.sf.dynamicreports.report.exception.DRException;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -163,9 +164,10 @@ public class ReportTest extends BaseTestCase{
 
         JRDataSource dataSource;
 
-        TextColumnBuilder<String> userColumn = col.column("Destination Country", "Destination Country", type.stringType());
-        TextColumnBuilder<Integer> rollColumn = col.column("Peak", "Peak", type.integerType());
-        TextColumnBuilder<Integer> marksColumn = col.column("Off Peak", "Off Peak", type.integerType());
+       
+        TextColumnBuilder<String> userColumn = col.column("Destination Country", "id.destinationCountry.country", type.stringType());
+        TextColumnBuilder<Double> rollColumn = col.column("Peak", "peak", type.doubleType());
+        TextColumnBuilder<Double> marksColumn = col.column("Off Peak", "offPeak", type.doubleType());
         columns = new ArrayList<TableColumn>();
         columns.add(createColumn("", userColumn, false, true));
         columns.add(createColumn("", rollColumn, true, false));
@@ -177,7 +179,7 @@ public class ReportTest extends BaseTestCase{
         Component component = new Component();
         component.setColumns(columns);
         JasperReportBuilder table = reportUtil.getDynamicReport(
-                componentBuilder.createTable(component, dataSource), new JREmptyDataSource());
+                componentBuilder.createTable(component, new JRBeanCollectionDataSource(callingRateList)), new JREmptyDataSource());
         table.setTemplateDesign(TemplateProvider.getTemplate("report_layout/defaulttemplate.jrxml"));
         exporterService.exportToPdf(table, testOutputPath, "RateSheet");
         Assert.assertTrue(FileUtil.fileExists(testOutputPath + "RateSheet.pdf"));

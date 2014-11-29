@@ -55,7 +55,7 @@ public class DynamicComponentBuilder {
         Collection<TableColumn> columns = (Collection<TableColumn>) component.getColumns();
         JasperReportBuilder table;
         table = report();
-        table.setPageMargin(DynamicReports.margin());
+        table.setPageMargin(DynamicReports.margin(50));
         table.setTemplate(TableTemplate.reportTemplate);
         BigDecimal totalPercentageWidth = new BigDecimal(0);
         for (TableColumn column : columns) {
