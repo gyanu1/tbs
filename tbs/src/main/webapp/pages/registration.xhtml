@@ -18,25 +18,25 @@
                             <h3>Customer Registration</h3>
                             <h:messages errorClass="alert-danger" />
                             <h:panelGrid columns="2" >
-                                <span class="input-group-addon">Firstname: </span>
+                                Firstname: 
                                 <h:inputText  class="form-control" value="#{userBean.customer.firstname}"/>
-                                 <span class="input-group-addon">Lastname: </span>
-                                 <h:inputText  class="form-control" value="#{userBean.customer.lastname}"/>
-                                <span class="input-group-addon">Country: </span>
+                                Lastname:
+                                <h:inputText  class="form-control" value="#{userBean.customer.lastname}"/>
+                                Country: 
                                 <p:selectOneListbox style="height: 20%" value="#{userBean.customer.country}">
                                     <f:selectItems value="#{userBean.callingCodesList}" var="callCode" itemLabel="#{callCode.country}" itemValue="#{callCode.country}" />
                                 </p:selectOneListbox>
-                                <span class="input-group-addon">State: </span>
+                                State: 
                                 <h:inputText  class="form-control" value="#{userBean.customer.state}"/>
-                                <span class="input-group-addon">City: </span>
+                                City: 
                                 <h:inputText  class="form-control" value="#{userBean.customer.city}"/>
-                                <span class="input-group-addon">Street: </span>
+                                Street: 
                                 <h:inputText  class="form-control" value="#{userBean.customer.street}"/>
-                                <span class="input-group-addon">Zip: </span>
+                                Zip: 
                                 <h:inputText  class="form-control" value="#{userBean.customer.zip}"/>
-                                <span class="input-group-addon">Telephone: </span>
+                                Telephone:
                                 <h:inputText  class="form-control" value="#{userBean.customer.telephoneNumber}" required="true"/>
-                                <span class="input-group-addon">Service Name: </span>
+                                Service Name: 
                                 <p:selectOneListbox style="height: 20%"  value="#{userBean.customer.service.serviceName}">
                                     <f:selectItems value="#{userBean.serviceList}" var="service" itemLabel="#{service.serviceName}" itemValue="#{service.serviceName}" />
                                 </p:selectOneListbox>
