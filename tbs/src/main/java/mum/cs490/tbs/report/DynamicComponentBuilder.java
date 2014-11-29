@@ -53,7 +53,7 @@ public class DynamicComponentBuilder {
         Collection<TableColumn> columns = (Collection<TableColumn>) component.getColumns();
         JasperReportBuilder table;
         table = report();
-        table.setPageMargin(DynamicReports.margin(20));
+        table.setPageMargin(DynamicReports.margin(0));
 
         table.setPageColumnsPerPage(2);
 
