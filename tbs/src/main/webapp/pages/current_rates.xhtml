@@ -30,7 +30,7 @@
                                         <f:selectItems value="#{userBean.serviceList}" var="service" itemLabel="#{service.serviceName}" itemValue="#{service.serviceName}" />
                                     </p:selectOneListbox>
                                 </h:panelGroup>
-                                <h:commandButton value="Show Current Rate" action="${userBean.callingRates}"/>
+                                <h:commandButton value="Show Current Rate" action="${userBean.searchCallingRates()}"/>
                                 <h:link value="Download" class="btn btn-default" />
                             </h:panelGrid>
                         </h:form>
@@ -38,7 +38,7 @@
                     <div class="content-secondary">
                         <h3>Current Calling Rates</h3>
 
-                        <p:dataTable var="rate" value="#{userBean.callingRates}" >
+                        <p:dataTable var="rate" value="#{userBean.rateList}" >
                             <p:column headerText="destination country code">
                                 <h:outputText value="#{rate.id.destinationCountry.country}"/>
                             </p:column>

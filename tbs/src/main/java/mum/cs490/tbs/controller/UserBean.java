@@ -60,7 +60,8 @@ public class UserBean implements Serializable {
   
     
     private Customer customer;
-    private Service Service;
+    private Service service;
+    private List<CallingRate> rateList;
 
 
     @Transactional
@@ -114,7 +115,7 @@ public class UserBean implements Serializable {
     public UserBean() {
         customer = new Customer();
         customer.setService(new Service());
-        Service = new Service();
+        service = new Service();
     }
     
     public List<Customer> getCustomerList() {
@@ -169,17 +170,36 @@ public class UserBean implements Serializable {
     }
 
     @Transactional
-    public List<CallingRate> getCallingRates() {
-        return callingRateDao.getAll();
+    public void getCallingRates() {
+        rateList = callingRateDao.getAll();
 
+    }
+
+    @Transactional
+    public void searchCallingRates() {
+        log.info("inside method searchCallingRates");
+        log.info("country : " + service.getCountry() + "  :: service name : " + service.getServiceName());
+        if (service.getCountry().trim().equals("United States of America")) {
+            service.setCountry("USA");
+        }
+        rateList = callingRateDao.getCallingRatesByCountryAndService(service.getServiceName(), service.getCountry());
     }
 
     public Service getService() {
-        return Service;
+        return service;
     }
 
     public void setService(Service Service) {
-        this.Service = Service;
+        this.service = Service;
     }
+
+    public List<CallingRate> getRateList() {
+        return rateList;
+    }
+
+    public void setRateList(List<CallingRate> rateList) {
+        this.rateList = rateList;
+    }
+
 
 }

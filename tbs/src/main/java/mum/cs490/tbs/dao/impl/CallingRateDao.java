@@ -19,4 +19,8 @@ public class CallingRateDao extends GenericDaoII<CallingRate> {
         return sessionFactory.getCurrentSession().createQuery("from CallingRate").list();
     }
 
+    public List<CallingRate> getCallingRatesByCountryAndService(String service, String country) {
+        return sessionFactory.getCurrentSession().createQuery("from CallingRate where sheetName=:sheetName").setParameter("sheetName", service + "_" + country).list();
+    }
+
 }
