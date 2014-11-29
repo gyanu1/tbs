@@ -17,8 +17,11 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import mum.cs490.tbs.dao.IGenericDao;
 import mum.cs490.tbs.dao.UserDao;
+import mum.cs490.tbs.dao.impl.CallingCodesDao;
+import mum.cs490.tbs.dao.impl.CustomerDao;
+import mum.cs490.tbs.dao.impl.ServiceDao;
+import mum.cs490.tbs.model.CallingCodes;
 import mum.cs490.tbs.model.Customer;
 import mum.cs490.tbs.model.Service;
 import mum.cs490.tbs.model.TbsUser;
@@ -42,9 +45,15 @@ public class UserBean implements Serializable {
 
     @Autowired
     private PasswordEncoder encoder;
-    
-    @Autowired 
-    private IGenericDao dao;
+
+    @Autowired
+    private CallingCodesDao callingCodesDao;
+    @Autowired
+    private ServiceDao serviceDao;
+    @Autowired
+    private CustomerDao customerDao;
+
+  
     
     private Customer customer;
 
@@ -113,10 +122,49 @@ public class UserBean implements Serializable {
         customerList.add(new Customer(976563163L, new Service("airtel")));
         return customerList;
     }
-    
-      public List<Service> getServiceList() {
-          return dao.getAll();
+
+    @Transactional
+    public List<Service> getServiceList() {
+        log.info("inside method getServiceList");
+          return serviceDao.getAll();
       }
 
+    @Transactional
+    public List<CallingCodes> getCallingCodesList() {
+        log.info("inside method getCallingCodesList");
+        List<CallingCodes> callList = callingCodesDao.getAll();
+        for (CallingCodes code : callList) {
+          //  log.info("Country : " + code.getCountry());
+        }
+        log.info("data size" + callList.size());
+        return callList;
+    }
+
+    @Transactional
+    public List<CallingCodes> autocompleteCountry(String query) {
+        log.info("inside method autocompleteCountry");
+        List<CallingCodes> allCallingCodes = callingCodesDao.getAll();
+        List<CallingCodes> filteredCallingCodes = new ArrayList<CallingCodes>();
+
+        for (int i = 0; i < allCallingCodes.size(); i++) {
+            CallingCodes callCode = allCallingCodes.get(i);
+            if (callCode.getCountry().toLowerCase().startsWith(query)) {
+                filteredCallingCodes.add(callCode);
+            }
+        }
+
+        return filteredCallingCodes;
+    }
+    
+    @Transactional
+    public void saveCustomer() {
+        log.info("inside method saveCustomer");
+        customerDao.store(customer);
+    }
+    
+     public void pusCustomer() {
+        log.info("inside method saveCustomer");
+        customerDao.store(customer);
+    }
 
 }

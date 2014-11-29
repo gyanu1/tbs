@@ -5,6 +5,7 @@
  */
 package mum.cs490.tbs.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ import javax.persistence.Temporal;
  */
 
 @Entity
-public class CallDetail {
+public class CallDetail implements Serializable {
     @Id
     @GeneratedValue
     private Long id;

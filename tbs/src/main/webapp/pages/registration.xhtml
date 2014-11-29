@@ -14,45 +14,36 @@
             <ui:composition template="../template/admin_template.xhtml" >
                 <ui:define name="content">
                     <div class="content">
-                        <h:form enctype="multipart/form-data">
+                        <f:view>
+                        <h:form >
                             <h3>Customer Registration</h3>
-
-                            <div class="input-group">
-                                <span class="input-group-addon">Name: </span>
-                                <h:inputText  class="form-control"/>
-                            </div>
-                            <div class="input-group">
+                            <h:panelGrid columns="2" >
+                                <span class="input-group-addon">Firstname: </span>
+                                <h:inputText  class="form-control" value="#{userBean.customer.firstname}"/>
+                                 <span class="input-group-addon">Lastname: </span>
+                                 <h:inputText  class="form-control" value="#{userBean.customer.lastname}"/>
                                 <span class="input-group-addon">Country: </span>
-                                <h:inputText  class="form-control"/>
-                            </div>
-                            <div class="input-group">
+                                <p:selectOneListbox style="height: 20%" value="#{userBean.customer.country}">
+                                    <f:selectItems value="#{userBean.callingCodesList}" var="callCode" itemLabel="#{callCode.country}" itemValue="#{callCode.country}" />
+                                </p:selectOneListbox>
                                 <span class="input-group-addon">State: </span>
-                                <h:inputText  class="form-control"/>
-                            </div>
-                            <div class="input-group">
+                                <h:inputText  class="form-control" value="#{userBean.customer.state}"/>
                                 <span class="input-group-addon">City: </span>
-                                <h:inputText  class="form-control"/>
-                            </div>
-                            <div class="input-group">
+                                <h:inputText  class="form-control" value="#{userBean.customer.city}"/>
                                 <span class="input-group-addon">Street: </span>
-                                <h:inputText  class="form-control"/>
-                            </div>
-                            <div class="input-group">
+                                <h:inputText  class="form-control" value="#{userBean.customer.street}"/>
                                 <span class="input-group-addon">Zip: </span>
-                                <h:inputText  class="form-control"/>
-                            </div>
-                            <div class="input-group">
+                                <h:inputText  class="form-control" value="#{userBean.customer.zip}"/>
                                 <span class="input-group-addon">Telephone: </span>
-                                <h:inputText  class="form-control"/>
-                            </div>
-                            <div class="input-group">
+                                <h:inputText  class="form-control" value="#{userBean.customer.telephoneNumber}"/>
                                 <span class="input-group-addon">Service Name: </span>
-                                <h:inputText  class="form-control"/>
-                            </div>
-                            <div class="input-group">
-                                <h:commandButton value="Register" class="btn btn-default" action="#{fileUploadBean.upload()}"  />
-                            </div>
+                                <p:selectOneListbox style="height: 20%"  value="#{userBean.customer.service}">
+                                    <f:selectItems value="#{userBean.serviceList}" var="service" itemLabel="#{service.serviceName}" itemValue="#{service.serviceName}" />
+                                </p:selectOneListbox>
+                                <h:commandButton value="Registeeee" class="btn btn-default" action="#{userBean.saveCustomer()}"  />
+                            </h:panelGrid>
                         </h:form>
+                      </f:view>
                     </div>
                 </ui:define>
             </ui:composition>

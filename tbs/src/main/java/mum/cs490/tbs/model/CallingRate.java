@@ -6,6 +6,7 @@
 package mum.cs490.tbs.model;
 
 
+import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
@@ -15,7 +16,7 @@ import javax.persistence.Entity;
  */
 
 @Entity
-public class CallingRate {
+public class CallingRate implements Serializable {
     
     @EmbeddedId
     private RateId id;

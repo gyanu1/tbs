@@ -5,6 +5,7 @@
  */
 package mum.cs490.tbs.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -14,7 +15,7 @@ import javax.persistence.Entity;
  * @author ARijal
  */
 @Entity
-public class PeakInfo {
+public class PeakInfo implements Serializable {
 
 
     private Date peakStart;
