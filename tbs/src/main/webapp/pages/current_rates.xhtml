@@ -31,7 +31,9 @@
                                     </p:selectOneListbox>
                                 </h:panelGroup>
                                 <h:commandButton value="Show Current Rate" action="${userBean.searchCallingRates()}"/>
-                                <h:link value="Download" class="btn btn-default" />
+                                <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" action="#{userBean.downloadRateFile()}" icon="ui-icon-arrowthick-1-s">
+                                    <p:fileDownload value="#{userBean.file}"  />
+                                </p:commandButton>
                             </h:panelGrid>
                         </h:form>
                     </div>

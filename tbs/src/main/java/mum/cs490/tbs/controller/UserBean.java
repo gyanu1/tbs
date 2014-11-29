@@ -6,6 +6,7 @@
 package mum.cs490.tbs.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -29,6 +31,8 @@ import mum.cs490.tbs.model.Service;
 import mum.cs490.tbs.model.TbsUser;
 import mum.cs490.tbs.model.UserRole;
 import org.apache.log4j.Logger;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,6 +66,7 @@ public class UserBean implements Serializable {
     private Customer customer;
     private Service service;
     private List<CallingRate> rateList;
+    private StreamedContent file;
 
 
     @Transactional
@@ -201,5 +206,19 @@ public class UserBean implements Serializable {
         this.rateList = rateList;
     }
 
+    public StreamedContent getFile() {
+        return file;
+    }
+
+    public void setFile(StreamedContent file) {
+        this.file = file;
+    }
+
+    public void downloadRateFile() {
+        log.info("inside method downloadRateFile");
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/img/telecom.jpg");
+        file = new DefaultStreamedContent(stream, "image/jpg", "telecom.jpg");
+
+    }
 
 }
