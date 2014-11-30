@@ -25,7 +25,7 @@ public class RateId implements Serializable{
     private Service service;
     @ManyToOne
     private CallingCodes destinationCountry;
-    private String sheetName;
+    private String sourceCountry;
     
     public RateId(){
     }
@@ -54,13 +54,15 @@ public class RateId implements Serializable{
         this.destinationCountry = destinationCountry;
     }
 
-    public String getSheetName() {
-        return sheetName;
+    public String getSourceCountry() {
+        return sourceCountry;
     }
 
-    public void setSheetName(String sheetName) {
-        this.sheetName = sheetName;
+    public void setSourceCountry(String sourceCountry) {
+        this.sourceCountry = sourceCountry;
     }
+
+    
     
    
 }

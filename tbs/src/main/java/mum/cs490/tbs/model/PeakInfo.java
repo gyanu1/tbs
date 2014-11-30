@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -18,7 +19,9 @@ import javax.persistence.Entity;
 public class PeakInfo implements Serializable {
 
 
+    @Temporal(javax.persistence.TemporalType.TIME)
     private Date peakStart;
+    @Temporal(javax.persistence.TemporalType.TIME)
     private Date offPeakStart;
 
     @EmbeddedId
