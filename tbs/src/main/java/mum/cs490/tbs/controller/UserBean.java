@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -72,6 +74,8 @@ public class UserBean implements Serializable {
     private List<CallingRate> rateList;
     private StreamedContent file;
     private List<CallDetail> callDetailList;
+    private List trafficSummary;
+    private Map<Integer, String> mapCountryByCode;
 
 
     @Transactional
@@ -224,13 +228,3 @@ public class UserBean implements Serializable {
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/img/telecom.jpg");
         file = new DefaultStreamedContent(stream, "image/jpg", "telecom.jpg");
 
-    }
-
-    @Transactional
-    public void generateCustomerBill() {
-        log.info("inside method generateCustomerBill");
-        callDetailList = callDetailDao.generateCustomerBill(customer.getTelephoneNumber(), null);
-    }
-
-
-}
