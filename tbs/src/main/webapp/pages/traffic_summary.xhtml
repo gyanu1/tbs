@@ -23,7 +23,7 @@
                                         <p:selectOneListbox id="customer"  value="#{userBean.service.serviceName}">
                                             <f:selectItems value="#{userBean.serviceList}" var="service" itemLabel="#{service.serviceName } " itemValue="#{service.serviceName}" />
                                         </p:selectOneListbox>
-                                        <h:commandButton value="Generate Traffic Summary" class="btn btn-primary" action="#{userBean.generateCustomerBill()}"/>
+                                        <h:commandButton value="Generate Traffic Summary" class="btn btn-primary" action="#{userBean.generateMonthlyTrafficSummaryByService()}"/>
                                         <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" action="#{userBean.downloadRateFile()}" icon="ui-icon-arrowthick-1-s">
                                             <p:fileDownload value="#{userBean.file}"  />
                                         </p:commandButton>
@@ -33,7 +33,7 @@
                         </div>
                         <div class="row">
                             <h:form>
-                                <p:dataTable id="tbl" value="#{userBean.callDetailList}" var="callDetail" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                <p:dataTable id="tbl" value="#{userBean.trafficSummary}" var="traffic" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
                                              paginator="true" rows="20">
                                     <f:facet name="{Exporters}">
                                         <h:commandLink >
@@ -47,13 +47,13 @@
                                         </h:commandLink>
                                     </f:facet> 
                                     <p:column headerText="From Country">
-                                        <h:outputText value="#{callDetail.fromCountry.country}"/>
+                                        <h:outputText value="#{userBean.mapCountryByCode.get(traffic.get('fromCountry_code'))}"/>
                                     </p:column>
                                     <p:column headerText="To Country">
-                                        <h:outputText value="#{callDetail.toCountry.country}"/>
+                                        <h:outputText value="#{userBean.mapCountryByCode.get(traffic.get('toCountry_code'))}"/>
                                     </p:column>
                                     <p:column headerText="Total Minutes">
-                                        <h:outputText value="#{callDetail.fromCustomer.telephoneNumber}"/>
+                                        <h:outputText value="#{traffic.get('total_mins')}"/>
                                     </p:column>
                                 </p:dataTable>
                             </h:form>

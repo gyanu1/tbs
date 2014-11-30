@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -64,14 +66,14 @@ public class UserBean implements Serializable {
     private CallingRateDao callingRateDao;
     @Autowired
     private CallDetailDao callDetailDao;
-
-  
     
     private Customer customer;
     private Service service;
     private List<CallingRate> rateList;
     private StreamedContent file;
     private List<CallDetail> callDetailList;
+    private List trafficSummary;
+    private Map<Integer, String> mapCountryByCode;
 
 
     @Transactional
@@ -232,5 +234,39 @@ public class UserBean implements Serializable {
         callDetailList = callDetailDao.generateCustomerBill(customer.getTelephoneNumber(), null);
     }
 
+    @Transactional
+    public void generateMonthlyTrafficSummary() {
+
+    }
+
+    @Transactional
+    public void generateMonthlyTrafficSummaryByService() {
+        log.info("inside method generateMonthlyTrafficSummaryByService");
+        trafficSummary = callDetailDao.generateMonthlyTrafficSummaryByService(service.getServiceName());
+    }
+
+
+    public List getTrafficSummary() {
+        return trafficSummary;
+    }
+
+    public void setTrafficSummary(List trafficSummary) {
+        this.trafficSummary = trafficSummary;
+    }
+
+    @Transactional
+    public Map<Integer, String> getMapCountryByCode() {
+        if (mapCountryByCode == null) {
+            mapCountryByCode = new HashMap<>();
+            for (CallingCodes code : callingCodesDao.getAll()) {
+                mapCountryByCode.put(code.getCode(), code.getCountry());
+            }
+        }
+        return mapCountryByCode;
+    }
+
+    public void setMapCountryByCode(Map<Integer, String> mapCountryByCode) {
+        this.mapCountryByCode = mapCountryByCode;
+    }
 
 }
