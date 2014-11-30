@@ -18,13 +18,15 @@
                         <div class="row">
                             <h:form>
                                 <div class="col-sm-offset-1 col-sm-2">
-                                    <h:panelGrid columns="3">
+                                    <h:panelGrid columns="4">
                                         <p class="label label-primary"> Customer:  </p>  
                                         <p:selectOneListbox id="customer"  value="#{userBean.customer.telephoneNumber}">
                                             <f:selectItems value="#{userBean.customerList}" var="customer" itemLabel="#{customer.firstname } #{customer.lastname}" itemValue="#{customer.telephoneNumber}" />
                                         </p:selectOneListbox>
                                         <h:commandButton value="Generate Monthly Bill" class="btn btn-primary" action="#{userBean.generateCustomerBill()}"/>
-
+                                        <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" action="#{userBean.downloadRateFile()}" icon="ui-icon-arrowthick-1-s">
+                                            <p:fileDownload value="#{userBean.file}"  />
+                                        </p:commandButton>
                                     </h:panelGrid>
                                 </div>
                             </h:form>
@@ -36,12 +38,12 @@
                                 <f:facet name="{Exporters}">
                                     <h:commandLink >
                                         <p:graphicImage library="img" name="/xml.png" width="24"/>
-                                        <p:dataExporter type="xls" target="tbl" fileName="cars" />
+                                        <p:dataExporter type="xls" target="tbl" fileName="telephone bill" />
                                     </h:commandLink>
 
                                     <h:commandLink >
                                         <p:graphicImage library="img" name="pdf.png" width="24"/>
-                                        <p:dataExporter type="pdf" target="tbl" fileName="cars"/>
+                                        <p:dataExporter type="pdf" target="tbl" fileName="telephone bill"/>
                                     </h:commandLink>
                                 </f:facet> 
                                 <p:column headerText="Home Country">
