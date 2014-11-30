@@ -6,11 +6,14 @@
 package mum.cs490.tbs.services;
 
 import java.io.File;
+import java.math.BigInteger;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import mum.cs490.tbs.controller.UserBean;
 import mum.cs490.tbs.dao.impl.IReportDao;
@@ -23,16 +26,16 @@ import mum.cs490.tbs.report.TableColumn;
 import mum.cs490.tbs.report.TemplateProvider;
 import mum.cs490.tbs.utility.FileUtility;
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
+import static net.sf.dynamicreports.report.builder.DynamicReports.col;
+import static net.sf.dynamicreports.report.builder.DynamicReports.type;
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import static net.sf.dynamicreports.report.builder.DynamicReports.col;
-import static net.sf.dynamicreports.report.builder.DynamicReports.type;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.apache.log4j.Logger;
 
 /**
  *
@@ -97,26 +100,30 @@ public class ReportService implements IReportService {
 
     @Override
     public String generateCustomerBill(Long telephoneNo) {
-        
         try {
             Collection<TableColumn> columns;
-            TextColumnBuilder<String> destinationCountry = col.column("Destination Country", "id.destinationCountry.country", type.stringType());
-            TextColumnBuilder<Double> peak = col.column("Peak", "peak", type.doubleType());
-            TextColumnBuilder<Double> offPeak = col.column("Off Peak", "offPeak", type.doubleType());
+            TextColumnBuilder<BigInteger> col1 = col.column("Phone Number", "toCustomerTelephoneNo", type.bigIntegerType());
+            TextColumnBuilder<String> col2= col.column("Destination Country", "toCountry", type.stringType());
+            TextColumnBuilder<Double> col3 = col.column("Duration", "duration", type.doubleType());
+            TextColumnBuilder<Date> col4= col.column("Call Time", "callTime", type.dateYearToHourType());
+            TextColumnBuilder<Double> col5= col.column("Cost", "amount", type.doubleType());
             columns = new ArrayList<TableColumn>();
-            columns.add(createColumn("", destinationCountry,20, false, true));
-            columns.add(createColumn("", peak,20, true, false));
-            columns.add(createColumn("", offPeak,20, true, false));
-//            List<CallingRate> callingRateList = reportDao.getRateList(country, service);
-//            System.out.println(callingRateList.size());
+            columns.add(createColumn("", col1,20, false, true));
+            columns.add(createColumn("", col2,20, false, true));
+            columns.add(createColumn("", col3,20, false, true));
+            columns.add(createColumn("", col4,20, false, true));
+             columns.add(createColumn("", col5,20, false, true));
+           
+            List<Map<String, Object>> callingRateList = reportDao.genCustomerBill(telephoneNo);
+            System.out.println(callingRateList.size());
             Component component = new Component();
             component.setColumns(columns);
             JasperReportBuilder table = 
-                    componentBuilder.createTable(component, new JREmptyDataSource());
+                    componentBuilder.createCustomerBillTable(component, new JRBeanCollectionDataSource(callingRateList));
             table.setTemplateDesign(TemplateProvider.getTemplate("report_layout/defaulttemplate.jrxml"));
             String outputPath = FileUtility.getServerFilePath("export");
-            exportService.exportToPdf(table, outputPath, "RateSheet");
-            return outputPath + "/RateSheet.pdf";
+            exportService.exportToPdf(table, outputPath, "CustomerBill");
+            return outputPath + "/CustomerBill.pdf";
         } catch (Exception ex) {
             ex.printStackTrace();
         }

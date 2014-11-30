@@ -13,8 +13,51 @@
         <div>
             <ui:composition template="../template/admin_template.xhtml" >
                 <ui:define name="content">
-                    <div class="content">
-                            <h3>Traffic Summary</h3>
+                    <div class="container-fluid content">
+                        <h3 class="h3 ">Monthly Traffic Summary</h3>
+                        <div class="row">
+                            <h:form>
+                                <div class="col-sm-offset-1 col-sm-2">
+                                    <h:panelGrid columns="4">
+                                        <p class="label label-primary"> Service:  </p>  
+                                        <p:selectOneListbox id="customer"  value="#{userBean.service.serviceName}">
+                                            <f:selectItems value="#{userBean.serviceList}" var="service" itemLabel="#{service.serviceName } " itemValue="#{service.serviceName}" />
+                                        </p:selectOneListbox>
+                                        <h:commandButton value="Generate Traffic Summary" class="btn btn-primary" action="#{userBean.generateCustomerBill()}"/>
+                                        <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" action="#{userBean.downloadRateFile()}" icon="ui-icon-arrowthick-1-s">
+                                            <p:fileDownload value="#{userBean.file}"  />
+                                        </p:commandButton>
+                                    </h:panelGrid>
+                                </div>
+                            </h:form>
+                        </div>
+                        <div class="row">
+                            <h:form>
+                                <p:dataTable id="tbl" value="#{userBean.callDetailList}" var="callDetail" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                             paginator="true" rows="20">
+                                    <f:facet name="{Exporters}">
+                                        <h:commandLink >
+                                            <p:graphicImage library="img" name="/xml.png" width="24"/>
+                                            <p:dataExporter type="xls" target="tbl" fileName="telephone bill" />
+                                        </h:commandLink>
+
+                                        <h:commandLink >
+                                            <p:graphicImage library="img" name="pdf.png" width="24"/>
+                                            <p:dataExporter type="pdf" target="tbl" fileName="telephone bill"/>
+                                        </h:commandLink>
+                                    </f:facet> 
+                                    <p:column headerText="From Country">
+                                        <h:outputText value="#{callDetail.fromCountry.country}"/>
+                                    </p:column>
+                                    <p:column headerText="To Country">
+                                        <h:outputText value="#{callDetail.toCountry.country}"/>
+                                    </p:column>
+                                    <p:column headerText="Total Minutes">
+                                        <h:outputText value="#{callDetail.fromCustomer.telephoneNumber}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:form>
+                        </div>
                     </div>
                 </ui:define>
             </ui:composition>

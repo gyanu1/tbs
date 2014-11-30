@@ -163,5 +163,10 @@ public class ReportTest extends BaseTestCase {
         System.out.println(outputPath);
         Assert.assertTrue(FileUtil.fileExists(outputPath));
     }
+    
+    @Test 
+    public void createCustomerBill(){
+        reportService.generateCustomerBill(new Long(984168));
+    }
 
 }

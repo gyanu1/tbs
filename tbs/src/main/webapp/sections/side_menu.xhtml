@@ -6,17 +6,16 @@
         <ui:composition>
             <ui:insert name="side_menu">
                   <div class="sidebar side_menu">
-                <h3>dashboard</h3>
-                <ul class="nav nav-tabs nav-stacked">
-                    <li><h:link value="Upload Rate"   outcome="index"/></li>
-                    <li><h:link value="Customer Registration" outcome="registration" /></li>
-                    <!--<li><h:link value="View Customer Bill" outcome="customer_bill" /></li>-->
-                    <li><h:link value="Commission" outcome="commission" /></li>
-                     <li><h:link value="Traffic Summary" outcome="traffic_summary" /></li>
-                      <li><h:link value="Current Rates" outcome="current_rates" /></li>
-                    <li><h:link value="Miscellaneous"  /></li>
-                    <li><h:outputLink value="#{request.contextPath}/j_spring_security_logout">logout</h:outputLink></li>
-                </ul>
+                      <h3 class="h3">Dashboard</h3>
+                      <ul class="nav nav-tabs nav-stacked">
+                          <li class="list-group"><h:link value="Upload Rate"   outcome="index"/></li>
+                          <li class="list-group"><h:link value="Customer Registration" outcome="registration" /></li>
+                          <li class="list-group" ><h:link value="Customer Bill" outcome="customer_bill" /></li>
+                          <li class="list-group"><h:link value="Commission" outcome="commission" /></li>
+                          <li class="list-group"><h:link value="Traffic Summary" outcome="traffic_summary" /></li>
+                          <li class="list-group"><h:link value="Current Rates" outcome="current_rates" /></li>
+                          <li class="list-group"><h:outputLink value="#{request.contextPath}/j_spring_security_logout">logout</h:outputLink></li>
+                      </ul>
             </div>
             </ui:insert>
         </ui:composition>

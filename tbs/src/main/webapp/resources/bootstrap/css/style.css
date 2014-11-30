@@ -19,11 +19,19 @@ and open the template in the editor.
 }
 
 .content{
-    width: 65%;
+    width: 77%;
     float: left;
     padding-left: 2%;
     margin-bottom: 2%;
     padding-top: 7%;
+}
+
+.content-secondary{
+    width: 77%;
+    float: left;
+    padding-left: 2%;
+    margin-bottom: 2%;
+    padding-top: 2%;
 }
 
 .top_head{

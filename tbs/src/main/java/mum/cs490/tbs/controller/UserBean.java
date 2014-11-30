@@ -6,6 +6,7 @@
 package mum.cs490.tbs.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,19 +15,26 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import mum.cs490.tbs.dao.UserDao;
+import mum.cs490.tbs.dao.impl.CallDetailDao;
 import mum.cs490.tbs.dao.impl.CallingCodesDao;
+import mum.cs490.tbs.dao.impl.CallingRateDao;
 import mum.cs490.tbs.dao.impl.CustomerDao;
 import mum.cs490.tbs.dao.impl.ServiceDao;
+import mum.cs490.tbs.model.CallDetail;
 import mum.cs490.tbs.model.CallingCodes;
+import mum.cs490.tbs.model.CallingRate;
 import mum.cs490.tbs.model.Customer;
 import mum.cs490.tbs.model.Service;
 import mum.cs490.tbs.model.TbsUser;
 import mum.cs490.tbs.model.UserRole;
 import org.apache.log4j.Logger;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,10 +60,19 @@ public class UserBean implements Serializable {
     private ServiceDao serviceDao;
     @Autowired
     private CustomerDao customerDao;
+    @Autowired
+    private CallingRateDao callingRateDao;
+    @Autowired
+    private CallDetailDao callDetailDao;
 
   
     
     private Customer customer;
+    private Service service;
+    private List<CallingRate> rateList;
+    private StreamedContent file;
+    private List<CallDetail> callDetailList;
+
 
     @Transactional
     public void createUser() {
@@ -106,21 +123,15 @@ public class UserBean implements Serializable {
     }
 
     public UserBean() {
-        customer=new Customer();
+        customer = new Customer();
+        customer.setService(new Service());
+        service = new Service();
     }
-    
+
+    @Transactional
     public List<Customer> getCustomerList() {
-        List<Customer> customerList = new ArrayList<>();
-        customerList.add(new Customer(9841497163L, new Service("ntc")));
-        customerList.add(new Customer(984763163L, new Service("ncell")));
-        customerList.add(new Customer(976563163L, new Service("airtel")));
-         customerList.add(new Customer(9841497163L, new Service("ntc")));
-        customerList.add(new Customer(984763163L, new Service("ncell")));
-        customerList.add(new Customer(976563163L, new Service("airtel")));
-         customerList.add(new Customer(9841497163L, new Service("ntc")));
-        customerList.add(new Customer(984763163L, new Service("ncell")));
-        customerList.add(new Customer(976563163L, new Service("airtel")));
-        return customerList;
+        log.info("inside method getCustomerList");
+        return customerDao.getAll();
     }
 
     @Transactional
@@ -132,12 +143,7 @@ public class UserBean implements Serializable {
     @Transactional
     public List<CallingCodes> getCallingCodesList() {
         log.info("inside method getCallingCodesList");
-        List<CallingCodes> callList = callingCodesDao.getAll();
-        for (CallingCodes code : callList) {
-          //  log.info("Country : " + code.getCountry());
-        }
-        log.info("data size" + callList.size());
-        return callList;
+        return callingCodesDao.getAll();
     }
 
     @Transactional
@@ -159,12 +165,72 @@ public class UserBean implements Serializable {
     @Transactional
     public void saveCustomer() {
         log.info("inside method saveCustomer");
+        Service service = serviceDao.findByName(customer.getService().getServiceName());
+        customer.setService(service);
         customerDao.store(customer);
+        customer = new Customer();
     }
-    
-     public void pusCustomer() {
-        log.info("inside method saveCustomer");
-        customerDao.store(customer);
+
+    @Transactional
+    public void getCallingRates() {
+        rateList = callingRateDao.getAll();
+
     }
+
+    @Transactional
+    public void searchCallingRates() {
+        log.info("inside method searchCallingRates");
+        log.info("country : " + service.getCountry() + "  :: service name : " + service.getServiceName());
+        if (service.getCountry().trim().equals("United States of America")) {
+            service.setCountry("USA");
+        }
+        rateList = callingRateDao.getCallingRatesByCountryAndService(service.getServiceName(), service.getCountry());
+    }
+
+    public Service getService() {
+        return service;
+    }
+
+    public void setService(Service Service) {
+        this.service = Service;
+    }
+
+    public List<CallingRate> getRateList() {
+        return rateList;
+    }
+
+    public void setRateList(List<CallingRate> rateList) {
+        this.rateList = rateList;
+    }
+
+    public StreamedContent getFile() {
+        return file;
+    }
+
+    public void setFile(StreamedContent file) {
+        this.file = file;
+    }
+
+    public List<CallDetail> getCallDetailList() {
+        return callDetailList;
+    }
+
+    public void setCallDetailList(List<CallDetail> callDetailList) {
+        this.callDetailList = callDetailList;
+    }
+
+    public void downloadRateFile() {
+        log.info("inside method downloadRateFile");
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/img/telecom.jpg");
+        file = new DefaultStreamedContent(stream, "image/jpg", "telecom.jpg");
+
+    }
+
+    @Transactional
+    public void generateCustomerBill() {
+        log.info("inside method generateCustomerBill");
+        callDetailList = callDetailDao.generateCustomerBill(customer.getTelephoneNumber(), null);
+    }
+
 
 }
