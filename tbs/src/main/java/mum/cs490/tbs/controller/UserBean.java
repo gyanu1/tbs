@@ -122,19 +122,11 @@ public class UserBean implements Serializable {
         customer.setService(new Service());
         service = new Service();
     }
-    
+
+    @Transactional
     public List<Customer> getCustomerList() {
-        List<Customer> customerList = new ArrayList<>();
-        customerList.add(new Customer(9841497163L, new Service("ntc")));
-        customerList.add(new Customer(984763163L, new Service("ncell")));
-        customerList.add(new Customer(976563163L, new Service("airtel")));
-         customerList.add(new Customer(9841497163L, new Service("ntc")));
-        customerList.add(new Customer(984763163L, new Service("ncell")));
-        customerList.add(new Customer(976563163L, new Service("airtel")));
-         customerList.add(new Customer(9841497163L, new Service("ntc")));
-        customerList.add(new Customer(984763163L, new Service("ncell")));
-        customerList.add(new Customer(976563163L, new Service("airtel")));
-        return customerList;
+        log.info("inside method getCustomerList");
+        return customerDao.getAll();
     }
 
     @Transactional
