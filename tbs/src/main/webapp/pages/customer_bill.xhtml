@@ -14,49 +14,59 @@
             <ui:composition template="../template/admin_template.xhtml" >
                 <ui:define name="content">
                     <div class="container-fluid content">
-                        <h3>Monthly Customer Bill</h3>
+                        <h3 class="h3 ">Monthly Customer Bill</h3>
                         <div class="row">
                             <h:form>
-                                <div class="col-sm-offset-0 col-sm-2 ">
-                                    <div class="panel panel-title">
-                                        <p:outputLabel for="customer" value="Customer:"   />
-                                </div>
-                                </div>
-                                <div class="col-sm-offset-0 col-sm-2">
-                                    <div class="panel panel-default">
-                                        <p:selectOneListbox id="customer" value="#{userBean.customer.telephoneNumber}">
+                                <div class="col-sm-offset-1 col-sm-2">
+                                    <h:panelGrid columns="3">
+                                        <p class="label label-primary"> Customer:  </p>  
+                                        <p:selectOneListbox id="customer"  value="#{userBean.customer.telephoneNumber}">
                                             <f:selectItems value="#{userBean.customerList}" var="customer" itemLabel="#{customer.firstname } #{customer.lastname}" itemValue="#{customer.telephoneNumber}" />
                                         </p:selectOneListbox>
-                                    </div>
-                                </div>
-                                <div class="col-sm-offset-1 col-sm-2">
-                                    <div class="panel panel-default">
-                                        <h:commandButton value="Generate Monthly Bill"/>
-                                    </div>
+                                        <h:commandButton value="Generate Monthly Bill" class="btn btn-primary" action="#{userBean.generateCustomerBill()}"/>
+
+                                    </h:panelGrid>
                                 </div>
                             </h:form>
                         </div>
                         <div class="row">
-                            <p:dataTable>
+                            <h:form>
+                                <p:dataTable id="tbl" value="#{userBean.callDetailList}" var="callDetail" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                         paginator="true" rows="20">
+                                <f:facet name="{Exporters}">
+                                    <h:commandLink >
+                                        <p:graphicImage library="img" name="/xml.png" width="24"/>
+                                        <p:dataExporter type="xls" target="tbl" fileName="cars" />
+                                    </h:commandLink>
+
+                                    <h:commandLink >
+                                        <p:graphicImage library="img" name="pdf.png" width="24"/>
+                                        <p:dataExporter type="pdf" target="tbl" fileName="cars"/>
+                                    </h:commandLink>
+                                </f:facet> 
                                 <p:column headerText="Home Country">
-                                    <h:outputText value=""/>
+                                    <h:outputText value="#{callDetail.fromCountry.country}"/>
                                 </p:column>
                                 <p:column headerText="Destination Country">
-                                    <h:outputText value=""/>
+                                    <h:outputText value="#{callDetail.toCountry.country}"/>
+                                </p:column>
+                                <p:column headerText="Call From">
+                                    <h:outputText value="#{callDetail.fromCustomer.telephoneNumber}"/>
                                 </p:column>
                                 <p:column headerText="Receiver">
-                                    <h:outputText value=""/>
+                                    <h:outputText value="#{callDetail.toCustomer.telephoneNumber}"/>
                                 </p:column>
                                 <p:column headerText="Call Duration">
-                                    <h:outputText value=""/>
+                                    <h:outputText value="#{callDetail.duration}"/>
                                 </p:column>
                                 <p:column headerText="Call Time">
-                                    <h:outputText value=""/>
+                                    <h:outputText value="#{callDetail.callTime}"/>
                                 </p:column>
                                 <p:column headerText="Cost">
                                     <h:outputText value=""/>
                                 </p:column>
                             </p:dataTable>
+                            </h:form>
                         </div>
                     </div>
                 </ui:define>

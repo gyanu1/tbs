@@ -20,10 +20,12 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import mum.cs490.tbs.dao.UserDao;
+import mum.cs490.tbs.dao.impl.CallDetailDao;
 import mum.cs490.tbs.dao.impl.CallingCodesDao;
 import mum.cs490.tbs.dao.impl.CallingRateDao;
 import mum.cs490.tbs.dao.impl.CustomerDao;
 import mum.cs490.tbs.dao.impl.ServiceDao;
+import mum.cs490.tbs.model.CallDetail;
 import mum.cs490.tbs.model.CallingCodes;
 import mum.cs490.tbs.model.CallingRate;
 import mum.cs490.tbs.model.Customer;
@@ -60,6 +62,8 @@ public class UserBean implements Serializable {
     private CustomerDao customerDao;
     @Autowired
     private CallingRateDao callingRateDao;
+    @Autowired
+    private CallDetailDao callDetailDao;
 
   
     
@@ -67,6 +71,7 @@ public class UserBean implements Serializable {
     private Service service;
     private List<CallingRate> rateList;
     private StreamedContent file;
+    private List<CallDetail> callDetailList;
 
 
     @Transactional
@@ -206,11 +211,26 @@ public class UserBean implements Serializable {
         this.file = file;
     }
 
+    public List<CallDetail> getCallDetailList() {
+        return callDetailList;
+    }
+
+    public void setCallDetailList(List<CallDetail> callDetailList) {
+        this.callDetailList = callDetailList;
+    }
+
     public void downloadRateFile() {
         log.info("inside method downloadRateFile");
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/img/telecom.jpg");
         file = new DefaultStreamedContent(stream, "image/jpg", "telecom.jpg");
 
     }
+
+    @Transactional
+    public void generateCustomerBill() {
+        log.info("inside method generateCustomerBill");
+        callDetailList = callDetailDao.generateCustomerBill(customer.getTelephoneNumber(), null);
+    }
+
 
 }
