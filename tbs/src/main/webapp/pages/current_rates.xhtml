@@ -20,13 +20,13 @@
                             <h:panelGrid columns="6" cellspacing="10">
                                 <h:panelGroup>
                                     <p>Select Country:</p>
-                                    <p:selectOneListbox  value="#{userBean.service.country}">
+                                    <p:selectOneListbox  value="#{userBean.service.country}" required="true" requiredMessage="Please select country">
                                         <f:selectItems value="#{userBean.callingCodesList}" var="callCode" itemLabel="#{callCode.country}" itemValue="#{callCode.country}" />
                                     </p:selectOneListbox>    
                                 </h:panelGroup>
                                 <h:panelGroup>
                                     <p> Service Name: </p>
-                                    <p:selectOneListbox  value="#{userBean.service.serviceName}">
+                                    <p:selectOneListbox  value="#{userBean.service.serviceName}" required="true" requiredMessage="Please select service name">
                                         <f:selectItems value="#{userBean.serviceList}" var="service" itemLabel="#{service.serviceName}" itemValue="#{service.serviceName}" />
                                     </p:selectOneListbox>
                                 </h:panelGroup>

@@ -17,19 +17,20 @@
                         <h3 class="h3 ">Monthly Traffic Summary</h3>
                         <div class="row">
                             <h:form>
+                                    <h:messages errorClass="alert-danger" />
                                 <div class="col-sm-offset-0 col-sm-2">
                                     <h:panelGrid columns="8">
                                         <p class="label label-primary"> Service:  </p>  
-                                        <p:selectOneListbox id="customer"  value="#{userBean.service.serviceName}">
+                                        <p:selectOneListbox id="customer"  value="#{userBean.service.serviceName}" required="true" requiredMessage="Please select service">
                                             <f:selectItems value="#{userBean.serviceList}" var="service" itemLabel="#{service.serviceName } " itemValue="#{service.serviceName}" />
                                         </p:selectOneListbox>
                                         <p class="label label-primary"> Year:</p>
-                                        <p:selectOneListbox value="#{userBean.year}" >
+                                        <p:selectOneListbox value="#{userBean.year}" required="true" requiredMessage="Please select year">
                                             <f:selectItem itemLabel="2013" itemValue="2013" />
                                             <f:selectItem itemLabel="2014" itemValue="2014" />
                                         </p:selectOneListbox>
                                         <p class="label label-primary"> Month:</p>
-                                        <p:selectOneListbox value="#{userBean.month}" >
+                                        <p:selectOneListbox value="#{userBean.month}" required="true" requiredMessage="Please select month" >
                                             <f:selectItems value="#{userBean.monthMap}" />
                                         </p:selectOneListbox>
                                         <h:panelGroup>
