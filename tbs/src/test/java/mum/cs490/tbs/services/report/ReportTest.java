@@ -39,7 +39,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
+//@Ignore
 public class ReportTest extends BaseTestCase {
 
     private DynamicComponentBuilder componentBuilder = new DynamicComponentBuilder();
@@ -153,18 +153,18 @@ public class ReportTest extends BaseTestCase {
         return c.getTime();
     }
 
-    @Test
-    public void createRateSheet() throws ComponentException, FileNotFoundException, DRException {
-        // create rate sheet destination country name, peak rate, off-peak rate: Spectra_France
-        // rate sheet: destination countries are listed in alphabetical order, rates on single page, page header showing telephone company information, service namre, from country and date, page footer showing starting times for peak and off-peak periods
-        
-        // generate sales rep commission information
-        // generate traffic summary excel sheet with four coulumns service name, from country name, to country name, total minutes of call
-
-        String outputPath=reportService.exportRateSheet("USA", "Spectra");
-        System.out.println(outputPath);
-        Assert.assertTrue(FileUtil.fileExists(outputPath));
-    }
+//    @Test
+//    public void createRateSheet() throws ComponentException, FileNotFoundException, DRException {
+//        // create rate sheet destination country name, peak rate, off-peak rate: Spectra_France
+//        // rate sheet: destination countries are listed in alphabetical order, rates on single page, page header showing telephone company information, service namre, from country and date, page footer showing starting times for peak and off-peak periods
+//        
+//        // generate sales rep commission information
+//        // generate traffic summary excel sheet with four coulumns service name, from country name, to country name, total minutes of call
+//
+//        String outputPath=reportService.exportRateSheet("USA", "Spectra");
+//        System.out.println(outputPath);
+//        Assert.assertTrue(FileUtil.fileExists(outputPath));
+//    }
     
     @Test 
     public void createCustomerBill(){

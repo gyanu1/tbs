@@ -16,7 +16,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import mum.cs490.tbs.controller.UserBean;
+import mum.cs490.tbs.dao.IGenericDaoII;
+import mum.cs490.tbs.dao.impl.CallDetailDao;
+import mum.cs490.tbs.dao.impl.GenericDaoII;
 import mum.cs490.tbs.dao.impl.IReportDao;
+import mum.cs490.tbs.model.CallDetail;
 import mum.cs490.tbs.model.CallingRate;
 import mum.cs490.tbs.report.Component;
 import mum.cs490.tbs.report.DynamicComponentBuilder;
@@ -52,6 +56,9 @@ public class ReportService implements IReportService {
     private DynamicComponentBuilder componentBuilder;
 
     private ExportService exportService;
+    
+    @Autowired
+    private CallDetailDao callDetailDao;
 
     public ReportService() {
         componentBuilder = new DynamicComponentBuilder();
@@ -132,6 +139,31 @@ public class ReportService implements IReportService {
 
     @Override
     public String generateTrafficSummary() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         try {
+            Collection<TableColumn> columns;
+            TextColumnBuilder<BigInteger> col1 = col.column("Service Name", "toCustomerTelephoneNo", type.bigIntegerType());
+            TextColumnBuilder<String> col2= col.column("Destination Country", "toCountry", type.stringType());
+            TextColumnBuilder<Double> col3 = col.column("Source Country", "duration", type.doubleType());
+            TextColumnBuilder<Date> col4= col.column("Total minutes of call", "callTime", type.dateYearToHourType());
+            columns = new ArrayList<TableColumn>();
+            columns.add(createColumn("", col1,20, false, true));
+            columns.add(createColumn("", col2,20, false, true));
+            columns.add(createColumn("", col3,20, false, true));
+            columns.add(createColumn("", col4,20, false, true));
+           
+            List<Map<String, Object>> callingRateList = new ArrayList<>();
+            System.out.println(callingRateList.size());
+            Component component = new Component();
+            component.setColumns(columns);
+            JasperReportBuilder table = 
+                    componentBuilder.createCustomerBillTable(component, new JRBeanCollectionDataSource(callingRateList));
+            table.setTemplateDesign(TemplateProvider.getTemplate("report_layout/defaulttemplate.jrxml"));
+            String outputPath = FileUtility.getServerFilePath("export");
+            exportService.exportToPdf(table, outputPath, "TrafficSummary");
+            return outputPath + "/TrafficSummary.pdf";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

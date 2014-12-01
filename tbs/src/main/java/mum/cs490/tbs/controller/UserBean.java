@@ -27,6 +27,7 @@ import mum.cs490.tbs.dao.impl.CallDetailDao;
 import mum.cs490.tbs.dao.impl.CallingCodesDao;
 import mum.cs490.tbs.dao.impl.CallingRateDao;
 import mum.cs490.tbs.dao.impl.CustomerDao;
+import mum.cs490.tbs.dao.impl.IReportDao;
 import mum.cs490.tbs.dao.impl.ServiceDao;
 import mum.cs490.tbs.model.CallDetail;
 import mum.cs490.tbs.model.CallingCodes;
@@ -69,6 +70,8 @@ public class UserBean implements Serializable {
     private CallingRateDao callingRateDao;
     @Autowired
     private CallDetailDao callDetailDao;
+    @Autowired
+    private IReportDao reportDao;
 
     private Customer customer;
     private Service service;
@@ -187,10 +190,11 @@ public class UserBean implements Serializable {
     public void searchCallingRates() {
         log.info("inside method searchCallingRates");
         log.info("country : " + service.getCountry() + "  :: service name : " + service.getServiceName());
-        if (service.getCountry().trim().equals("United States of America")) {
-            service.setCountry("USA");
-        }
-        rateList = callingRateDao.getCallingRatesByCountryAndService(service.getServiceName(), service.getCountry());
+//        if (service.getCountry().trim().equals("United States of America")) {
+//            service.setCountry("USA");
+//        }
+//        rateList = callingRateDao.getCallingRatesByCountryAndService(service.getServiceName(), service.getCountry());
+    rateList=reportDao.getRateList(service.getCountry(), service.getServiceName());
     }
 
     public Service getService() {

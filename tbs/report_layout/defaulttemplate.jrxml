@@ -7,7 +7,7 @@
 		<band height="76">
 			<image>
 				<reportElement x="486" y="0" width="109" height="76" uuid="b32b363a-d218-4613-8ada-d522e9bf96af"/>
-				<imageExpression><![CDATA["/Users/puneetkhanal/Documents/gitprojects/tbs/tbs/images/Globe256.png"]]></imageExpression>
+				<imageExpression><![CDATA["images/Globe256.png"]]></imageExpression>
 			</image>
 		</band>
 	</pageHeader>
