@@ -54,7 +54,7 @@ public class DynamicComponentBuilder {
         JasperReportBuilder table;
         table = report();
         table.setPageMargin(DynamicReports.margin(20));
-
+        table.setParameter("realPath", component.getBasePath());
         table.setPageColumnsPerPage(2);
 
         table.setPageColumnSpace(10);

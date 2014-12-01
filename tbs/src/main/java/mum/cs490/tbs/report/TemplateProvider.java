@@ -14,7 +14,9 @@ import java.io.InputStream;
 public class TemplateProvider {
 
     private static Logger logger = Logger.getLogger(TemplateProvider.class.getName());
+    public static String basePath="";
 
+ 
     public static JasperDesign getJasperDesign(String filePath) throws FileNotFoundException,
             JRException {
         JasperDesign jasperDesign = null;

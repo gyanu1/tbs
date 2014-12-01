@@ -36,6 +36,8 @@ import mum.cs490.tbs.model.Customer;
 import mum.cs490.tbs.model.Service;
 import mum.cs490.tbs.model.TbsUser;
 import mum.cs490.tbs.model.UserRole;
+import mum.cs490.tbs.report.TemplateProvider;
+import mum.cs490.tbs.services.IReportService;
 import org.apache.log4j.Logger;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -72,6 +74,8 @@ public class UserBean implements Serializable {
     private CallDetailDao callDetailDao;
     @Autowired
     private IReportDao reportDao;
+    @Autowired
+    private IReportService reportService;
 
     private Customer customer;
     private Service service;
@@ -82,6 +86,7 @@ public class UserBean implements Serializable {
     private Map<String, Integer> monthMap;
     private int year = 2013;
     private int month = 12;
+    private String pdfPath = "";
 
     @Transactional
     public void createUser() {
@@ -190,11 +195,12 @@ public class UserBean implements Serializable {
     public void searchCallingRates() {
         log.info("inside method searchCallingRates");
         log.info("country : " + service.getCountry() + "  :: service name : " + service.getServiceName());
-//        if (service.getCountry().trim().equals("United States of America")) {
-//            service.setCountry("USA");
-//        }
-//        rateList = callingRateDao.getCallingRatesByCountryAndService(service.getServiceName(), service.getCountry());
-    rateList=reportDao.getRateList(service.getCountry(), service.getServiceName());
+        log.info(((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/"));
+        String basePath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/");
+        service.setCountry("USA");
+        rateList = reportDao.getRateList(service.getCountry(), service.getServiceName());
+        pdfPath = reportService.exportRateSheet(basePath, service.getCountry(), service.getServiceName());
+        log.info(pdfPath);
     }
 
     public Service getService() {
@@ -231,8 +237,8 @@ public class UserBean implements Serializable {
 
     public void downloadRateFile() {
         log.info("inside method downloadRateFile");
-        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/img/telecom.jpg");
-        file = new DefaultStreamedContent(stream, "image/jpg", "telecom.jpg");
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/RateSheet.pdf");
+        file = new DefaultStreamedContent(stream, "application/pdf","RateSheet.pdf");
     }
 
     public void goToUserHomePage() throws IOException {
@@ -303,6 +309,5 @@ public class UserBean implements Serializable {
     public void setTrafficSummary(List trafficSummary) {
         this.trafficSummary = trafficSummary;
     }
-    
-    
+
 }

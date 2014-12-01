@@ -3,11 +3,12 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="1"/>
 	<property name="ireport.y" value="0"/>
+        <parameter name="realPath" class="java.lang.String" />
 	<pageHeader>
 		<band height="76">
 			<image>
 				<reportElement x="486" y="0" width="109" height="76" uuid="b32b363a-d218-4613-8ada-d522e9bf96af"/>
-				<imageExpression><![CDATA["Globe256.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{realPath}+"/report_layout/Globe256.png"]]></imageExpression>
 			</image>
 		</band>
 	</pageHeader>

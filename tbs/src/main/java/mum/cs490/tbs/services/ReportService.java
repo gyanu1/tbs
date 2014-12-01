@@ -66,7 +66,7 @@ public class ReportService implements IReportService {
     }
 
     @Override
-    public String exportRateSheet(String country, String service) {
+    public String exportRateSheet(String basePath,String country, String service) {
         try {
             Collection<TableColumn> columns;
             TextColumnBuilder<String> destinationCountry = col.column("Destination Country", "id.destinationCountry.country", type.stringType());
@@ -80,9 +80,10 @@ public class ReportService implements IReportService {
             System.out.println(callingRateList.size());
             Component component = new Component();
             component.setColumns(columns);
+            component.setBasePath(basePath);
             JasperReportBuilder table = 
                     componentBuilder.createTable(component, new JRBeanCollectionDataSource(callingRateList));
-            table.setTemplateDesign(TemplateProvider.getTemplate("report_layout/defaulttemplate.jrxml"));
+            table.setTemplateDesign(TemplateProvider.getTemplate(basePath+"/"+"report_layout/defaulttemplate.jrxml"));
             String outputPath = FileUtility.getServerFilePath("export");
             exportService.exportToPdf(table, outputPath, "RateSheet");
             return outputPath + "/RateSheet.pdf";

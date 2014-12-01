@@ -21,9 +21,19 @@ public class Component {
     private int rowCount;
 
     private ComponentType type;
+    
+    private String basePath;
 
     public Component() {
 
+    }
+
+    public String getBasePath() {
+        return basePath;
+    }
+
+    public void setBasePath(String basePath) {
+        this.basePath = basePath;
     }
 
     public Collection<?> getColumns() {
