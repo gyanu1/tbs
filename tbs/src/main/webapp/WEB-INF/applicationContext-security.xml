@@ -16,24 +16,25 @@
     <!--javascript files--> 
     <sec:http security="none" pattern="/resources/*" />
    
-    <sec:http
-        auto-config="true" use-expressions="true"
-        access-denied-page="/accessDenied.xhtml">
-        <sec:intercept-url pattern="/pages**" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+    <sec:http auto-config="true" use-expressions="true" access-denied-page="/accessDenied.xhtml">
+        
+        <sec:intercept-url pattern="/pages/registration.xhtml" access="hasRole('ROLE_USER')" />
+        <sec:intercept-url pattern="/pages/file_upload.xhtml" access="hasRole('ROLE_ADMIN')" />
+        <sec:intercept-url pattern="/pages/customer_bill.xhtml" access="hasRole('ROLE_ADMIN')" />
+        <sec:intercept-url pattern="/pages/commission.xhtml" access="hasRole('ROLE_ADMIN')" />  
+        <sec:intercept-url pattern="/pages/traffic_summary.xhtml" access="hasRole('ROLE_ADMIN')" />
+        <sec:intercept-url pattern="/pages/current_rates.xhtml" access="hasRole('ROLE_ADMIN')" />
       
-        <sec:intercept-url
-            pattern="/login.xhtml"
-            access="isAnonymous()" />
+        <sec:intercept-url pattern="/login.xhtml" access="isAnonymous()" />
 
-        <sec:form-login
-            login-processing-url="/j_spring_security_check"
-            login-page="/login.xhtml"
-            default-target-url="/pages/index.xhtml"
-            authentication-failure-url="/login.xhtml" />
-            <sec:logout invalidate-session="true" delete-cookies="JSESSIONID"
-                        logout-success-url="/login.xhtml" />
-                        <sec:intercept-url pattern="/pages/**" access="isAuthenticated()" />
+        <sec:form-login  login-processing-url="/j_spring_security_check" login-page="/login.xhtml"
+                         default-target-url="/pages/index.xhtml" authentication-failure-url="/login.xhtml" />
+       
+        <sec:logout invalidate-session="true" delete-cookies="JSESSIONID" logout-success-url="/login.xhtml" />
+
+        <sec:intercept-url pattern="/pages/**" access="isAuthenticated()" />
     </sec:http>
+
     <sec:authentication-manager>
         <sec:authentication-provider user-service-ref="userAuthenticationService" >
             <sec:password-encoder ref="encoder" />    
