@@ -9,9 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +39,7 @@ import org.apache.log4j.Logger;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,6 +50,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Named
 @SessionScoped
 public class UserBean implements Serializable {
+
     static Logger log = Logger.getLogger(UserBean.class.getName());
 
     @Autowired
@@ -70,16 +70,15 @@ public class UserBean implements Serializable {
     @Autowired
     private CallDetailDao callDetailDao;
 
-  
-    
     private Customer customer;
     private Service service;
     private List<CallingRate> rateList;
     private StreamedContent file;
     private List<CallDetail> callDetailList;
     private List trafficSummary;
-    private Map<Integer, String> mapCountryByCode;
-
+    private Map<String, Integer> monthMap;
+    private int year = 2013;
+    private int month = 12;
 
     @Transactional
     public void createUser() {
@@ -96,7 +95,7 @@ public class UserBean implements Serializable {
             user.setUserRole(role);
             userDao.saveUser(user);
         }
-        
+
     }
 
     // This is the action method called when the user clicks the "login" button
@@ -144,8 +143,8 @@ public class UserBean implements Serializable {
     @Transactional
     public List<Service> getServiceList() {
         log.info("inside method getServiceList");
-          return serviceDao.getAll();
-      }
+        return serviceDao.getAll();
+    }
 
     @Transactional
     public List<CallingCodes> getCallingCodesList() {
@@ -168,7 +167,7 @@ public class UserBean implements Serializable {
 
         return filteredCallingCodes;
     }
-    
+
     @Transactional
     public void saveCustomer() {
         log.info("inside method saveCustomer");
@@ -231,4 +230,75 @@ public class UserBean implements Serializable {
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/img/telecom.jpg");
         file = new DefaultStreamedContent(stream, "image/jpg", "telecom.jpg");
     }
+
+    public void goToUserHomePage() throws IOException {
+        log.info("inside method goToUserHomePage ");
+        Collection roles = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        String redirect = "login.xhtml";
+        for (Object role : roles) {
+            log.info(role.toString());
+            if (role.toString().equals("ROLE_ADMIN")) {
+                redirect = "file_upload.xhtml";
+            } else if (role.toString().equals("ROLE_USER")) {
+                redirect = "registration.xhtml";
+            }
+            break;
+        }
+        FacesContext.getCurrentInstance().getExternalContext().redirect(redirect);
+    }
+
+    public Map<String, Integer> getMonthMap() {
+        if (monthMap == null) {
+            monthMap = new LinkedHashMap<>();
+            monthMap.put("Janaury", 1);
+            monthMap.put("February", 2);
+            monthMap.put("March", 3);
+            monthMap.put("April", 4);
+            monthMap.put("May", 5);
+            monthMap.put("June", 6);
+            monthMap.put("July", 7);
+            monthMap.put("August", 8);
+            monthMap.put("September", 9);
+            monthMap.put("October", 10);
+            monthMap.put("November", 11);
+            monthMap.put("December", 12);
+        }
+        return monthMap;
+    }
+
+    public void setMonthMap(Map<String, Integer> monthMap) {
+        this.monthMap = monthMap;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    @Transactional
+    public void generateMonthlyTrafficSummaryByService() {
+        log.info("inside method generateMonthlyTrafficSummaryByService");
+        trafficSummary = callDetailDao.generateMonthlyTrafficSummaryByService(service.getServiceName(), year + "-" + month + "-" + 11);
+    }
+
+    public List getTrafficSummary() {
+        return trafficSummary;
+    }
+
+    public void setTrafficSummary(List trafficSummary) {
+        this.trafficSummary = trafficSummary;
+    }
+    
+    
 }
