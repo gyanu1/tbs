@@ -31,8 +31,8 @@
             default-target-url="/pages/index.xhtml"
             authentication-failure-url="/login.xhtml" />
             <sec:logout invalidate-session="true" delete-cookies="JSESSIONID"
-            logout-success-url="/login.xhtml" />
-
+                        logout-success-url="/login.xhtml" />
+                        <sec:intercept-url pattern="/pages/**" access="isAuthenticated()" />
     </sec:http>
     <sec:authentication-manager>
         <sec:authentication-provider user-service-ref="userAuthenticationService" >
@@ -42,4 +42,5 @@
             
     <beans:bean id="encoder" 
                 class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>  
+    
 </beans:beans>
