@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -39,6 +40,7 @@ import org.apache.log4j.Logger;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -312,4 +314,19 @@ public class UserBean implements Serializable {
         this.month = month;
     }
 
+    public void goToUserHomePage() throws IOException {
+        log.info("inside method goToUserHomePage ");
+        Collection roles = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        String redirect = "login.xhtml";
+        for (Object role : roles) {
+            log.info(role.toString());
+            if (role.toString().equals("ROLE_ADMIN")) {
+                redirect = "file_upload.xhtml";
+            } else if (role.toString().equals("ROLE_USER")) {
+                redirect = "registration.xhtml";
+            }
+            break;
+        }
+        FacesContext.getCurrentInstance().getExternalContext().redirect(redirect);
+    }
 }
