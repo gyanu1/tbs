@@ -36,8 +36,10 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class ReportTest extends BaseTestCase {
 
     private DynamicComponentBuilder componentBuilder = new DynamicComponentBuilder();
@@ -162,6 +164,11 @@ public class ReportTest extends BaseTestCase {
         String outputPath=reportService.exportRateSheet("USA", "Spectra");
         System.out.println(outputPath);
         Assert.assertTrue(FileUtil.fileExists(outputPath));
+    }
+    
+    @Test 
+    public void createCustomerBill(){
+        reportService.generateCustomerBill(new Long(984168));
     }
 
 }

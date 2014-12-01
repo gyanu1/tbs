@@ -35,21 +35,21 @@ public class CallDetail implements Serializable {
     private CallingCodes toCountry;
     @ManyToOne
     private Customer fromCustomer;
-    @ManyToOne
-    private Customer toCustomer;
+    
+    private Long toCustomerTelephoneNo;
 
     public CallDetail() {
     }
 
     
-    public CallDetail(double duration, Date callDate, Date callTime, CallingCodes fromCountry, CallingCodes toCountry, Customer fromCustomer, Customer toCustomer) {
+    public CallDetail(double duration, Date callDate, Date callTime, CallingCodes fromCountry, CallingCodes toCountry, Customer fromCustomer) {
         this.duration = duration;
         this.callDate = callDate;
         this.callTime = callTime;
         this.fromCountry = fromCountry;
         this.toCountry = toCountry;
         this.fromCustomer = fromCustomer;
-        this.toCustomer = toCustomer;
+      
     }
 
     public Long getId() {
@@ -109,18 +109,17 @@ public class CallDetail implements Serializable {
         this.fromCustomer = fromCustomer;
     }
 
-    public Customer getToCustomer() {
-        return toCustomer;
+    public Long getToCustomerTelephoneNo() {
+        return toCustomerTelephoneNo;
     }
 
-    public void setToCustomer(Customer toCustomer) {
-        this.toCustomer = toCustomer;
+    public void setToCustomerTelephoneNo(Long toCustomerTelephoneNo) {
+        this.toCustomerTelephoneNo = toCustomerTelephoneNo;
     }
 
-    @Override
-    public String toString() {
-        return "CallDetail{" + "id=" + id + ", duration=" + duration + ", callDate=" + callDate + ", callTime=" + callTime + ", fromCountry=" + fromCountry + ", toCountry=" + toCountry + ", fromCustomer=" + fromCustomer + ", toCustomer=" + toCustomer + '}';
-    }
+    
+
+   
     
     
 

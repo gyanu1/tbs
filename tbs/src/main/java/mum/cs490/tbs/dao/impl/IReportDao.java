@@ -6,7 +6,9 @@
 package mum.cs490.tbs.dao.impl;
 
 import java.util.List;
+import java.util.Map;
 import mum.cs490.tbs.model.CallingRate;
+import mum.cs490.tbs.report.BillRecord;
 
 /**
  *
@@ -15,5 +17,7 @@ import mum.cs490.tbs.model.CallingRate;
 public interface IReportDao {
     
     public List<CallingRate> getRateList(String country, String service);
+    
+    public List<Map<String, Object>> genCustomerBill(Long telephoneNo);
     
 }

@@ -26,7 +26,7 @@ public class RateReader extends ExcelReader<CallingRate> {
         rateId.setUpdateDate(new Date(System.currentTimeMillis()));
         String[] split = sheetName.split("_");
         rateId.setService(new Service(split[0]));
-        rateId.setSheetName(sheetName);
+        rateId.setSourceCountry(split[1]);
         callingRate.setId(rateId);
         callingRate.setPeak(row.getCell(1).getNumericCellValue());
         callingRate.setOffPeak(row.getCell(2).getNumericCellValue());

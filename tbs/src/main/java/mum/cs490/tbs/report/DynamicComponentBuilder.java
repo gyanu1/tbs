@@ -53,12 +53,36 @@ public class DynamicComponentBuilder {
         Collection<TableColumn> columns = (Collection<TableColumn>) component.getColumns();
         JasperReportBuilder table;
         table = report();
-        table.setPageMargin(DynamicReports.margin(0));
+        table.setPageMargin(DynamicReports.margin(20));
 
         table.setPageColumnsPerPage(2);
 
         table.setPageColumnSpace(10);
-        table.setTemplate(TableTemplate.reportTemplate);
+        table.setTemplate(Templates.reportTemplate);
+
+        for (TableColumn column : columns) {
+
+            table.addColumn(column.getTextColumnBuilder());
+//            column.getTextColumnBuilder().setWidth(column.getWidth());
+        }
+
+        table.setDataSource(dataSource);
+
+        return table;
+
+    }
+    
+    
+    public JasperReportBuilder createCustomerBillTable(Component component, JRDataSource dataSource)
+            throws ComponentException {
+
+//		setColumns(component);
+        Collection<TableColumn> columns = (Collection<TableColumn>) component.getColumns();
+        JasperReportBuilder table;
+        table = report();
+        table.setPageMargin(DynamicReports.margin(20));
+
+        table.setTemplate(Templates.reportTemplate);
 
         for (TableColumn column : columns) {
 

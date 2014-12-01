@@ -81,7 +81,12 @@ public class FileUtility {
         String tokens[] = path.split("WEB-INF");
         path = tokens[0];
         path = path.replaceFirst("file:", "");
-        File fileDir = new File(path + File.separator + "uploads" + File.separator + folder);
+        File fileDir = null;
+        if (path.isEmpty()) {
+            fileDir = new File("uploads" + File.separator + folder);
+        } else {
+            fileDir = new File(path + File.separator + "uploads" + File.separator + folder);
+        }
         if (!fileDir.exists()) {
             fileDir.mkdirs();
         }
