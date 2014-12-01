@@ -17,16 +17,27 @@
                         <h3 class="h3 ">Monthly Traffic Summary</h3>
                         <div class="row">
                             <h:form>
-                                <div class="col-sm-offset-1 col-sm-2">
-                                    <h:panelGrid columns="4">
+                                <div class="col-sm-offset-0 col-sm-2">
+                                    <h:panelGrid columns="8">
                                         <p class="label label-primary"> Service:  </p>  
                                         <p:selectOneListbox id="customer"  value="#{userBean.service.serviceName}">
                                             <f:selectItems value="#{userBean.serviceList}" var="service" itemLabel="#{service.serviceName } " itemValue="#{service.serviceName}" />
                                         </p:selectOneListbox>
-                                        <h:commandButton value="Generate Traffic Summary" class="btn btn-primary" action="#{userBean.generateMonthlyTrafficSummaryByService()}"/>
-                                        <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" action="#{userBean.downloadRateFile()}" icon="ui-icon-arrowthick-1-s">
-                                            <p:fileDownload value="#{userBean.file}"  />
-                                        </p:commandButton>
+                                        <p class="label label-primary"> Year:</p>
+                                        <p:selectOneListbox value="#{userBean.year}" >
+                                            <f:selectItem itemLabel="2013" itemValue="2013" />
+                                            <f:selectItem itemLabel="2014" itemValue="2014" />
+                                        </p:selectOneListbox>
+                                        <p class="label label-primary"> Month:</p>
+                                        <p:selectOneListbox value="#{userBean.month}" >
+                                            <f:selectItems value="#{userBean.monthMap}" />
+                                        </p:selectOneListbox>
+                                        <h:panelGroup>
+                                            <h:commandButton value="Generate Traffic Summary" class="btn btn-primary form-control" action="#{userBean.generateMonthlyTrafficSummaryByService()}"/>
+                                            <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"  action="#{userBean.downloadRateFile()}" icon="ui-icon-arrowthick-1-s">
+                                                <p:fileDownload value="#{userBean.file}"  />
+                                            </p:commandButton>    
+                                        </h:panelGroup>
                                     </h:panelGrid>
                                 </div>
                             </h:form>

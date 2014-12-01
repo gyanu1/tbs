@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.enterprise.context.SessionScoped;
@@ -74,6 +75,9 @@ public class UserBean implements Serializable {
     private List<CallDetail> callDetailList;
     private List trafficSummary;
     private Map<Integer, String> mapCountryByCode;
+    private Map<String, Integer> monthMap;
+    private int year = 2013;
+    private int month = 12;
 
 
     @Transactional
@@ -242,7 +246,7 @@ public class UserBean implements Serializable {
     @Transactional
     public void generateMonthlyTrafficSummaryByService() {
         log.info("inside method generateMonthlyTrafficSummaryByService");
-        trafficSummary = callDetailDao.generateMonthlyTrafficSummaryByService(service.getServiceName());
+        trafficSummary = callDetailDao.generateMonthlyTrafficSummaryByService(service.getServiceName(), year + "-" + month + "-" + 11);
     }
 
 
@@ -267,6 +271,45 @@ public class UserBean implements Serializable {
 
     public void setMapCountryByCode(Map<Integer, String> mapCountryByCode) {
         this.mapCountryByCode = mapCountryByCode;
+    }
+
+    public Map<String, Integer> getMonthMap() {
+        if (monthMap == null) {
+            monthMap = new LinkedHashMap<>();
+            monthMap.put("Janaury", 1);
+            monthMap.put("February", 2);
+            monthMap.put("March", 3);
+            monthMap.put("April", 4);
+            monthMap.put("May", 5);
+            monthMap.put("June", 6);
+            monthMap.put("July", 7);
+            monthMap.put("August", 8);
+            monthMap.put("September", 9);
+            monthMap.put("October", 10);
+            monthMap.put("November", 11);
+            monthMap.put("December", 12);
+        }
+        return monthMap;
+    }
+
+    public void setMonthMap(Map<String, Integer> monthMap) {
+        this.monthMap = monthMap;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
     }
 
 }
