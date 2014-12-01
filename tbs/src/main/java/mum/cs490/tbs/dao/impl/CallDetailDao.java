@@ -25,6 +25,6 @@ public class CallDetailDao extends GenericDaoII<CallDetail> {
     }
 
     public List generateMonthlyTrafficSummaryByService(String serviceName, String date) {
-        return sessionFactory.getCurrentSession().createSQLQuery("CALL GetTrafficSummaryByService(:serviceName,:reportDate)").setParameter("serviceName", serviceName).setParameter("reportDate", date).setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP).list();
+        return sessionFactory.getCurrentSession().createSQLQuery("EXEC GetTrafficSummaryByService :serviceName,:reportDate").setParameter("serviceName", serviceName).setParameter("reportDate", date).setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP).list();
     }
 }

@@ -1,13 +1,12 @@
 --MSSQL 
---DROP PROCEDURE IF EXISTS `GetTrafficSummaryByService` ;
+DROP PROCEDURE IF EXISTS `GetTrafficSummaryByService` ;
 
 --DELIMITER $$
 CREATE PROCEDURE GetTrafficSummaryByService
-@string_serviceName VARCHAR,
+@string_serviceName VARCHAR(75),
 @report_date DATE
 
 AS
-
 SELECT cd.fromCountry_code,cd.toCountry_code,sum(cd.duration) as total_mins  
 FROM CallDetail cd 
 WHERE  cd.fromCustomer_telephoneNumber IN
