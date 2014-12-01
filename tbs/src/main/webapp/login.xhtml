@@ -6,22 +6,11 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Namaste Telecom Billing System</title>
+        <title>Global Telecom </title>
         <ui:include src="/sections/include_js_css.xhtml" />
     </h:head>
     <h:body>
-         <nav class="navbar navbar-fixed-top top_head" role="navigation">
-            <div class="navbar-inner">
-                <div class="container">
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </a>
-                    <a class="brand" href="pages/index.xhtml"><h:graphicImage alt="Namaste Telecom Billing System!" width="10%" library="img" name="telecom.jpg" /></a>
-                </div>
-            </div>
-        </nav>
+        <ui:include src="/sections/top_bar.xhtml" />
         <div class="container-fluid content">
             <br />
             <br />
@@ -31,8 +20,8 @@
                         <div id="login-wraper ">
                             <f:view>
                                 <h:form id="loginForm" prependId="false">
-                                    <legend style="padding: 1%;">Sign in to <span style="color: dodgerblue">Namaste Telephone Billing System</span></legend>
-                                <div class="form-group text-center ">
+                                    <legend style="padding: 1%;">Sign in to <span style="color: dodgerblue">Global Telecom</span></legend>
+                                    <div class="form-group text-center ">
                                     <label>Username:</label>
                                     <h:inputText id="j_username" required="true" />
                                 </div>

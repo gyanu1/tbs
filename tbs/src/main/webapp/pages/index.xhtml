@@ -2,42 +2,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    <h:head>
-        <title>Namaste Telecom Billing System</title>
-        <ui:include src="../sections/include_js_css.xhtml" />
-    </h:head>
-    <h:body>
-        <div>
-            <ui:composition template="../template/admin_template.xhtml" >
-                <ui:define name="content">
-                    <div class="container-fluid content">
-                        <h3 class="label label-primary">Upload File</h3>
-                        <div class="row">
-                            <h:form enctype="multipart/form-data">
-                                <h:messages errorClass="alert-danger" />
-                                <div class="col-sm-offset-0 col-sm-5 ">
-                                    <h:panelGrid columns="2">
-                                        <p class="label label-default"> File Type:  </p>
-                                        <h:selectOneMenu value="#{fileUploadBean.fileType}" class="form-control" >
-                                            <f:selectItems value="#{fileUploadBean.fileTypes}" />
-                                        </h:selectOneMenu>
-                                        <p class="label label-default"> File:  </p>
-                                        <h:inputFile value="#{fileUploadBean.file}" class="form-control"/>
-                                        &nbsp;
-                                        <h:commandButton value="Upload" class="btn btn-default" action="#{fileUploadBean.upload()}"  />
-                                    </h:panelGrid>
-                                </div>
-                            </h:form>
-                        </div>
-                    </div>
-                </ui:define>
-            </ui:composition>
-        </div>
-    </h:body>
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <f:view >
+        <ui:insert name="metadata"/>
+        <f:event type="preRenderView" listener="#{userBean.goToUserHomePage()}" />
+        <h:body></h:body>
+    </f:view>
+
 </html>
-
-
 

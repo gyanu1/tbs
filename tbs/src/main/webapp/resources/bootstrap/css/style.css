@@ -10,9 +10,9 @@ and open the template in the editor.
 .side_menu{
     width: 20%;
     float: left;
-    background: #F6F5F6;
+    /* background: #F6F5F6; */
     border-radius: 8px;
-    border:1px solid ;
+    /* border:1px solid ; */
     padding-left: 1%;
     margin-bottom: 2%;
     margin-top: 7%;
@@ -38,6 +38,10 @@ and open the template in the editor.
     background-color: #595959;
 }
 
+.list-head{
+    background-color: #EAEDF3;
+
+}
 .form-padding{
     padding: 2%;
 }
@@ -50,7 +54,17 @@ and open the template in the editor.
 
 .footer-tbs{
     height: 16%;
-    background-color: #595959;
     text-align: center;
     padding: 1%;
+}
+
+.li-item-background{
+    background: rgb(255,255,255); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(243,243,243,1) 48%, rgba(237,237,237,1) 64%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(48%,rgba(243,243,243,1)), color-stop(64%,rgba(237,237,237,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 48%,rgba(237,237,237,1) 64%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 48%,rgba(237,237,237,1) 64%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 48%,rgba(237,237,237,1) 64%,rgba(255,255,255,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 48%,rgba(237,237,237,1) 64%,rgba(255,255,255,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
 }

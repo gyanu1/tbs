@@ -24,7 +24,7 @@ public class CallDetailDao extends GenericDaoII<CallDetail> {
         return sessionFactory.getCurrentSession().createQuery("from CallDetail c where c.fromCustomer.telephoneNumber=:telephone").setParameter("telephone", telephone).list();
     }
 
-    public List generateMonthlyTrafficSummaryByService(String serviceName) {
-        return sessionFactory.getCurrentSession().createSQLQuery("CALL GetTrafficSummaryByService(:serviceName)").setParameter("serviceName", serviceName).setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP).list();
+    public List generateMonthlyTrafficSummaryByService(String serviceName, String date) {
+        return sessionFactory.getCurrentSession().createSQLQuery("CALL GetTrafficSummaryByService(:serviceName,:reportDate)").setParameter("serviceName", serviceName).setParameter("reportDate", date).setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP).list();
     }
 }
