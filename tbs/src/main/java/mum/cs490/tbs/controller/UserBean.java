@@ -86,7 +86,6 @@ public class UserBean implements Serializable {
     private Map<String, Integer> monthMap;
     private int year = 2013;
     private int month = 12;
-    private String pdfPath = "";
 
     @Transactional
     public void createUser() {
@@ -199,8 +198,8 @@ public class UserBean implements Serializable {
         String basePath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/");
         service.setCountry("USA");
         rateList = reportDao.getRateList(service.getCountry(), service.getServiceName());
-        pdfPath = reportService.exportRateSheet(basePath, service.getCountry(), service.getServiceName());
-        log.info(pdfPath);
+        reportService.exportRateSheet(basePath, service.getCountry(), service.getServiceName());
+
     }
 
     public Service getService() {
@@ -238,7 +237,7 @@ public class UserBean implements Serializable {
     public void downloadRateFile() {
         log.info("inside method downloadRateFile");
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/RateSheet.pdf");
-        file = new DefaultStreamedContent(stream, "application/pdf","RateSheet.pdf");
+        file = new DefaultStreamedContent(stream, "application/pdf", "RateSheet.pdf");
     }
 
     public void goToUserHomePage() throws IOException {
