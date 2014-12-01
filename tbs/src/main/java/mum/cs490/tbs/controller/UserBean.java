@@ -227,4 +227,5 @@ public class UserBean implements Serializable {
         log.info("inside method downloadRateFile");
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/img/telecom.jpg");
         file = new DefaultStreamedContent(stream, "image/jpg", "telecom.jpg");
-
+    }
+}
