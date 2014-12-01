@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ import mum.cs490.tbs.model.Customer;
 import mum.cs490.tbs.model.Service;
 import mum.cs490.tbs.model.TbsUser;
 import mum.cs490.tbs.model.UserRole;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -80,6 +82,7 @@ public class UserBean implements Serializable {
     private List<CallDetail> callDetailList;
     private List trafficSummary;
     private Map<String, Integer> monthMap;
+     private Map<Integer, String> mapCountryByCode;
     private int year = 2013;
     private int month = 12;
 
@@ -187,12 +190,12 @@ public class UserBean implements Serializable {
     }
 
     @Transactional
-    public void searchCallingRates() {
+    public void searchCallingRates() throws IOException {
         log.info("inside method searchCallingRates");
         log.info("country : " + service.getCountry() + "  :: service name : " + service.getServiceName());
-//        if (service.getCountry().trim().equals("United States of America")) {
-//            service.setCountry("USA");
-//        }
+        if (service.getCountry().trim().equals("United States of America")) {
+            service.setCountry("USA");
+       }
 //        rateList = callingRateDao.getCallingRatesByCountryAndService(service.getServiceName(), service.getCountry());
     rateList=reportDao.getRateList(service.getCountry(), service.getServiceName());
     }
@@ -304,5 +307,20 @@ public class UserBean implements Serializable {
         this.trafficSummary = trafficSummary;
     }
     
+    @Transactional
+    public Map<Integer, String> getMapCountryByCode() {
+        if (mapCountryByCode == null) {
+            mapCountryByCode = new HashMap<>();
+            for (CallingCodes code : callingCodesDao.getAll()) {
+                mapCountryByCode.put(code.getCode(), code.getCountry());
+            }
+        }
+        return mapCountryByCode;
+    }
     
+     public void setMapCountryByCode(Map<Integer, String> mapCountryByCode) {
+       this.mapCountryByCode = mapCountryByCode;
+   }
+    
+     
 }

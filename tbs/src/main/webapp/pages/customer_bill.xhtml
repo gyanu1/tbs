@@ -17,10 +17,11 @@
                         <h3 class="h3 ">Monthly Customer Bill</h3>
                         <div class="row">
                             <h:form>
+                                 <h:messages errorClass="alert-danger" />
                                 <div class="col-sm-offset-1 col-sm-2">
                                     <h:panelGrid columns="4">
                                         <p class="label label-primary"> Customer:  </p>  
-                                        <p:selectOneListbox id="customer"  value="#{userBean.customer.telephoneNumber}">
+                                        <p:selectOneListbox id="customer"  value="#{userBean.customer.telephoneNumber}" required="true" requiredMessage="Please select customer">
                                             <f:selectItems value="#{userBean.customerList}" var="customer" itemLabel="#{customer.firstname } #{customer.lastname}" itemValue="#{customer.telephoneNumber}" />
                                         </p:selectOneListbox>
                                         <h:commandButton value="Generate Monthly Bill" class="btn btn-primary" action="#{userBean.generateCustomerBill()}"/>
