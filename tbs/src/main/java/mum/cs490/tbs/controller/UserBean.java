@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +85,7 @@ public class UserBean implements Serializable {
     private List<CallDetail> callDetailList;
     private List trafficSummary;
     private Map<String, Integer> monthMap;
+    private Map<Integer, String> mapCountryByCode;
     private int year = 2013;
     private int month = 12;
     private String pdfPath = "";
@@ -299,7 +301,10 @@ public class UserBean implements Serializable {
     @Transactional
     public void generateMonthlyTrafficSummaryByService() {
         log.info("inside method generateMonthlyTrafficSummaryByService");
+        /**traffic summary by service in admin view**/ 
         trafficSummary = callDetailDao.generateMonthlyTrafficSummaryByService(service.getServiceName(), year + "-" + month + "-" + 11);
+       /**traffic summary for report**/
+        //  trafficSummary=reportDao.genMonthlyTrafficSummary( year + "-" + month + "-" + 11);
     }
 
     public List getTrafficSummary() {
@@ -309,5 +314,20 @@ public class UserBean implements Serializable {
     public void setTrafficSummary(List trafficSummary) {
         this.trafficSummary = trafficSummary;
     }
+    
+   @Transactional
+    public Map<Integer, String> getMapCountryByCode() {
+           if (mapCountryByCode == null) {
+            mapCountryByCode = new HashMap<>();
+            for (CallingCodes code : callingCodesDao.getAll()) {
+                mapCountryByCode.put(code.getCode(), code.getCountry());
+            }
+        }
+        return mapCountryByCode;
+    }
 
+    public void setMapCountryByCode(Map<Integer, String> mapCountryByCode) {
+        this.mapCountryByCode = mapCountryByCode;
+    }
+    
 }

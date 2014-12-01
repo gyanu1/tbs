@@ -46,6 +46,11 @@ public class ReportDao implements IReportDao {
         List<Map<String,Object>> result = query.list();
         return result;
     }
+
+    @Override
+    public List<Map<String, Object>> genMonthlyTrafficSummary(String date) {
+       return sessionFactory.getCurrentSession().createSQLQuery("EXEC GetTrafficSummary :reportDate").setParameter("reportDate", date).setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP).list();
+    }
     
 
 }

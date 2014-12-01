@@ -20,4 +20,6 @@ public interface IReportDao {
     
     public List<Map<String, Object>> genCustomerBill(Long telephoneNo);
     
+    public List<Map<String,Object>> genMonthlyTrafficSummary(String date);
+    
 }
