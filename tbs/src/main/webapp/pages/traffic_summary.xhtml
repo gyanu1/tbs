@@ -15,60 +15,60 @@
                 <ui:define name="content">
                     <div class="row">
                         <h3 class="h3 ">Monthly Traffic Summary</h3>
-                            <h:form>
-                                    <h:messages errorClass="alert-danger" />
-                                <div class="col-sm-offset-0 col-sm-2">
-                                    <h:panelGrid columns="8">
-                                        <p class="label label-primary"> Service:  </p>  
-                                        <p:selectOneListbox id="customer"  value="#{userBean.service.serviceName}" required="true" requiredMessage="Please select service">
-                                            <f:selectItems value="#{userBean.serviceList}" var="service" itemLabel="#{service.serviceName } " itemValue="#{service.serviceName}" />
-                                        </p:selectOneListbox>
-                                        <p class="label label-primary"> Year:</p>
-                                        <p:selectOneListbox value="#{userBean.year}" required="true" requiredMessage="Please select year">
-                                            <f:selectItem itemLabel="2013" itemValue="2013" />
-                                            <f:selectItem itemLabel="2014" itemValue="2014" />
-                                        </p:selectOneListbox>
-                                        <p class="label label-primary"> Month:</p>
-                                        <p:selectOneListbox value="#{userBean.month}" required="true" requiredMessage="Please select month" >
-                                            <f:selectItems value="#{userBean.monthMap}" />
-                                        </p:selectOneListbox>
-                                        <h:panelGroup>
-                                            <h:commandButton value="Generate Traffic Summary" class="btn btn-primary form-control" action="#{userBean.generateMonthlyTrafficSummaryByService()}"/>
-                                            <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"  action="#{userBean.downloadRateFile()}" icon="ui-icon-arrowthick-1-s">
-                                                <p:fileDownload value="#{userBean.file}"  />
-                                            </p:commandButton>    
-                                        </h:panelGroup>
-                                    </h:panelGrid>
-                                </div>
-                            </h:form>
-                        </div>
-                        <div class="row">
-                            <h:form>
-                                <p:dataTable id="tbl" value="#{userBean.trafficSummary}" var="traffic" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
-                                             paginator="true" rows="20">
-                                    <f:facet name="{Exporters}">
-                                        <h:commandLink >
-                                            <p:graphicImage library="img" name="/xml.png" width="24"/>
-                                            <p:dataExporter type="xls" target="tbl" fileName="telephone bill" />
-                                        </h:commandLink>
+                        <h:form>
+                            <h:messages errorClass="alert-danger" />
+                            <div class="col-sm-offset-0 col-sm-2">
+                                <h:panelGrid columns="8">
+                                      <label class="control-label col-sm-2" for="customer">Service:</label>
+                                    <p:selectOneListbox id="customer"  value="#{userBean.service.serviceName}" required="true" requiredMessage="Please select service">
+                                        <f:selectItems value="#{userBean.serviceList}" var="service" itemLabel="#{service.serviceName } " itemValue="#{service.serviceName}" />
+                                    </p:selectOneListbox>
+                                    <div class="col-sm-offset-0 col-sm-4">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-2" for="date">Date:</label>
+                                            <div class="col-sm-9">
+                                                <p:calendar id="date" value="#{userBean.selectedDate}" mode="inline"/>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <!--date-->
+                                    <h:panelGroup>
+                                        <h:commandButton value="Generate Traffic Summary" class="btn btn-primary form-control" action="#{userBean.generateMonthlyTrafficSummaryByService()}"/>
+                                        <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"  action="#{userBean.downloadRateFile()}" icon="ui-icon-arrowthick-1-s">
+                                            <p:fileDownload value="#{userBean.file}"  />
+                                        </p:commandButton>    
+                                    </h:panelGroup>
+                                </h:panelGrid>
+                            </div>
+                        </h:form>
+                    </div>
+                    <div class="row">
+                        <h:form>
+                            <p:dataTable id="tbl" value="#{userBean.trafficSummary}" var="traffic" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                         paginator="true" rows="20">
+                                <f:facet name="{Exporters}">
+                                    <h:commandLink >
+                                        <p:graphicImage library="img" name="/xml.png" width="24"/>
+                                        <p:dataExporter type="xls" target="tbl" fileName="telephone bill" />
+                                    </h:commandLink>
 
-                                        <h:commandLink >
-                                            <p:graphicImage library="img" name="pdf.png" width="24"/>
-                                            <p:dataExporter type="pdf" target="tbl" fileName="telephone bill"/>
-                                        </h:commandLink>
-                                    </f:facet> 
-                                    <p:column headerText="From Country">
-                                        <h:outputText value="#{userBean.mapCountryByCode.get(traffic.get('fromCountry_code'))}"/>
-                                    </p:column>
-                                    <p:column headerText="To Country">
-                                        <h:outputText value="#{userBean.mapCountryByCode.get(traffic.get('toCountry_code'))}"/>
-                                    </p:column>
-                                    <p:column headerText="Total Minutes">
-                                        <h:outputText value="#{traffic.get('total_mins')}"/>
-                                    </p:column>
-                                </p:dataTable>
-                            </h:form>
-                        </div>
+                                    <h:commandLink >
+                                        <p:graphicImage library="img" name="pdf.png" width="24"/>
+                                        <p:dataExporter type="pdf" target="tbl" fileName="telephone bill"/>
+                                    </h:commandLink>
+                                </f:facet> 
+                                <p:column headerText="From Country">
+                                    <h:outputText value="#{userBean.mapCountryByCode.get(traffic.get('fromCountry_code'))}"/>
+                                </p:column>
+                                <p:column headerText="To Country">
+                                    <h:outputText value="#{userBean.mapCountryByCode.get(traffic.get('toCountry_code'))}"/>
+                                </p:column>
+                                <p:column headerText="Total Minutes">
+                                    <h:outputText value="#{traffic.get('total_mins')}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </div>
                 </ui:define>
             </ui:composition>
         </div>

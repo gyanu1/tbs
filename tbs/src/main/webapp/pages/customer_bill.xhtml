@@ -15,25 +15,37 @@
                 <ui:define name="content">
                     <div class="row">
                         <h3 class="h3 ">Monthly Customer Bill</h3>
-                        <h:form>
-                                 <h:messages errorClass="alert-danger" />
-                                 <div class="col-sm-offset-0 col-sm-2">
-                                     <h:panelGrid columns="4">
-                                        <p class="label label-primary"> Customer:  </p>  
+                        <h:form class="form-horizontal">
+                            <h:messages errorClass="alert-danger" />
+                            <div class="col-sm-offset-0 col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="date">Date:</label>
+                                    <div class="col-sm-8">
+                                        <p:calendar id="date" value="#{userBean.selectedDate}" mode="inline"/>
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="col-sm-offset-0 col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4" for="customer">Customer: </label>
+                                    <div class="col-sm-8">
                                         <p:selectOneListbox id="customer"  value="#{userBean.customer.telephoneNumber}" required="true" requiredMessage="Please select customer">
                                             <f:selectItems value="#{userBean.customerList}" var="customer" itemLabel="#{customer.firstname } #{customer.lastname}" itemValue="#{customer.telephoneNumber}" />
                                         </p:selectOneListbox>
-                                        <h:commandButton value="Generate Monthly Bill" class="btn btn-primary" action="#{userBean.generateCustomerBill()}"/>
-                                        <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" action="#{userBean.downloadRateFile()}" icon="ui-icon-arrowthick-1-s">
-                                            <p:fileDownload value="#{userBean.file}"  />
-                                        </p:commandButton>
-                                    </h:panelGrid>
+                                    </div>
                                 </div>
-                            </h:form>
-                        </div>
-                        <div class="row">
-                            <h:form>
-                                <p:dataTable id="tbl" value="#{userBean.callDetailList}" var="callDetail" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                            </div>
+                            <div class="col-sm-offset-0 col-sm-4">
+                                <h:commandButton value="Generate Monthly Bill" class="btn btn-primary" action="#{userBean.generateCustomerBill()}"/>
+                                <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" action="#{userBean.downloadRateFile()}" icon="ui-icon-arrowthick-1-s">
+                                    <p:fileDownload value="#{userBean.file}"  />
+                                </p:commandButton>
+                            </div>
+                        </h:form>
+                    </div>
+                    <div class="row">
+                        <h:form>
+                            <p:dataTable id="tbl" value="#{userBean.callDetailList}" var="callDetail" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
                                          paginator="true" rows="20">
                                 <f:facet name="{Exporters}">
                                     <h:commandLink >
@@ -68,8 +80,8 @@
                                     <h:outputText value=""/>
                                 </p:column>
                             </p:dataTable>
-                            </h:form>
-                        </div>
+                        </h:form>
+                    </div>
                 </ui:define>
             </ui:composition>
         </div>

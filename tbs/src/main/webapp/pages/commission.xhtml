@@ -15,30 +15,15 @@
                 <h3>Commission Report</h3>
                 <div class="row">
                     <h:form class="form-horizontal">
-                        <div class="col-sm-offset-0 col-sm-3">
-                            <div class="form-group">
-                                <label class="control-label col-sm-2"> Year:</label>
-                                <div class="col-sm-2">
-                                        <p:selectOneListbox value="#{userBean.year}" required="true" requiredMessage="Please select year">
-                                            <f:selectItem itemLabel="2013" itemValue="2013" />
-                                        <f:selectItem itemLabel="2014" itemValue="2014" />
-                                    </p:selectOneListbox>    
-                                    </div>
+                         <div class="col-sm-offset-0 col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" for="date">Date:</label>
+                                    <div class="col-sm-9">
+                                        <p:calendar id="date" value="#{userBean.selectedDate}" mode="inline"/>
+                                    </div> 
                                 </div>
-                        </div>
-                        <div class="col-sm-offset-0 col-sm-3">
-                            <div class="form-group ">
-                                <label class="control-label col-sm-3"> Month:</label>
-                                <div class="col-sm-2">
-                                        <p:selectOneListbox value="#{userBean.month}" required="true" requiredMessage="Please select month" >
-                                            <f:selectItems value="#{userBean.monthMap}" />
-                                        </p:selectOneListbox>
-                                    </div>
                             </div>
-
-
-                        </div>
-                        <div class="col-sm-offset-0 col-sm-6">
+                        <div class="col-sm-offset-0 col-sm-5">
                             <h:commandButton value="Generate Commission Report" class="btn btn-primary  col-sm-6" action="#{userBean.generateCommissionReport()}"/>
                             <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"  action="#{userBean.downloadRateFile()}" icon="ui-icon-arrowthick-1-s">
                                     <p:fileDownload value="#{userBean.file}"  />
