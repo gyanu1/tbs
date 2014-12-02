@@ -88,6 +88,7 @@ public class UserBean implements Serializable {
     private Map<Integer, String> mapCountryByCode;
     private int year = 2013;
     private int month = 12;
+    private List<Map<String, Object>> commissionReport;
 
     @Transactional
     public void createUser() {
@@ -332,5 +333,29 @@ public class UserBean implements Serializable {
     public void setMapCountryByCode(Map<Integer, String> mapCountryByCode) {
         this.mapCountryByCode = mapCountryByCode;
     }
+
+    public void generateCommissionReport() {
+
+    }
+
+    public List<Map<String, Object>> getCommissionReport() {
+        if (commissionReport == null) {
+            commissionReport = new ArrayList<>();
+            Map map = new HashMap<String, Object>();
+            map.put("name", "salesrep1");
+            map.put("commission", 1234);
+            commissionReport.add(map);
+            map = new HashMap<String, Object>();
+            map.put("name", "salesrep2");
+            map.put("commission", 4234);
+            commissionReport.add(map);
+        }
+        return commissionReport;
+    }
+
+    public void setCommissionReport(List<Map<String, Object>> commissionReport) {
+        this.commissionReport = commissionReport;
+    }
+
     
 }
