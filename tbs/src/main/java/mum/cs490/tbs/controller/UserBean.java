@@ -37,12 +37,12 @@ import mum.cs490.tbs.model.Customer;
 import mum.cs490.tbs.model.Service;
 import mum.cs490.tbs.model.TbsUser;
 import mum.cs490.tbs.model.UserRole;
-import mum.cs490.tbs.report.TemplateProvider;
 import mum.cs490.tbs.services.IReportService;
 import org.apache.log4j.Logger;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -180,8 +180,12 @@ public class UserBean implements Serializable {
     @Transactional
     public void saveCustomer() {
         log.info("inside method saveCustomer");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName(); //get logged in username
+        log.info("name : " + name);
         Service service = serviceDao.findByName(customer.getService().getServiceName());
         customer.setService(service);
+        customer.setSalesRep(userDao.findUserByName(auth.getName()).get(0));
         customerDao.store(customer);
         customer = new Customer();
     }

@@ -14,10 +14,9 @@ import javax.persistence.ManyToOne;
  *
  * @author ARijal
  */
-
 @Entity
 public class Customer implements Serializable {
-   
+
     @Id
     private Long telephoneNumber;
     @ManyToOne
@@ -29,6 +28,9 @@ public class Customer implements Serializable {
     private String state;
     private String zip;
     private String country;
+    private int commission;
+    @ManyToOne
+    private TbsUser salesRep;
 
     public Customer() {
     }
@@ -109,9 +111,27 @@ public class Customer implements Serializable {
     public void setCountry(String country) {
         this.country = country;
     }
-  @Override
+
+    public int getCommission() {
+        return commission;
+    }
+
+    public void setCommission(int commission) {
+        this.commission = commission;
+    }
+
+    public TbsUser getSalesRep() {
+        return salesRep;
+    }
+
+    public void setSalesRep(TbsUser salesRep) {
+        this.salesRep = salesRep;
+    }
+
+
+    @Override
     public String toString() {
-        return "mum.cs490.tbs.model.UserRole[ telephoneNumber=" + telephoneNumber + ",firstname="+firstname+",lastname="+lastname+",country="+country+",service="+Service+" ]";
+        return "mum.cs490.tbs.model.UserRole[ telephoneNumber=" + telephoneNumber + ",firstname=" + firstname + ",lastname=" + lastname + ",country=" + country + ",service=" + Service + " ]";
     }
 
 }
