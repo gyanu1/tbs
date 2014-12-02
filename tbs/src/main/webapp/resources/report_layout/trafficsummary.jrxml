@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report Body" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="93f4bbef-77fa-4e32-b6d8-0e3bcd5a498a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="realPath" class="java.lang.String"/>
+	<pageHeader>
+		<band height="114">
+			<elementGroup>
+				<frame>
+					<reportElement x="0" y="0" width="595" height="114" forecolor="#0033FF" backcolor="#3399FF" uuid="4f61bc32-b0d9-4ad9-9b3c-cc8c72203cf7"/>
+					<image>
+						<reportElement x="0" y="19" width="109" height="76" uuid="b32b363a-d218-4613-8ada-d522e9bf96af"/>
+						<imageExpression><![CDATA[$P{realPath}+"/report_layout/Globe256.png"]]></imageExpression>
+					</image>
+					<staticText>
+						<reportElement x="220" y="0" width="154" height="28" uuid="cf2d3b4c-ab39-4089-91fb-0e3425810626"/>
+						<textElement textAlignment="Center">
+							<font size="18" isBold="true"/>
+						</textElement>
+						<text><![CDATA[Global Telecom]]></text>
+					</staticText>
+					<staticText>
+						<reportElement x="225" y="33" width="144" height="17" uuid="55d418c6-f1be-4b9b-9efb-e1dbc8983af3"/>
+						<textElement textAlignment="Center">
+							<font size="12" isBold="true"/>
+						</textElement>
+						<text><![CDATA[Traffic Summary Report]]></text>
+					</staticText>
+				</frame>
+			</elementGroup>
+		</band>
+	</pageHeader>
+	<pageFooter>
+		<band height="47">
+			<textField>
+				<reportElement x="463" y="27" width="80" height="20" uuid="b10ebc7f-bd94-4c58-a766-1f5cd3ecb813"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="543" y="27" width="40" height="20" uuid="6d6cec6e-c3ec-497d-8cd5-4338c84eda58"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

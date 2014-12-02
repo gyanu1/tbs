@@ -42,8 +42,8 @@ public class ExcelReaderTest {
     @Test
     public void callDetailsReaderTest() throws IOException{
         CallDetailsReader excelReader=new CallDetailsReader();
-        Map<String,List<CallDetail>>  excelSheets=excelReader.loadWorkBook("data/Calls_Dec2013.xls");
-        System.out.println(excelSheets.get("Dec_Calls").get(0));
+        Map<String,List<CallDetail>>  excelSheets=excelReader.loadWorkBook("data/Calls_Jan15_2014.xls");
+//        System.out.println(excelSheets.get("Dec_Calls").get(0));
         Assert.assertFalse(excelSheets.isEmpty());
     }
     

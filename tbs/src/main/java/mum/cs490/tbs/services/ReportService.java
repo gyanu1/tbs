@@ -122,7 +122,7 @@ public class ReportService implements IReportService {
     }
 
     @Override
-    public String generateCustomerBill(String basepath,Long telephoneNo) {
+    public String generateCustomerBill(String basepath,Long telephoneNo,Date date) {
         try {
             Collection<TableColumn> columns;
             TextColumnBuilder<BigInteger> col1 = col.column("Phone Number", "toCustomerTelephoneNo", type.bigIntegerType()).setValueFormatter(new NumberToStringFormatter());
@@ -137,7 +137,7 @@ public class ReportService implements IReportService {
             columns.add(createColumn("", col4,20, false));
              columns.add(createColumn("", col5,20, true));
            
-            List<Map<String, Object>> callingRateList = reportDao.genCustomerBill(telephoneNo);
+            List<Map<String, Object>> callingRateList = reportDao.genCustomerBill(telephoneNo,date);
             System.out.println(callingRateList.size());
             Component component = new Component();
             component.setColumns(columns);
@@ -156,28 +156,64 @@ public class ReportService implements IReportService {
     }
 
     @Override
-    public String generateTrafficSummary() {
+    public String generateTrafficSummary(String basePath,Date date) {
          try {
             Collection<TableColumn> columns;
-            TextColumnBuilder<BigInteger> col1 = col.column("Service Name", "toCustomerTelephoneNo", type.bigIntegerType());
-            TextColumnBuilder<String> col2= col.column("Destination Country", "toCountry", type.stringType());
-            TextColumnBuilder<Double> col3 = col.column("Source Country", "duration", type.doubleType());
-            TextColumnBuilder<Date> col4= col.column("Total minutes of call", "callTime", type.dateYearToHourType());
+            TextColumnBuilder<String> col1 = col.column("Service Name", "service", type.stringType());
+            TextColumnBuilder<String> col2= col.column("Source Country", "sourceCountry", type.stringType());
+            TextColumnBuilder<String> col3 = col.column("Destination Country", "destinationCountry", type.stringType());
+            TextColumnBuilder<Double> col4= col.column("Total minutes of call", "total_mins", type.doubleType()).setValueFormatter(new NumberToStringFormatter());
             columns = new ArrayList<TableColumn>();
             columns.add(createColumn("", col1,20, false));
             columns.add(createColumn("", col2,20, false));
             columns.add(createColumn("", col3,20, false));
             columns.add(createColumn("", col4,20, false));
            
-//            List<Map<String, Object>> callingRateList = new ArrayList<>();
-//            System.out.println(callingRateList.size());
-//            Component component = new Component();
-//            component.setColumns(columns);
-//            JasperReportBuilder table = 
-//                    componentBuilder.createTable(component, new JRBeanCollectionDataSource(callingRateList));
-//            table.setTemplateDesign(TemplateProvider.getTemplate("report_layout/defaulttemplate.jrxml"));
-//            String outputPath = FileUtility.getServerFilePath("export");
-//            exportService.exportToPdf(table, outputPath, "TrafficSummary");
+            List<Map<String, Object>> callingRateList =reportDao.genMonthlyTrafficSummary(date);
+           
+            Component component = new Component();
+            component.setBasePath(basePath);
+            component.setColumns(columns);
+            JasperReportBuilder table = 
+                    componentBuilder.createTrafficSummaryTable(component, new JRBeanCollectionDataSource(callingRateList));
+            table.setTemplateDesign(TemplateProvider.getTemplate(basePath+"/"+"report_layout/trafficsummary.jrxml"));
+            JasperReportBuilder excelReport = 
+                    componentBuilder.createTrafficSummaryTable(component, new JRBeanCollectionDataSource(callingRateList));
+            String outputPath = FileUtility.getServerFilePath("export");
+            exportService.exportToPdf(table, outputPath, "TrafficSummary");
+            exportService.exportToXls(excelReport, outputPath, "TrafficSummary");
+            return "/TrafficSummary.pdf";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public String generateSalesCommissionReport(String basePath,Date date) {
+         try {
+            Collection<TableColumn> columns;
+            TextColumnBuilder<BigInteger> col1 = col.column("Sales Rep Id", "salesRep_id", type.bigIntegerType());
+            TextColumnBuilder<Double> col2= col.column("Total Commission", "commission", type.doubleType());
+
+            columns = new ArrayList<TableColumn>();
+            columns.add(createColumn("", col1,20, false));
+            columns.add(createColumn("", col2,20, false));
+        
+          
+            List<Map<String, Object>> callingRateList =reportDao.getSalesReport(date);
+           
+            Component component = new Component();
+            component.setBasePath(basePath);
+            component.setColumns(columns);
+            JasperReportBuilder table = 
+                    componentBuilder.createTrafficSummaryTable(component, new JRBeanCollectionDataSource(callingRateList));
+            table.setTemplateDesign(TemplateProvider.getTemplate(basePath+"/"+"report_layout/sales.jrxml"));
+            JasperReportBuilder excelReport = 
+                    componentBuilder.createTrafficSummaryTable(component, new JRBeanCollectionDataSource(callingRateList));
+            String outputPath = FileUtility.getServerFilePath("export");
+            exportService.exportToPdf(table, outputPath, "SalesRepReport");
+            exportService.exportToXls(excelReport, outputPath, "SalesRepReport");
             return "/TrafficSummary.pdf";
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -38,7 +38,7 @@
 					<staticText>
 						<reportElement x="247" y="33" width="100" height="15" uuid="55d418c6-f1be-4b9b-9efb-e1dbc8983af3"/>
 						<textElement textAlignment="Center">
-							<font size="12"/>
+							<font size="12" isBold="true"/>
 						</textElement>
 						<text><![CDATA[Rate Sheet]]></text>
 					</staticText>
@@ -49,9 +49,18 @@
 	<pageFooter>
 		<band height="47">
 			<textField>
-				<reportElement x="288" y="0" width="275" height="29" uuid="400b1211-58ff-45bb-94de-c8c9159e1fdb"/>
+				<reportElement x="0" y="14" width="275" height="13" uuid="400b1211-58ff-45bb-94de-c8c9159e1fdb"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Peak Time: "+$P{peak}+"  OffPeak Time: "+$P{offpeak}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="452" y="14" width="80" height="13" uuid="830f60fc-4d55-46ba-9447-8d2e449221b7"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="532" y="14" width="40" height="13" uuid="f9c74f48-c96f-4020-ac88-6b4b52776c85"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

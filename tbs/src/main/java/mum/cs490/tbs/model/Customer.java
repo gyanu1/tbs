@@ -6,6 +6,7 @@
 package mum.cs490.tbs.model;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -29,7 +30,7 @@ public class Customer implements Serializable {
     private String zip;
     private String country;
     private int commission;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private TbsUser salesRep;
 
     public Customer() {

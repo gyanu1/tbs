@@ -41,22 +41,28 @@ public class ReportDao implements IReportDao {
     }
 
     @Override
-    public List<Map<String, Object>> genCustomerBill(Long telephoneNo) {
-        Query query = sessionFactory.getCurrentSession().createSQLQuery("EXEC generateBill :telephoneNo").setResultTransformer( Criteria.ALIAS_TO_ENTITY_MAP);
+    public List<Map<String, Object>> genCustomerBill(Long telephoneNo,Date date) {
+        Query query = sessionFactory.getCurrentSession().createSQLQuery("EXEC generateBill :telephoneNo,:reportDate").setResultTransformer( Criteria.ALIAS_TO_ENTITY_MAP);
         query.setLong("telephoneNo", telephoneNo);
+        query.setDate("reportDate", date);
         List<Map<String,Object>> result = query.list();
         return result;
     }
 
     @Override
-    public List<Map<String, Object>> genMonthlyTrafficSummary(String date) {
-       return sessionFactory.getCurrentSession().createSQLQuery("EXEC GetTrafficSummary :reportDate").setParameter("reportDate", date).setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP).list();
+    public List<Map<String, Object>> genMonthlyTrafficSummary(Date date) {
+       return sessionFactory.getCurrentSession().createSQLQuery("EXEC GetTrafficSummaryByService :reportDate").setParameter("reportDate", date).setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP).list();
     }
     
     @Override
     public PeakInfo getPeakInfo(String country, String service) {
         Query query=sessionFactory.getCurrentSession().createQuery("select p from PeakInfo p where p.peakId.fromCountry=:country and p.peakId.service.serviceName=:service").setString("service", service).setString("country",country);
         return (PeakInfo) query.uniqueResult();
+    }
+
+    @Override
+    public List<Map<String, Object>> getSalesReport(Date date) {
+        return sessionFactory.getCurrentSession().createSQLQuery("EXEC salesCommission :reportDate").setParameter("reportDate", date).setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP).list();
     }
 
 }

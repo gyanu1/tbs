@@ -9,8 +9,6 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -23,16 +21,16 @@ import org.hibernate.annotations.CascadeType;
  */
 @Entity
 public class TbsUser implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String username;
     private String password;
     @ManyToOne
-    @Cascade(CascadeType.PERSIST)
+    @Cascade(CascadeType.ALL)
     private UserRole role;
-    @OneToMany(mappedBy ="salesRep",fetch=FetchType.EAGER )
+    @OneToMany(mappedBy = "salesRep", fetch = FetchType.EAGER)
     private List<Customer> customerList;
 
     public Long getId() {
@@ -97,6 +95,12 @@ public class TbsUser implements Serializable {
         this.password = password;
     }
 
+    public TbsUser(Long id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
+
     public TbsUser() {
     }
 
@@ -108,5 +112,4 @@ public class TbsUser implements Serializable {
         this.customerList = customerList;
     }
 
-    
 }

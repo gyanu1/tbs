@@ -5,7 +5,9 @@
  */
 package mum.cs490.tbs.services;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import mum.cs490.tbs.model.CallingCodes;
 import mum.cs490.tbs.model.CallingRate;
 import mum.cs490.tbs.model.RateId;
@@ -18,13 +20,30 @@ import org.apache.poi.ss.usermodel.Row;
  */
 public class RateReader extends ExcelReader<CallingRate> {
 
+    private Date updateDate;
+
     @Override
-    public CallingRate getRow(Row row, String sheetName) {
+    public CallingRate getRow(Row row, String fileName) {
+        if (updateDate == null) {
+            int time = Integer.parseInt(fileName.replace(".xls", "").replace("Rates_", ""));
+            int day = time % 100;
+            time = time / 100;
+            int month = time % 100;
+            int year = time / 100;
+            System.out.println(year + ":" + month + ":" + day);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month, day);
+            updateDate = calendar.getTime();
+            System.out.println(updateDate);
+        }
+
         CallingRate callingRate = new CallingRate();
         RateId rateId = new RateId();
         rateId.setDestinationCountry(new CallingCodes(null, new Double(row.getCell(0).getNumericCellValue()).intValue()));
-        rateId.setUpdateDate(new Date(System.currentTimeMillis()));
+        rateId.setUpdateDate(updateDate);
+        String sheetName = row.getSheet().getSheetName();
         String[] split = sheetName.split("_");
+
         rateId.setService(new Service(split[0]));
         rateId.setSourceCountry(split[1]);
         callingRate.setId(rateId);
