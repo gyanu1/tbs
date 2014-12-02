@@ -20,5 +20,9 @@ public class CustomerDao extends GenericDaoII<Customer> {
    public List<Customer> getAll() {
         return sessionFactory.getCurrentSession().createQuery("from Customer").list();
     }
+   
+   public Customer getByID(Long telephoneNo) {
+        return (Customer) sessionFactory.getCurrentSession().get(Customer.class, telephoneNo);
+    }
 
 }

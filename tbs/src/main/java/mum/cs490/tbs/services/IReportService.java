@@ -16,7 +16,7 @@ public interface IReportService {
     
     public String exportRateSheet(String basePath,String country, String service);
     
-    public String generateCustomerBill(Long telephoneNo);
+    public String generateCustomerBill(String basePath,Long telephoneNo);
     
     public String generateTrafficSummary();
     

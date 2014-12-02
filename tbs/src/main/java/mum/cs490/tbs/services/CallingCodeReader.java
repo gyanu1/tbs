@@ -16,7 +16,11 @@ public class CallingCodeReader extends ExcelReader<CallingCodes> {
 
     @Override
     public CallingCodes getRow(Row row, String sheetName) {
-        CallingCodes country = new CallingCodes(row.getCell(0).getStringCellValue(), new Double(row.getCell(1).getNumericCellValue()).intValue());
+        String rawCountry=row.getCell(0).getStringCellValue();
+        if(rawCountry.equalsIgnoreCase("United States of America")){
+            rawCountry="USA";
+        }
+        CallingCodes country = new CallingCodes(rawCountry, new Double(row.getCell(1).getNumericCellValue()).intValue());
         return country;
     }
 

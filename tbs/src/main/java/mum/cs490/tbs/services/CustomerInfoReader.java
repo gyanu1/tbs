@@ -24,9 +24,23 @@ public class CustomerInfoReader extends ExcelReader<Customer> {
     @Override
     public Customer getRow(Row row, String sheetName) {
         Customer customer=new Customer();
+        String[] name=row.getCell(0).getStringCellValue().split(" ");
+        customer.setFirstname(name[0]);
+        customer.setLastname(name[1]);
         customer.setTelephoneNumber(new Double(row.getCell(1).getNumericCellValue()).longValue());
         customer.setService(new Service(row.getCell(2).getStringCellValue()));
-        System.out.println(row.getCell(2).getStringCellValue());
+        customer.setStreet(row.getCell(3).getStringCellValue());
+        customer.setCity(row.getCell(4).getStringCellValue());
+        if(row.getCell(5)==null){
+            customer.setState("");
+        }else{
+            customer.setState(row.getCell(5).getStringCellValue());
+        }
+        if(row.getCell(6)!=null){
+            customer.setZip(new Double(row.getCell(6).getNumericCellValue()).longValue()+"");
+        }
+        customer.setCountry(row.getCell(7).getStringCellValue());
+      
         return customer;
     }
 
