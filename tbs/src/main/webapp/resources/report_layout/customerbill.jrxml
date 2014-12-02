@@ -19,7 +19,7 @@
 						<imageExpression><![CDATA[$P{realPath}+"/report_layout/Globe256.png"]]></imageExpression>
 					</image>
 					<textField>
-						<reportElement x="231" y="76" width="133" height="14" uuid="df4997fe-5fcc-44ed-9de6-9980c64f4632"/>
+						<reportElement x="181" y="76" width="232" height="14" uuid="df4997fe-5fcc-44ed-9de6-9980c64f4632"/>
 						<textElement textAlignment="Center"/>
 						<textFieldExpression><![CDATA[$P{street} +",  "+$P{zip}]]></textFieldExpression>
 					</textField>
@@ -57,6 +57,16 @@
 		</band>
 	</pageHeader>
 	<pageFooter>
-		<band height="47"/>
+		<band height="47">
+			<textField>
+				<reportElement x="0" y="7" width="80" height="20" uuid="e5ba77a4-3061-4b38-a9ad-1c85e7789eec"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="80" y="7" width="40" height="20" uuid="7556b2a9-6748-46d2-86e1-fba512f88839"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageFooter>
 </jasperReport>

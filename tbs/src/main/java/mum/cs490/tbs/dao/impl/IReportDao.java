@@ -19,10 +19,12 @@ public interface IReportDao {
 
     public List<CallingRate> getRateList(String country, String service);
 
-    public List<Map<String, Object>> genCustomerBill(Long telephoneNo);
+    public List<Map<String, Object>> genCustomerBill(Long telephoneNo,Date date);
 
     public List<Map<String, Object>> genMonthlyTrafficSummary(Date date);
 
     public PeakInfo getPeakInfo(String country, String service);
+    
+    public List<Map<String, Object>> getSalesReport(Date date);
 
 }
