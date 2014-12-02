@@ -11,10 +11,22 @@ public class Column {
     protected String name;
 
     private TextColumnBuilder<?> textColumnBuilder;
+    
+    private boolean aggregatecolumn;
 
     public Column() {
 
     }
+
+    public boolean isAggregatecolumn() {
+        return aggregatecolumn;
+    }
+
+    public void setAggregatecolumn(boolean aggregatecolumn) {
+        this.aggregatecolumn = aggregatecolumn;
+    }
+
+    
 
     public String getKey() {
         return key;

@@ -16,15 +16,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import mum.cs490.tbs.controller.UserBean;
+import mum.cs490.tbs.dao.IGenericDao;
 import mum.cs490.tbs.dao.IGenericDaoII;
 import mum.cs490.tbs.dao.impl.CallDetailDao;
+import mum.cs490.tbs.dao.impl.CustomerDao;
 import mum.cs490.tbs.dao.impl.GenericDaoII;
 import mum.cs490.tbs.dao.impl.IReportDao;
 import mum.cs490.tbs.model.CallDetail;
 import mum.cs490.tbs.model.CallingRate;
+import mum.cs490.tbs.model.Customer;
+import mum.cs490.tbs.model.PeakInfo;
 import mum.cs490.tbs.report.Component;
+import mum.cs490.tbs.report.DurationFormatter;
 import mum.cs490.tbs.report.DynamicComponentBuilder;
 import mum.cs490.tbs.report.ExportService;
+import mum.cs490.tbs.report.NumberToStringFormatter;
 import mum.cs490.tbs.report.ReportUtil;
 import mum.cs490.tbs.report.TableColumn;
 import mum.cs490.tbs.report.TemplateProvider;
@@ -59,6 +65,9 @@ public class ReportService implements IReportService {
     
     @Autowired
     private CallDetailDao callDetailDao;
+    
+    @Autowired
+    private CustomerDao customerDao;
 
     public ReportService() {
         componentBuilder = new DynamicComponentBuilder();
@@ -73,19 +82,25 @@ public class ReportService implements IReportService {
             TextColumnBuilder<Double> peak = col.column("Peak", "peak", type.doubleType());
             TextColumnBuilder<Double> offPeak = col.column("Off Peak", "offPeak", type.doubleType());
             columns = new ArrayList<TableColumn>();
-            columns.add(createColumn("", destinationCountry,20, false, true));
-            columns.add(createColumn("", peak,20, true, false));
-            columns.add(createColumn("", offPeak,20, true, false));
+            columns.add(createColumn("", destinationCountry,20,false));
+            columns.add(createColumn("", peak,20, false));
+            columns.add(createColumn("", offPeak,20, false));
             List<CallingRate> callingRateList = reportDao.getRateList(country, service);
             System.out.println(callingRateList.size());
             Component component = new Component();
             component.setColumns(columns);
             component.setBasePath(basePath);
+            PeakInfo peakInfo=reportDao.getPeakInfo(country,service);
             JasperReportBuilder table = 
-                    componentBuilder.createTable(component, new JRBeanCollectionDataSource(callingRateList));
-            table.setTemplateDesign(TemplateProvider.getTemplate(basePath+"/"+"report_layout/defaulttemplate.jrxml"));
+                    componentBuilder.createTable(country, service,peakInfo,component, new JRBeanCollectionDataSource(callingRateList));
+            table.setTemplateDesign(TemplateProvider.getTemplate(basePath+"/"+"report_layout/ratesheet.jrxml"));
+            
+            JasperReportBuilder excel = 
+                    componentBuilder.createExcelRateSheetTable(component, new JRBeanCollectionDataSource(callingRateList));
+            
             String outputPath = FileUtility.getServerFilePath("export");
             exportService.exportToPdf(table, outputPath, "RateSheet");
+            exportService.exportToXls(excel, outputPath, "RateSheet");
             return outputPath + "/RateSheet.pdf";
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -96,39 +111,41 @@ public class ReportService implements IReportService {
     
     
 
-    private static TableColumn createColumn(String name, TextColumnBuilder<?> textColumnBuilder,int width,
-            boolean isKey, boolean isSeries) {
+    private static TableColumn createColumn(String name, TextColumnBuilder<?> textColumnBuilder,int width,boolean isAggregate) {
         TableColumn column = new TableColumn();
         column.setName(name);
         column.setTextColumnBuilder(textColumnBuilder);
         column.setWidth(width);
+        column.setAggregatecolumn(isAggregate);
         return column;
 
     }
 
     @Override
-    public String generateCustomerBill(Long telephoneNo) {
+    public String generateCustomerBill(String basepath,Long telephoneNo) {
         try {
             Collection<TableColumn> columns;
-            TextColumnBuilder<BigInteger> col1 = col.column("Phone Number", "toCustomerTelephoneNo", type.bigIntegerType());
+            TextColumnBuilder<BigInteger> col1 = col.column("Phone Number", "toCustomerTelephoneNo", type.bigIntegerType()).setValueFormatter(new NumberToStringFormatter());
             TextColumnBuilder<String> col2= col.column("Destination Country", "toCountry", type.stringType());
-            TextColumnBuilder<Double> col3 = col.column("Duration", "duration", type.doubleType());
-            TextColumnBuilder<Date> col4= col.column("Call Time", "callTime", type.dateYearToHourType());
+            TextColumnBuilder<Double> col3 = col.column("Duration", "duration", type.doubleType()).setValueFormatter(new DurationFormatter());
+            TextColumnBuilder<Date> col4= col.column("Call Time", "callTime", type.dateYearToHourType()).setPattern("hh:mm:ss");
             TextColumnBuilder<Double> col5= col.column("Cost", "amount", type.doubleType());
             columns = new ArrayList<TableColumn>();
-            columns.add(createColumn("", col1,20, false, true));
-            columns.add(createColumn("", col2,20, false, true));
-            columns.add(createColumn("", col3,20, false, true));
-            columns.add(createColumn("", col4,20, false, true));
-             columns.add(createColumn("", col5,20, false, true));
+            columns.add(createColumn("", col1,20, false));
+            columns.add(createColumn("", col2,20, false));
+            columns.add(createColumn("", col3,20, false));
+            columns.add(createColumn("", col4,20, false));
+             columns.add(createColumn("", col5,20, true));
            
             List<Map<String, Object>> callingRateList = reportDao.genCustomerBill(telephoneNo);
             System.out.println(callingRateList.size());
             Component component = new Component();
             component.setColumns(columns);
+            component.setBasePath(basepath);
+            Customer customer=customerDao.getByID(telephoneNo);
             JasperReportBuilder table = 
-                    componentBuilder.createCustomerBillTable(component, new JRBeanCollectionDataSource(callingRateList));
-            table.setTemplateDesign(TemplateProvider.getTemplate("report_layout/defaulttemplate.jrxml"));
+                    componentBuilder.createCustomerBillTable(component,customer, new JRBeanCollectionDataSource(callingRateList));
+            table.setTemplateDesign(TemplateProvider.getTemplate(basepath+"/"+"report_layout/customerbill.jrxml"));
             String outputPath = FileUtility.getServerFilePath("export");
             exportService.exportToPdf(table, outputPath, "CustomerBill");
             return outputPath + "/CustomerBill.pdf";
@@ -147,21 +164,21 @@ public class ReportService implements IReportService {
             TextColumnBuilder<Double> col3 = col.column("Source Country", "duration", type.doubleType());
             TextColumnBuilder<Date> col4= col.column("Total minutes of call", "callTime", type.dateYearToHourType());
             columns = new ArrayList<TableColumn>();
-            columns.add(createColumn("", col1,20, false, true));
-            columns.add(createColumn("", col2,20, false, true));
-            columns.add(createColumn("", col3,20, false, true));
-            columns.add(createColumn("", col4,20, false, true));
+            columns.add(createColumn("", col1,20, false));
+            columns.add(createColumn("", col2,20, false));
+            columns.add(createColumn("", col3,20, false));
+            columns.add(createColumn("", col4,20, false));
            
-            List<Map<String, Object>> callingRateList = new ArrayList<>();
-            System.out.println(callingRateList.size());
-            Component component = new Component();
-            component.setColumns(columns);
-            JasperReportBuilder table = 
-                    componentBuilder.createCustomerBillTable(component, new JRBeanCollectionDataSource(callingRateList));
-            table.setTemplateDesign(TemplateProvider.getTemplate("report_layout/defaulttemplate.jrxml"));
-            String outputPath = FileUtility.getServerFilePath("export");
-            exportService.exportToPdf(table, outputPath, "TrafficSummary");
-            return outputPath + "/TrafficSummary.pdf";
+//            List<Map<String, Object>> callingRateList = new ArrayList<>();
+//            System.out.println(callingRateList.size());
+//            Component component = new Component();
+//            component.setColumns(columns);
+//            JasperReportBuilder table = 
+//                    componentBuilder.createTable(component, new JRBeanCollectionDataSource(callingRateList));
+//            table.setTemplateDesign(TemplateProvider.getTemplate("report_layout/defaulttemplate.jrxml"));
+//            String outputPath = FileUtility.getServerFilePath("export");
+//            exportService.exportToPdf(table, outputPath, "TrafficSummary");
+            return "/TrafficSummary.pdf";
         } catch (Exception ex) {
             ex.printStackTrace();
         }

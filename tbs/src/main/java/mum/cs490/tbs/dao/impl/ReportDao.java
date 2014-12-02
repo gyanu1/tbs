@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import mum.cs490.tbs.model.CallingRate;
+import mum.cs490.tbs.model.PeakInfo;
 import mum.cs490.tbs.report.BillRecord;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -52,5 +53,10 @@ public class ReportDao implements IReportDao {
        return sessionFactory.getCurrentSession().createSQLQuery("EXEC GetTrafficSummary :reportDate").setParameter("reportDate", date).setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP).list();
     }
     
+    @Override
+    public PeakInfo getPeakInfo(String country, String service) {
+        Query query=sessionFactory.getCurrentSession().createQuery("select p from PeakInfo p where p.peakId.fromCountry=:country and p.peakId.service.serviceName=:service").setString("service", service).setString("country",country);
+        return (PeakInfo) query.uniqueResult();
+    }
 
 }
