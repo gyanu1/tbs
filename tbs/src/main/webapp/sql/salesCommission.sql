@@ -1,7 +1,9 @@
-CREATE PROCEDURE generateBill 
+CREATE PROCEDURE salesCommission 
 @telephoneNo BIGINT
 
 AS
+
+
 
 select cd.*,c.Service_serviceName as service into #T1 
 from CallDetail cd 
@@ -45,9 +47,15 @@ select case
 	into #t55
 		from #t4 t4 order by t4.id
 		
-select * from #t55
+	--select distinct fromCustomer_telephoneNumber from #t55
+		
+	select c.salesRep_id, fromCustomer_telephoneNumber, c.firstname , SUM(amount*c.commission/100) as commission
+	from #t55 t55 join
+	Customer c 
+	on c.telephoneNumber = t55.fromCustomer_telephoneNumber
+	group by fromCustomer_telephoneNumber, c.salesRep_id, c.commission, c.firstname
 		
 GO
 
 
---exec generateBill 9841684566
+
