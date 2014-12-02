@@ -5,6 +5,7 @@
  */
 package mum.cs490.tbs.services;
 
+import java.util.Date;
 import java.util.List;
 import mum.cs490.tbs.model.CallingRate;
 
@@ -18,7 +19,7 @@ public interface IReportService {
     
     public String generateCustomerBill(String basePath,Long telephoneNo);
     
-    public String generateTrafficSummary();
+    public String generateTrafficSummary(String basePath,Date date);
     
     
 }

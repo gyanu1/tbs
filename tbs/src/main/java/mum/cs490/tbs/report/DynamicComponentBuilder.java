@@ -112,6 +112,32 @@ public class DynamicComponentBuilder {
         return table;
 
     }
+    
+    
+    public JasperReportBuilder createTrafficSummaryTable(Component component, JRDataSource dataSource)
+            throws ComponentException {
+
+//		setColumns(component);
+        Collection<TableColumn> columns = (Collection<TableColumn>) component.getColumns();
+        JasperReportBuilder table;
+        table = report();
+        table.setPageMargin(DynamicReports.margin(20));
+        table.setParameter("realPath", component.getBasePath());
+        table.setTemplate(Templates.reportTemplate);
+
+        for (TableColumn column : columns) {
+
+            table.addColumn(column.getTextColumnBuilder());
+//            column.getTextColumnBuilder().setWidth(column.getWidth());
+        }
+
+        table.setDataSource(dataSource);
+
+        return table;
+
+    }
+    
+    
 
     public JasperReportBuilder createCustomerBillTable(Component component, Customer customer, JRDataSource dataSource)
             throws ComponentException {

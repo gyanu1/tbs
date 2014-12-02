@@ -5,6 +5,7 @@
  */
 package mum.cs490.tbs.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import mum.cs490.tbs.model.CallingRate;
@@ -20,7 +21,7 @@ public interface IReportDao {
 
     public List<Map<String, Object>> genCustomerBill(Long telephoneNo);
 
-    public List<Map<String, Object>> genMonthlyTrafficSummary(String date);
+    public List<Map<String, Object>> genMonthlyTrafficSummary(Date date);
 
     public PeakInfo getPeakInfo(String country, String service);
 

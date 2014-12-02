@@ -10,7 +10,7 @@
 				<frame>
 					<reportElement x="0" y="0" width="595" height="133" forecolor="#0033FF" backcolor="#3399FF" uuid="4f61bc32-b0d9-4ad9-9b3c-cc8c72203cf7"/>
 					<textField>
-						<reportElement x="231" y="63" width="133" height="14" uuid="6c6e2576-2f4e-4139-a6f4-5523b377d9bd"/>
+						<reportElement x="231" y="48" width="133" height="14" uuid="6c6e2576-2f4e-4139-a6f4-5523b377d9bd"/>
 						<textElement textAlignment="Center"/>
 						<textFieldExpression><![CDATA[$P{fname}+"  "+$P{lname}]]></textFieldExpression>
 					</textField>
@@ -19,7 +19,7 @@
 						<imageExpression><![CDATA[$P{realPath}+"/report_layout/Globe256.png"]]></imageExpression>
 					</image>
 					<textField>
-						<reportElement x="231" y="91" width="133" height="14" uuid="df4997fe-5fcc-44ed-9de6-9980c64f4632"/>
+						<reportElement x="231" y="76" width="133" height="14" uuid="df4997fe-5fcc-44ed-9de6-9980c64f4632"/>
 						<textElement textAlignment="Center"/>
 						<textFieldExpression><![CDATA[$P{street} +",  "+$P{zip}]]></textFieldExpression>
 					</textField>
@@ -31,22 +31,22 @@
 						<text><![CDATA[Global Telecom]]></text>
 					</staticText>
 					<textField>
-						<reportElement x="204" y="105" width="187" height="14" uuid="3a2985dc-c7cd-4883-a92d-491b76b71a40"/>
+						<reportElement x="204" y="90" width="187" height="14" uuid="3a2985dc-c7cd-4883-a92d-491b76b71a40"/>
 						<textElement textAlignment="Center"/>
 						<textFieldExpression><![CDATA[$P{city}+",  "+$P{state}]]></textFieldExpression>
 					</textField>
 					<textField>
-						<reportElement x="247" y="119" width="100" height="14" uuid="666f7b01-0ebe-4e57-acfc-5c6821eba735"/>
+						<reportElement x="247" y="104" width="100" height="14" uuid="666f7b01-0ebe-4e57-acfc-5c6821eba735"/>
 						<textElement textAlignment="Center"/>
 						<textFieldExpression><![CDATA[$P{country}]]></textFieldExpression>
 					</textField>
 					<textField>
-						<reportElement x="247" y="77" width="100" height="14" uuid="23f2096b-ad20-4b51-8f4f-52708cfe4d27"/>
+						<reportElement x="247" y="62" width="100" height="14" uuid="23f2096b-ad20-4b51-8f4f-52708cfe4d27"/>
 						<textElement textAlignment="Center"/>
 						<textFieldExpression><![CDATA[$P{telephone}]]></textFieldExpression>
 					</textField>
 					<staticText>
-						<reportElement x="247" y="33" width="100" height="15" uuid="55d418c6-f1be-4b9b-9efb-e1dbc8983af3"/>
+						<reportElement x="247" y="28" width="100" height="15" uuid="55d418c6-f1be-4b9b-9efb-e1dbc8983af3"/>
 						<textElement textAlignment="Center">
 							<font size="12"/>
 						</textElement>
