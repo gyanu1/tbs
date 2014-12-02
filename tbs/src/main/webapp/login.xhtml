@@ -19,36 +19,35 @@
             <div class="row margin-top-50">
                 <div class="col-sm-offset-0 col-sm-12">
                     <div class="row">
-                        <div class="col-sm-offset-4 col-sm-4 ">
-                            <div class="panel panel-default">
-                                <div id="login-wraper ">
-                                    <f:view>
-                                        <h:form id="loginForm" class="form-horizontal" prependId="false">
-                                            <legend style="padding: 1%;">Sign in to <span style="color: dodgerblue">Global Telecom</span></legend>
-                                            <div class="form-group text-center ">
-                                                <label>Username:</label>
-                                                <h:inputText id="j_username" required="true" />
-                                            </div>
-                                            <div class="form-group text-center">
-                                                <label>Password:</label>
-                                                <h:inputSecret id="j_password" required="true" />
-                                            </div>
-                                            <div class="form-group text-center">
-                                                <label class="checkbox inline"></label>
-                                                <h:selectBooleanCheckbox id="_spring_security_remember_me" />
-                                                Remember me
-                                            </div>
-                                            <div class="text-center" style="padding-bottom: 2%;">
-                                                <h:commandButton type="submit" id="login" action="#{userBean.doLogin()}" class="btn btn-default" value="Login" />
-                                            </div>
-                                        </h:form>
-                                    </f:view>
-                                    <h:form>
-                                        <h:commandButton action="#{userBean.createUser()}" class="btn btn-default" value="Create User" />
-                                    </h:form>
+
+                        <h:form id="loginForm" class="form-horizontal" prependId="false">
+                            <div class="col-sm-offset-4 col-sm-4 ">
+                                <div class="panel panel-default">
+                                    <legend style="padding: 1%; text-align: center">Sign in to <span style="color: dodgerblue">Global Telecom</span></legend>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-offset-1 col-sm-3" for="j_username">Username:</label>
+                                        <h:inputText  class="col-sm-6" id="j_username" required="true" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-offset-1 col-sm-3" for="j_password">Password:</label>
+                                        <h:inputSecret  class="col-sm-6" id="j_password" required="true" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-offset-4 col-sm-4" > <h:selectBooleanCheckbox  class="col-off col-sm-offset-0" id="_spring_security_remember_me" />Remember me</label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <h:commandButton type="submit" class="col-sm-offset-4 col-sm-4 btn btn-default" id="login" action="#{userBean.doLogin()}"  value="Login" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </h:form>
+                        <h:form>
+                            <h:commandButton action="#{userBean.createUser()}" class="btn btn-default" value="Create User" />
+                        </h:form>
                     </div>
                 </div>
             </div>

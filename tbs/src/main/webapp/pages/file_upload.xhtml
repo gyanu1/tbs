@@ -14,22 +14,33 @@
             <ui:composition template="../template/admin_template.xhtml" >
                 <ui:define name="content">
                         <div class="row">
-                            <div class="col-sm-offset-0 col-sm-5 ">
-                                <h:form enctype="multipart/form-data">
+                            <h:form enctype="multipart/form-data"  class="form-horizontal">
+                                <div class="col-sm-offset-0 col-sm-6 ">
                                     <h3 class="h3">Upload File</h3>
                                     <h:messages errorClass="alert-danger" />
-                                    <h:panelGrid columns="2">
-                                        <p class="label label-default"> File Type:  </p>
-                                        <h:selectOneMenu value="#{fileUploadBean.fileType}" class="form-control" >
-                                            <f:selectItems value="#{fileUploadBean.fileTypes}" />
-                                        </h:selectOneMenu>
-                                        <p class="label label-default"> File:  </p>
-                                        <h:inputFile value="#{fileUploadBean.file}" class="form-control" required="true" requiredMessage="Please select rate file"/>
-                                        &nbsp;
-                                        <h:commandButton value="Upload" class="btn btn-default" action="#{fileUploadBean.upload()}"  />
-                                    </h:panelGrid>
-                                      </h:form>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="type">File Type:</label>
+                                        <div class="col-sm-9">
+                                            <h:selectOneMenu id="type" value="#{fileUploadBean.fileType}" class="form-control" >
+                                                <f:selectItems value="#{fileUploadBean.fileTypes}" />
+                                            </h:selectOneMenu>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="file">File :</label>
+                                        <div class="col-sm-9">
+                                            <h:inputFile id="file" value="#{fileUploadBean.file}" class="form-control" required="true" requiredMessage="Please select rate file"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="upload">&nbsp;</label>
+                                        <div class="col-sm-9">
+                                            <h:commandButton value="Upload" id="upload" class="btn btn-primary col-sm-3" action="#{fileUploadBean.upload()}"  />
+                                        </div>                                    
+                                    </div>
                                 </div>
+                            </h:form>
                         </div>
                 </ui:define>
             </ui:composition>
