@@ -139,9 +139,14 @@ public class UserBean implements Serializable {
     }
 
     public UserBean() {
+        initCustomer();
+        service = new Service();
+    }
+    
+    public void initCustomer(){
         customer = new Customer();
         customer.setService(new Service());
-        service = new Service();
+        customer.setCommission(10);
     }
 
     @Transactional
@@ -188,8 +193,9 @@ public class UserBean implements Serializable {
         customer.setService(service);
         customer.setSalesRep(userDao.findUserByName(auth.getName()).get(0));
         customerDao.store(customer);
-        customer = new Customer();
+        initCustomer();
     }
+    
 
     @Transactional
     public void getCallingRates() {
@@ -356,6 +362,12 @@ public class UserBean implements Serializable {
     public void setCommissionReport(List<Map<String, Object>> commissionReport) {
         this.commissionReport = commissionReport;
     }
+    @Transactional
+    public List<Customer> getCustomerListBySalesRep() {
+        log.info("inside method getCustomerListBySalesRep");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        TbsUser user = userDao.findUserByName(auth.getName()).get(0);
+        return user.getCustomerList();
+    }
 
-    
 }

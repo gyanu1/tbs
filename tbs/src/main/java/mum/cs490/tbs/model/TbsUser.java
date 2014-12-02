@@ -6,11 +6,14 @@
 package mum.cs490.tbs.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -29,6 +32,8 @@ public class TbsUser implements Serializable {
     @ManyToOne
     @Cascade(CascadeType.PERSIST)
     private UserRole role;
+    @OneToMany(mappedBy ="salesRep",fetch=FetchType.EAGER )
+    private List<Customer> customerList;
 
     public Long getId() {
         return id;
@@ -95,4 +100,13 @@ public class TbsUser implements Serializable {
     public TbsUser() {
     }
 
+    public List<Customer> getCustomerList() {
+        return customerList;
+    }
+
+    public void setCustomerList(List<Customer> customerList) {
+        this.customerList = customerList;
+    }
+
+    
 }
