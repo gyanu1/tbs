@@ -25,7 +25,9 @@ import org.apache.poi.ss.usermodel.Row;
 public abstract class ExcelReader<T> {
 
     public Map<String, List<T>> loadWorkBook(String filepath) throws FileNotFoundException, IOException {
-        FileInputStream file = new FileInputStream(new File(filepath));
+       File excelFile=new File(filepath);
+       System.out.println(excelFile.getName());
+        FileInputStream file = new FileInputStream(excelFile);
         //Get the workbook instance for XLS file 
         HSSFWorkbook workbook = new HSSFWorkbook(file);
         Map<String, List<T>> sheetRows = new HashMap<>();
@@ -41,7 +43,8 @@ public abstract class ExcelReader<T> {
                 Row row = rowIterator.next();
 
                 if(!firstRow){
-                    sheetRows.get(sheet.getSheetName()).add(getRow(row, sheet.getSheetName()));
+                    
+                    sheetRows.get(sheet.getSheetName()).add(getRow(row, excelFile.getName()));
                 }else{
                     firstRow=false;
                 }
