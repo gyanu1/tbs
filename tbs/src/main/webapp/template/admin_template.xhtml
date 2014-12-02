@@ -3,28 +3,43 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Namaste Telecom Billing System</title>
+        <title>Global Telecom</title>
         <ui:include src="../sections/include_js_css.xhtml" />
     </h:head>
     <h:body>
-        <ui:insert name="header">
-            <ui:include src="../sections/top_bar.xhtml" />
-        </ui:insert>
-        <div class="body-tbs">
-            <f:view>
-                <ui:insert name="side_menu">
-                    <ui:include src="../sections/side_menu.xhtml" />
-                </ui:insert>
-                <ui:insert  name="content">
-                    <!--content goes here-->
-                </ui:insert>
-            </f:view>
+        <div class="container-fluid ">
+            <div class="row">
+                <div class="col-sm-offset-0 col-sm-12">
+                    <ui:include src="../sections/top_bar.xhtml" />
+                </div>
+            </div>
+
+            <div class="row margin-top-50">
+                <div class="col-sm-offset-0 col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-offset-0 col-sm-2 ">
+                            <ui:insert name="side_menu">
+                                <ui:include src="../sections/side_menu.xhtml" />
+                            </ui:insert>
+                        </div>
+                        <div class="col-sm-offset-0 col-sm-10 ">
+                            <ui:insert  name="content">
+                                <!--content goes here-->
+                            </ui:insert>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row margin-top-10">
+                <div class="col-sm-offset-0 col-sm-12">
+                    <ui:include src="../sections/footer.xhtml" />
+                </div>
+            </div>
         </div>
-        <ui:insert name="footer">
-            <ui:include src="../sections/footer.xhtml" />
-        </ui:insert>
     </h:body>
 </html>
 

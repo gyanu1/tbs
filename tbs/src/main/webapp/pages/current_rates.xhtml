@@ -13,7 +13,7 @@
         <div>
             <ui:composition template="../template/admin_template.xhtml" >
                 <ui:define name="content">
-                    <div class="content">
+                    <div class="row">
                         <h3>Current Rates</h3>
                         <h:form>
                             <h:messages errorClass="alert-danger" />
@@ -37,7 +37,8 @@
                             </h:panelGrid>
                         </h:form>
                     </div>
-                    <div class="content-secondary">
+
+                    <div class="row">
                         <h3>Current Calling Rates</h3>
                         <h:form>
                             <p:dataTable id="tbl" var="rate" value="#{userBean.rateList}" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
