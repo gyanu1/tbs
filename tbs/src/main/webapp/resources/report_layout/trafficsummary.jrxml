@@ -23,7 +23,7 @@
 					<staticText>
 						<reportElement x="225" y="33" width="144" height="17" uuid="55d418c6-f1be-4b9b-9efb-e1dbc8983af3"/>
 						<textElement textAlignment="Center">
-							<font size="12"/>
+							<font size="12" isBold="true"/>
 						</textElement>
 						<text><![CDATA[Traffic Summary Report]]></text>
 					</staticText>
