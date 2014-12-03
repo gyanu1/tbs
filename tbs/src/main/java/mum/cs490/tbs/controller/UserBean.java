@@ -8,13 +8,16 @@ package mum.cs490.tbs.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -39,6 +42,7 @@ import mum.cs490.tbs.model.TbsUser;
 import mum.cs490.tbs.model.UserRole;
 import mum.cs490.tbs.services.IReportService;
 import org.apache.log4j.Logger;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,11 +88,10 @@ public class UserBean implements Serializable {
     private StreamedContent file;
     private List<CallDetail> callDetailList;
     private List trafficSummary;
-    private Map<String, Integer> monthMap;
     private Map<Integer, String> mapCountryByCode;
-    private int year = 2013;
-    private int month = 12;
+    private Date selectedDate;
     private List<Map<String, Object>> commissionReport;
+    private List<Map<String, Object>> customerBill;
 
     @Transactional
     public void createUser() {
@@ -97,11 +100,7 @@ public class UserBean implements Serializable {
             UserRole role = new UserRole("ROLE_ADMIN");
             userDao.saveUserRole(role);
             TbsUser user = new TbsUser("admin", encoder.encode("admin123"));
-            user.setUserRole(role);
-            userDao.saveUser(user);
-            role = new UserRole("ROLE_USER");
-            userDao.saveUserRole(role);
-            user = new TbsUser("salesrep", encoder.encode("salesrep123"));
+            user.setId(1000L);
             user.setUserRole(role);
             userDao.saveUser(user);
         }
@@ -142,8 +141,8 @@ public class UserBean implements Serializable {
         initCustomer();
         service = new Service();
     }
-    
-    public void initCustomer(){
+
+    public void initCustomer() {
         customer = new Customer();
         customer.setService(new Service());
         customer.setCommission(10);
@@ -195,7 +194,6 @@ public class UserBean implements Serializable {
         customerDao.store(customer);
         initCustomer();
     }
-    
 
     @Transactional
     public void getCallingRates() {
@@ -209,9 +207,12 @@ public class UserBean implements Serializable {
         log.info("country : " + service.getCountry() + "  :: service name : " + service.getServiceName());
         log.info(((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/"));
         String basePath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/");
-        service.setCountry("USA");
+        // service.setCountry("USA");
         rateList = reportDao.getRateList(service.getCountry(), service.getServiceName());
-        reportService.exportRateSheet(basePath, service.getCountry(), service.getServiceName());
+        String path = reportService.exportRateSheet(basePath, service.getCountry(), service.getServiceName());
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/RateSheet.pdf");
+        file = new DefaultStreamedContent(stream, "application/pdf", "RateSheet.pdf");
+
 
     }
 
@@ -269,54 +270,25 @@ public class UserBean implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().redirect(redirect);
     }
 
-    public Map<String, Integer> getMonthMap() {
-        if (monthMap == null) {
-            monthMap = new LinkedHashMap<>();
-            monthMap.put("Janaury", 1);
-            monthMap.put("February", 2);
-            monthMap.put("March", 3);
-            monthMap.put("April", 4);
-            monthMap.put("May", 5);
-            monthMap.put("June", 6);
-            monthMap.put("July", 7);
-            monthMap.put("August", 8);
-            monthMap.put("September", 9);
-            monthMap.put("October", 10);
-            monthMap.put("November", 11);
-            monthMap.put("December", 12);
-        }
-        return monthMap;
-    }
-
-    public void setMonthMap(Map<String, Integer> monthMap) {
-        this.monthMap = monthMap;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public void setMonth(int month) {
-        this.month = month;
-    }
-
     @Transactional
     public void generateMonthlyTrafficSummaryByService() {
         log.info("inside method generateMonthlyTrafficSummaryByService");
-        /**traffic summary by service in admin view**/ 
-        trafficSummary = callDetailDao.generateMonthlyTrafficSummaryByService(service.getServiceName(), year + "-" + month + "-" + 11);
-       /**traffic summary for report**/
-        //  trafficSummary=reportDao.genMonthlyTrafficSummary( year + "-" + month + "-" + 11);
-    }
+        /**
+         * traffic summary by service in admin view*
+         */
+        log.info(getDateString(selectedDate));
+        //trafficSummary = callDetailDao.generateMonthlyTrafficSummaryByService(service.getServiceName(), getDateString(selectedDate));
+        /**
+         * traffic summary for report*
+         */
+        trafficSummary = reportDao.genMonthlyTrafficSummary(selectedDate);
 
+        String basePath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/");
+        String path = reportService.generateTrafficSummary(basePath, selectedDate);
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/TrafficSummary.pdf");
+        file = new DefaultStreamedContent(stream, "application/pdf", "TrafficSummary.pdf");
+
+    }
     public List getTrafficSummary() {
         return trafficSummary;
     }
@@ -324,10 +296,10 @@ public class UserBean implements Serializable {
     public void setTrafficSummary(List trafficSummary) {
         this.trafficSummary = trafficSummary;
     }
-    
-   @Transactional
+
+    @Transactional
     public Map<Integer, String> getMapCountryByCode() {
-           if (mapCountryByCode == null) {
+        if (mapCountryByCode == null) {
             mapCountryByCode = new HashMap<>();
             for (CallingCodes code : callingCodesDao.getAll()) {
                 mapCountryByCode.put(code.getCode(), code.getCountry());
@@ -340,34 +312,76 @@ public class UserBean implements Serializable {
         this.mapCountryByCode = mapCountryByCode;
     }
 
+    @Transactional
     public void generateCommissionReport() {
+        log.info("inside method generateCommissionReport ");
+        log.info("date : " + selectedDate);
+        commissionReport = reportDao.getSalesReport(selectedDate);
+        String basePath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/");
+        String path = reportService.generateSalesCommissionReport(basePath, selectedDate);
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/SalesRepReport.pdf");
+        file = new DefaultStreamedContent(stream, "application/pdf", "SalesRepReport.pdf");
+
 
     }
 
+
     public List<Map<String, Object>> getCommissionReport() {
-        if (commissionReport == null) {
-            commissionReport = new ArrayList<>();
-            Map map = new HashMap<String, Object>();
-            map.put("name", "salesrep1");
-            map.put("commission", 1234);
-            commissionReport.add(map);
-            map = new HashMap<String, Object>();
-            map.put("name", "salesrep2");
-            map.put("commission", 4234);
-            commissionReport.add(map);
-        }
         return commissionReport;
     }
 
     public void setCommissionReport(List<Map<String, Object>> commissionReport) {
         this.commissionReport = commissionReport;
     }
+
     @Transactional
     public List<Customer> getCustomerListBySalesRep() {
         log.info("inside method getCustomerListBySalesRep");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         TbsUser user = userDao.findUserByName(auth.getName()).get(0);
         return user.getCustomerList();
+    }
+
+    public Date getSelectedDate() {
+        return selectedDate;
+    }
+
+    public void setSelectedDate(Date selectedDate) {
+        this.selectedDate = selectedDate;
+    }
+
+    public void onDateSelect(SelectEvent event) {
+        log.info("inside method onDateSelect");
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
+    }
+
+    @Transactional
+    public void generateCustomerBill() {
+        log.info("inside method generateCustomerBill " + getDateString(selectedDate));
+        String basePath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/");
+        String path = reportService.generateCustomerBill(basePath, customer.getTelephoneNumber(), selectedDate);
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/CustomerBill.pdf");
+        file = new DefaultStreamedContent(stream, "application/pdf", "CustomerBill.pdf");
+        customerBill=reportDao.genCustomerBill(customer.getTelephoneNumber(), selectedDate);
+    }
+
+    public String getDateString(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int year = cal.get(Calendar.YEAR);
+        return year + "-" + (month + 1) + "-" + day;
+    }
+
+    public List<Map<String, Object>> getCustomerBill() {
+        return customerBill;
+    }
+
+    public void setCustomerBill(List<Map<String, Object>> customerBill) {
+        this.customerBill = customerBill;
     }
 
 }
