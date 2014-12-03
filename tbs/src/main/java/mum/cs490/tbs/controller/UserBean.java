@@ -100,6 +100,7 @@ public class UserBean implements Serializable {
             UserRole role = new UserRole("ROLE_ADMIN");
             userDao.saveUserRole(role);
             TbsUser user = new TbsUser("admin", encoder.encode("admin123"));
+            user.setId(1000L);
             user.setUserRole(role);
             userDao.saveUser(user);
         }
@@ -353,12 +354,11 @@ public class UserBean implements Serializable {
     public void generateCustomerBill() {
         log.info("inside method generateCustomerBill " + getDateString(selectedDate));
         String basePath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/");
-
-        String path = reportService.generateCustomerBill(basePath, customer.getTelephoneNumber());
+        String path = reportService.generateCustomerBill(basePath, customer.getTelephoneNumber(), selectedDate);
         log.info("path : " + path);
-        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/RateSheet.pdf");
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/CustomerBill.pdf");
         file = new DefaultStreamedContent(stream, "application/pdf", "CustomerBill.pdf");
-        customerBill = reportDao.genCustomerBill(customer.getTelephoneNumber());
+        customerBill=reportDao.genCustomerBill(customer.getTelephoneNumber(), selectedDate);
         log.info(customerBill.toString());
     }
 
