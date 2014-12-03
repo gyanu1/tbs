@@ -209,7 +209,10 @@ public class UserBean implements Serializable {
         String basePath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/");
         // service.setCountry("USA");
         rateList = reportDao.getRateList(service.getCountry(), service.getServiceName());
-        reportService.exportRateSheet(basePath, service.getCountry(), service.getServiceName());
+        String path = reportService.exportRateSheet(basePath, service.getCountry(), service.getServiceName());
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/RateSheet.pdf");
+        file = new DefaultStreamedContent(stream, "application/pdf", "RateSheet.pdf");
+
 
     }
 
@@ -274,13 +277,18 @@ public class UserBean implements Serializable {
          * traffic summary by service in admin view*
          */
         log.info(getDateString(selectedDate));
-        trafficSummary = callDetailDao.generateMonthlyTrafficSummaryByService(service.getServiceName(), getDateString(selectedDate));
+        //trafficSummary = callDetailDao.generateMonthlyTrafficSummaryByService(service.getServiceName(), getDateString(selectedDate));
         /**
          * traffic summary for report*
          */
-        //  trafficSummary=reportDao.genMonthlyTrafficSummary( year + "-" + month + "-" + 11);
-    }
+        trafficSummary = reportDao.genMonthlyTrafficSummary(selectedDate);
 
+        String basePath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/");
+        String path = reportService.generateTrafficSummary(basePath, selectedDate);
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/TrafficSummary.pdf");
+        file = new DefaultStreamedContent(stream, "application/pdf", "TrafficSummary.pdf");
+
+    }
     public List getTrafficSummary() {
         return trafficSummary;
     }
@@ -304,22 +312,21 @@ public class UserBean implements Serializable {
         this.mapCountryByCode = mapCountryByCode;
     }
 
+    @Transactional
     public void generateCommissionReport() {
+        log.info("inside method generateCommissionReport ");
+        log.info("date : " + selectedDate);
+        commissionReport = reportDao.getSalesReport(selectedDate);
+        String basePath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/");
+        String path = reportService.generateSalesCommissionReport(basePath, selectedDate);
+        InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/SalesRepReport.pdf");
+        file = new DefaultStreamedContent(stream, "application/pdf", "SalesRepReport.pdf");
+
 
     }
 
+
     public List<Map<String, Object>> getCommissionReport() {
-        if (commissionReport == null) {
-            commissionReport = new ArrayList<>();
-            Map map = new HashMap<String, Object>();
-            map.put("name", "salesrep1");
-            map.put("commission", 1234);
-            commissionReport.add(map);
-            map = new HashMap<String, Object>();
-            map.put("name", "salesrep2");
-            map.put("commission", 4234);
-            commissionReport.add(map);
-        }
         return commissionReport;
     }
 
@@ -355,11 +362,9 @@ public class UserBean implements Serializable {
         log.info("inside method generateCustomerBill " + getDateString(selectedDate));
         String basePath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/");
         String path = reportService.generateCustomerBill(basePath, customer.getTelephoneNumber(), selectedDate);
-        log.info("path : " + path);
         InputStream stream = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/CustomerBill.pdf");
         file = new DefaultStreamedContent(stream, "application/pdf", "CustomerBill.pdf");
         customerBill=reportDao.genCustomerBill(customer.getTelephoneNumber(), selectedDate);
-        log.info(customerBill.toString());
     }
 
     public String getDateString(Date date) {
