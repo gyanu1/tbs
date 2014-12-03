@@ -15,34 +15,32 @@
                 <h3>Commission Report</h3>
                 <div class="row">
                     <h:form class="form-horizontal">
-                         <div class="col-sm-offset-0 col-sm-4">
+                        <h:messages errorClass="alert-danger" />
+                        <div class="col-sm-offset-0 col-sm-4">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-2" for="date">Date:</label>
+                                    <label class="control-label col-sm-2" for="date">Select Month:</label>
                                     <div class="col-sm-9">
-                                        <p:calendar id="date" value="#{userBean.selectedDate}" mode="inline"/>
+                                        <p:calendar id="date" value="#{userBean.selectedDate}" mode="inline" required="true" requiredMessage="Select month to generate report"/>
                                     </div> 
                                 </div>
                             </div>
                         <div class="col-sm-offset-0 col-sm-5">
                             <h:commandButton value="Generate Commission Report" class="btn btn-primary  col-sm-6" action="#{userBean.generateCommissionReport()}"/>
-                            <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"  action="#{userBean.downloadRateFile()}" icon="ui-icon-arrowthick-1-s">
-                                    <p:fileDownload value="#{userBean.file}"  />
-                                </p:commandButton>       
                         </div>
                     </h:form>
                 </div>
-                <h:form>
+                <h:form rendered="#{userBean.commissionReport.size() > 0}">
                     <p:dataTable id="tbl" value="#{userBean.commissionReport}" var="commission" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
                                  paginator="true" rows="20">
                         <f:facet name="{Exporters}">
                             <h:commandLink >
                                 <p:graphicImage library="img" name="/xml.png" width="24"/>
-                                <p:dataExporter type="xls" target="tbl" fileName="telephone bill" />
+                                <p:fileDownload value="#{userBean.xlsfile}" />
                             </h:commandLink>
 
-                            <h:commandLink >
+                            <h:commandLink>
                                 <p:graphicImage library="img" name="pdf.png" width="24"/>
-                                <p:dataExporter type="pdf" target="tbl" fileName="telephone bill"/>
+                                <p:fileDownload value="#{userBean.pdffile}"  />
                             </h:commandLink>
                         </f:facet> 
                         <p:column headerText="Sales Rep">

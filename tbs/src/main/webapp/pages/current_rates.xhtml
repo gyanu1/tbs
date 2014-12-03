@@ -31,28 +31,26 @@
                                     </p:selectOneListbox>
                                 </h:panelGroup>
                                 <h:commandButton value="Show Current Rate" action="${userBean.searchCallingRates()}"/>
-                                <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" action="#{userBean.downloadRateFile()}" icon="ui-icon-arrowthick-1-s">
-                                    <p:fileDownload value="#{userBean.file}"  />
-                                </p:commandButton>
                             </h:panelGrid>
                         </h:form>
                     </div>
 
                     <div class="row">
-                        <h3>Current Calling Rates</h3>
-                        <h:form>
+                       
+                        <h:form rendered="#{userBean.rateList.size() > 0}">
+                            <h3>Current Calling Rates</h3>
                             <p:dataTable id="tbl" var="rate" value="#{userBean.rateList}" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
                                          paginator="true" rows="20">
 
                                 <f:facet name="{Exporters}">
                                     <h:commandLink >
                                         <p:graphicImage library="img" name="/xml.png" width="24"/>
-                                        <p:dataExporter type="xls" target="tbl" fileName="current rates" />
+                                        <p:fileDownload value="#{userBean.xlsfile}"  />
                                     </h:commandLink>
 
                                     <h:commandLink >
                                         <p:graphicImage library="img" name="pdf.png" width="24"/>
-                                        <p:dataExporter type="pdf" target="tbl" fileName="current rates"/>
+                                        <p:fileDownload value="#{userBean.pdffile}"  />
                                     </h:commandLink>
                                 </f:facet>     
 
