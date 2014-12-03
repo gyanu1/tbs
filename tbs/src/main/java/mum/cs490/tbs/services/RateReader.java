@@ -32,7 +32,7 @@ public class RateReader extends ExcelReader<CallingRate> {
             int year = time / 100;
             System.out.println(year + ":" + month + ":" + day);
             Calendar calendar = Calendar.getInstance();
-            calendar.set(year, month, day);
+            calendar.set(year, month - 1, day);
             updateDate = calendar.getTime();
             System.out.println(updateDate);
         }
