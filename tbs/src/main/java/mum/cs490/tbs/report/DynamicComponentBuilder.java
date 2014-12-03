@@ -1,7 +1,9 @@
 package mum.cs490.tbs.report;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import mum.cs490.tbs.model.Customer;
 import mum.cs490.tbs.model.PeakInfo;
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
@@ -23,23 +25,22 @@ public class DynamicComponentBuilder {
     public DynamicComponentBuilder() {
     }
 
-    public JasperReportBuilder createTable(String service, String country, PeakInfo peakInfo, Component component, JRDataSource dataSource)
+    public JasperReportBuilder createRateSheetTable(String service, String country, PeakInfo peakInfo,Date date, Component component, JRDataSource dataSource)
             throws ComponentException {
 
 //		setColumns(component);
         Collection<TableColumn> columns = (Collection<TableColumn>) component.getColumns();
         JasperReportBuilder table;
         table = report();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         table.setPageMargin(DynamicReports.margin(20));
         table.setParameter("realPath", component.getBasePath());
         table.setPageColumnsPerPage(2);
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(System.currentTimeMillis());
         table.setParameter("service", service);
         table.addParameter("service", String.class);
         table.setParameter("country", country);
         table.addParameter("country", String.class);
-        table.setParameter("date", cal.getTime().toString());
+        table.setParameter("date", sdf.format(date));
         table.addParameter("date", String.class);
         table.setParameter("peak", peakInfo.getPeakStart().toString());
         table.addParameter("peak", String.class);
@@ -84,7 +85,7 @@ public class DynamicComponentBuilder {
 
     }
 
-    public JasperReportBuilder createTrafficSummaryTable(Component component, JRDataSource dataSource)
+    public JasperReportBuilder createTrafficSummaryTable(Component component, Date date,JRDataSource dataSource)
             throws ComponentException {
 
 //		setColumns(component);
@@ -93,6 +94,9 @@ public class DynamicComponentBuilder {
         table = report();
         table.setPageMargin(DynamicReports.margin(20));
         table.setParameter("realPath", component.getBasePath());
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        table.setParameter("date", sdf.format(date));
+        table.addParameter("date", String.class);
         table.setTemplate(Templates.reportTemplate);
 
         for (TableColumn column : columns) {
@@ -107,13 +111,16 @@ public class DynamicComponentBuilder {
 
     }
 
-    public JasperReportBuilder createCustomerBillTable(Component component, Customer customer, JRDataSource dataSource)
+    public JasperReportBuilder createCustomerBillTable(Component component,Date date, Customer customer, JRDataSource dataSource)
             throws ComponentException {
         Collection<TableColumn> columns = (Collection<TableColumn>) component.getColumns();
         JasperReportBuilder table;
         table = report();
 
         table.setPageMargin(DynamicReports.margin(20));
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        table.setParameter("date", sdf.format(date));
+        table.addParameter("date", String.class);
         table.setParameter("realPath", component.getBasePath());
         table.setParameter("fname", customer.getFirstname());
         table.addParameter("fname", String.class);

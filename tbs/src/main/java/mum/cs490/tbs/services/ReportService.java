@@ -86,13 +86,13 @@ public class ReportService implements IReportService {
             columns.add(createColumn("", peak,20, false));
             columns.add(createColumn("", offPeak,20, false));
             List<CallingRate> callingRateList = reportDao.getRateList(country, service);
-            System.out.println(callingRateList.size());
+            System.out.println();
             Component component = new Component();
             component.setColumns(columns);
             component.setBasePath(basePath);
             PeakInfo peakInfo=reportDao.getPeakInfo(country,service);
             JasperReportBuilder table = 
-                    componentBuilder.createTable(country, service,peakInfo,component, new JRBeanCollectionDataSource(callingRateList));
+                    componentBuilder.createRateSheetTable(country, service,peakInfo,callingRateList.get(0).getId().getUpdateDate(),component, new JRBeanCollectionDataSource(callingRateList));
             table.setTemplateDesign(TemplateProvider.getTemplate(basePath+"/"+"report_layout/ratesheet.jrxml"));
             
             JasperReportBuilder excel = 
@@ -129,7 +129,7 @@ public class ReportService implements IReportService {
             TextColumnBuilder<String> col2= col.column("Destination Country", "toCountry", type.stringType());
             TextColumnBuilder<Double> col3 = col.column("Duration", "duration", type.doubleType()).setValueFormatter(new DurationFormatter());
             TextColumnBuilder<Date> col4= col.column("Call Time", "callTime", type.dateYearToHourType()).setPattern("hh:mm:ss");
-            TextColumnBuilder<Double> col5= col.column("Cost", "amount", type.doubleType());
+            TextColumnBuilder<Double> col5= col.column("Cost", "amount", type.doubleType()).setPattern("0.00");
             columns = new ArrayList<TableColumn>();
             columns.add(createColumn("", col1,20, false));
             columns.add(createColumn("", col2,20, false));
@@ -144,7 +144,7 @@ public class ReportService implements IReportService {
             component.setBasePath(basepath);
             Customer customer=customerDao.getByID(telephoneNo);
             JasperReportBuilder table = 
-                    componentBuilder.createCustomerBillTable(component,customer, new JRBeanCollectionDataSource(callingRateList));
+                    componentBuilder.createCustomerBillTable(component,date,customer, new JRBeanCollectionDataSource(callingRateList));
             table.setTemplateDesign(TemplateProvider.getTemplate(basepath+"/"+"report_layout/customerbill.jrxml"));
             String outputPath = FileUtility.getServerFilePath("export");
             exportService.exportToPdf(table, outputPath, "CustomerBill");
@@ -175,10 +175,10 @@ public class ReportService implements IReportService {
             component.setBasePath(basePath);
             component.setColumns(columns);
             JasperReportBuilder table = 
-                    componentBuilder.createTrafficSummaryTable(component, new JRBeanCollectionDataSource(callingRateList));
+                    componentBuilder.createTrafficSummaryTable(component, date,new JRBeanCollectionDataSource(callingRateList));
             table.setTemplateDesign(TemplateProvider.getTemplate(basePath+"/"+"report_layout/trafficsummary.jrxml"));
             JasperReportBuilder excelReport = 
-                    componentBuilder.createTrafficSummaryTable(component, new JRBeanCollectionDataSource(callingRateList));
+                    componentBuilder.createTrafficSummaryTable(component,date, new JRBeanCollectionDataSource(callingRateList));
             String outputPath = FileUtility.getServerFilePath("export");
             exportService.exportToPdf(table, outputPath, "TrafficSummary");
             exportService.exportToXls(excelReport, outputPath, "TrafficSummary");
@@ -207,10 +207,10 @@ public class ReportService implements IReportService {
             component.setBasePath(basePath);
             component.setColumns(columns);
             JasperReportBuilder table = 
-                    componentBuilder.createTrafficSummaryTable(component, new JRBeanCollectionDataSource(callingRateList));
+                    componentBuilder.createTrafficSummaryTable(component,date, new JRBeanCollectionDataSource(callingRateList));
             table.setTemplateDesign(TemplateProvider.getTemplate(basePath+"/"+"report_layout/sales.jrxml"));
             JasperReportBuilder excelReport = 
-                    componentBuilder.createTrafficSummaryTable(component, new JRBeanCollectionDataSource(callingRateList));
+                    componentBuilder.createTrafficSummaryTable(component,date, new JRBeanCollectionDataSource(callingRateList));
             String outputPath = FileUtility.getServerFilePath("export");
             exportService.exportToPdf(table, outputPath, "SalesRepReport");
             exportService.exportToXls(excelReport, outputPath, "SalesRepReport");

@@ -27,6 +27,11 @@
 						</textElement>
 						<text><![CDATA[Traffic Summary Report]]></text>
 					</staticText>
+					<textField>
+						<reportElement x="212" y="50" width="171" height="14" uuid="c10cf7ba-afca-4419-a6a0-4ed3b8aaf192"/>
+						<textElement textAlignment="Center"/>
+						<textFieldExpression><![CDATA["Date: "+$P{date}]]></textFieldExpression>
+					</textField>
 				</frame>
 			</elementGroup>
 		</band>

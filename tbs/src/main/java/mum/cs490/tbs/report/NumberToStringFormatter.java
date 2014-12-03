@@ -17,7 +17,7 @@ public class NumberToStringFormatter extends AbstractValueFormatter<String, Numb
 
     @Override
     public String format(Number value, ReportParameters reportParameters) {
-        return value.toString();
+        return value.longValue()+"";
     }
     
 }
