@@ -145,7 +145,7 @@ public class DynamicComponentBuilder {
         for (TableColumn column : columns) {
             if (column.isAggregatecolumn()) {
 
-                table.subtotalsAtColumnHeader(sbt.aggregate(column.getTextColumnBuilder(), Calculation.SUM).setLabel("Amount Due").setLabelPosition(Position.LEFT).setLabelWidth(200));
+                table.subtotalsAtColumnHeader(sbt.aggregate(column.getTextColumnBuilder(), Calculation.SUM).setLabel("Amount Due").setLabelPosition(Position.LEFT).setLabelWidth(200).setLabelStyle(Templates.boldStyle).setStyle(Templates.boldStyle));
             }
             table.addColumn(column.getTextColumnBuilder());
 //            column.getTextColumnBuilder().setWidth(column.getWidth());

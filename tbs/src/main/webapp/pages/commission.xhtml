@@ -46,6 +46,9 @@
                         <p:column headerText="Sales Rep">
                             <h:outputText value="#{commission.get('salesRep_id')}"/>
                         </p:column>
+                        <p:column headerText="Customer name">
+                            <h:outputText value="#{commission.get('name')}"/>
+                        </p:column>
                         <p:column headerText="Total Commission">
                             <h:outputText value="#{commission.get('commission')}">
                                 <f:convertNumber minFractionDigits="2" />
