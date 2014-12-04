@@ -7,6 +7,7 @@ import java.util.Date;
 import mum.cs490.tbs.model.Customer;
 import mum.cs490.tbs.model.PeakInfo;
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
+import net.sf.dynamicreports.jasper.constant.JasperProperty;
 import net.sf.dynamicreports.report.builder.DynamicReports;
 
 import static net.sf.dynamicreports.report.builder.DynamicReports.*;
@@ -71,7 +72,9 @@ public class DynamicComponentBuilder {
         table = report();
         table.setPageMargin(DynamicReports.margin(20));
         table.setParameter("realPath", component.getBasePath());
-        table.setTemplate(Templates.reportTemplate);
+        table.setColumnTitleStyle(Templates.columnTitleStyle).ignorePageWidth().ignorePagination();
+        table.setColumnStyle(Templates.excelColumnStyle);
+//        table.setTemplate(Templates.reportTemplate);
 
         for (TableColumn column : columns) {
 

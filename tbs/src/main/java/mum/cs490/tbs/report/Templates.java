@@ -51,6 +51,7 @@ public class Templates {
 	public static final StyleBuilder bold22CenteredStyle;
 	public static final StyleBuilder columnStyle;
 	public static final StyleBuilder columnTitleStyle;
+        public static final StyleBuilder excelColumnStyle;
 	public static final StyleBuilder groupStyle;
 	public static final StyleBuilder subtotalStyle;
 
@@ -72,11 +73,18 @@ public class Templates {
 		bold22CenteredStyle = stl.style(boldCenteredStyle)
                              .setFontSize(22);
 		columnStyle         = stl.style(rootStyle).setVerticalAlignment(VerticalAlignment.MIDDLE);
-		columnTitleStyle    = stl.style(columnStyle)
+		
+                
+                columnTitleStyle    = stl.style(columnStyle)
 		                         .setBorder(stl.pen1Point())
 		                         .setHorizontalAlignment(HorizontalAlignment.CENTER)
 		                         .setBackgroundColor(Color.LIGHT_GRAY)
 		                         .bold();
+                
+                excelColumnStyle    = stl.style(columnStyle)
+		                         .setBorder(stl.pen1Point())
+		                         .setHorizontalAlignment(HorizontalAlignment.CENTER);
+		                         
 		groupStyle          = stl.style(boldStyle)
 		                         .setHorizontalAlignment(HorizontalAlignment.LEFT);
 		subtotalStyle       = stl.style(boldStyle)
