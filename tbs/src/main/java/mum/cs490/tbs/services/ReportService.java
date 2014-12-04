@@ -5,24 +5,16 @@
  */
 package mum.cs490.tbs.services;
 
-import java.io.File;
 import java.math.BigInteger;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import mum.cs490.tbs.controller.UserBean;
-import mum.cs490.tbs.dao.IGenericDao;
-import mum.cs490.tbs.dao.IGenericDaoII;
 import mum.cs490.tbs.dao.impl.CallDetailDao;
 import mum.cs490.tbs.dao.impl.CustomerDao;
-import mum.cs490.tbs.dao.impl.GenericDaoII;
 import mum.cs490.tbs.dao.impl.IReportDao;
-import mum.cs490.tbs.model.CallDetail;
 import mum.cs490.tbs.model.CallingRate;
 import mum.cs490.tbs.model.Customer;
 import mum.cs490.tbs.model.PeakInfo;
@@ -31,7 +23,6 @@ import mum.cs490.tbs.report.DurationFormatter;
 import mum.cs490.tbs.report.DynamicComponentBuilder;
 import mum.cs490.tbs.report.ExportService;
 import mum.cs490.tbs.report.NumberToStringFormatter;
-import mum.cs490.tbs.report.ReportUtil;
 import mum.cs490.tbs.report.TableColumn;
 import mum.cs490.tbs.report.TemplateProvider;
 import mum.cs490.tbs.report.Templates;
@@ -43,7 +34,6 @@ import static net.sf.dynamicreports.report.builder.DynamicReports.sbt;
 import static net.sf.dynamicreports.report.builder.DynamicReports.type;
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
 import net.sf.dynamicreports.report.builder.group.ColumnGroupBuilder;
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +69,7 @@ public class ReportService implements IReportService {
     }
 
     @Override
-    public String exportRateSheet(String basePath, String country, String service) {
+    public List<CallingRate> exportRateSheet(String basePath, String country, String service) {
         try {
             Collection<TableColumn> columns;
             TextColumnBuilder<String> destinationCountry = col.column("Destination Country", "id.destinationCountry.country", type.stringType());
@@ -105,7 +95,7 @@ public class ReportService implements IReportService {
             String outputPath = FileUtility.getServerFilePath("export");
             exportService.exportToPdf(table, outputPath, service+"_"+country);
             exportService.exportToXls(excel, outputPath, service+"_"+country);
-            return service+"_"+country;
+            return callingRateList;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -123,7 +113,7 @@ public class ReportService implements IReportService {
     }
 
     @Override
-    public String generateCustomerBill(String basepath, Long telephoneNo, Date date) {
+    public List<Map<String, Object>> generateCustomerBill(String basepath, Long telephoneNo, Date date) {
         try {
             Collection<TableColumn> columns;
             TextColumnBuilder<BigInteger> col1 = col.column("Phone Number", "toCustomerTelephoneNo", type.bigIntegerType()).setValueFormatter(new NumberToStringFormatter());
@@ -139,7 +129,7 @@ public class ReportService implements IReportService {
             columns.add(createColumn("", col5, 20, true));
 
             List<Map<String, Object>> callingRateList = reportDao.genCustomerBill(telephoneNo, date);
-            System.out.println(callingRateList.size());
+            
             Component component = new Component();
             component.setColumns(columns);
             component.setBasePath(basepath);
@@ -154,7 +144,7 @@ public class ReportService implements IReportService {
             String outputPath = FileUtility.getServerFilePath("export");
             exportService.exportToPdf(table, outputPath, "CustomerBill");
             exportService.exportToXls(excelReport, outputPath, "CustomerBill");
-            return outputPath + "/CustomerBill.pdf";
+            return callingRateList;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -162,7 +152,7 @@ public class ReportService implements IReportService {
     }
 
     @Override
-    public String generateTrafficSummary(String basePath, Date date) {
+    public List<Map<String, Object>> generateTrafficSummary(String basePath, Date date) {
         try {
             Collection<TableColumn> columns;
             TextColumnBuilder<String> col1 = col.column("Service Name", "service", type.stringType());
@@ -188,7 +178,7 @@ public class ReportService implements IReportService {
             String outputPath = FileUtility.getServerFilePath("export");
             exportService.exportToPdf(table, outputPath, "TrafficSummary");
             exportService.exportToXls(excelReport, outputPath, "TrafficSummary");
-            return "/TrafficSummary.pdf";
+            return callingRateList;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -196,7 +186,7 @@ public class ReportService implements IReportService {
     }
 
     @Override
-    public String generateSalesCommissionReport(String basePath, Date date) {
+    public List<Map<String, Object>> generateSalesCommissionReport(String basePath, Date date) {
         try {
             Collection<TableColumn> columns;
             TextColumnBuilder<String> col0 = col.column("Customer Name", "name", type.stringType());
@@ -227,7 +217,7 @@ public class ReportService implements IReportService {
             String outputPath = FileUtility.getServerFilePath("export");
             exportService.exportToPdf(table, outputPath, "SalesRepReport");
             exportService.exportToXls(excelReport, outputPath, "SalesRepReport");
-            return "/TrafficSummary.pdf";
+            return callingRateList;
         } catch (Exception ex) {
             ex.printStackTrace();
         }

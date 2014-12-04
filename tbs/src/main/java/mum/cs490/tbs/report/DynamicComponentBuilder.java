@@ -1,19 +1,15 @@
 package mum.cs490.tbs.report;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import mum.cs490.tbs.model.Customer;
 import mum.cs490.tbs.model.PeakInfo;
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
-import net.sf.dynamicreports.jasper.constant.JasperProperty;
 import net.sf.dynamicreports.report.builder.DynamicReports;
 
 import static net.sf.dynamicreports.report.builder.DynamicReports.*;
-import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.constant.Calculation;
-import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.dynamicreports.report.constant.Position;
 import net.sf.jasperreports.engine.JRDataSource;
 import org.apache.log4j.Logger;

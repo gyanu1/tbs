@@ -7,6 +7,7 @@ package mum.cs490.tbs.services;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import mum.cs490.tbs.model.CallingRate;
 
 /**
@@ -15,13 +16,13 @@ import mum.cs490.tbs.model.CallingRate;
  */
 public interface IReportService {
     
-    public String exportRateSheet(String basePath,String country, String service);
+    public List<CallingRate> exportRateSheet(String basePath,String country, String service);
     
-    public String generateCustomerBill(String basePath,Long telephoneNo,Date date);
+    public List<Map<String, Object>> generateCustomerBill(String basePath,Long telephoneNo,Date date);
     
-    public String generateTrafficSummary(String basePath,Date date);
+    public List<Map<String, Object>> generateTrafficSummary(String basePath,Date date);
     
-    public String generateSalesCommissionReport(String basePath,Date date);
+    public List<Map<String, Object>> generateSalesCommissionReport(String basePath,Date date);
     
     
 }

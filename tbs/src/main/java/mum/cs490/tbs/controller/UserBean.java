@@ -31,7 +31,6 @@ import mum.cs490.tbs.dao.impl.CallDetailDao;
 import mum.cs490.tbs.dao.impl.CallingCodesDao;
 import mum.cs490.tbs.dao.impl.CallingRateDao;
 import mum.cs490.tbs.dao.impl.CustomerDao;
-import mum.cs490.tbs.dao.impl.IReportDao;
 import mum.cs490.tbs.dao.impl.ServiceDao;
 import mum.cs490.tbs.model.CallDetail;
 import mum.cs490.tbs.model.CallingCodes;
@@ -77,8 +76,7 @@ public class UserBean implements Serializable {
     private CallingRateDao callingRateDao;
     @Autowired
     private CallDetailDao callDetailDao;
-    @Autowired
-    private IReportDao reportDao;
+
     @Autowired
     private IReportService reportService;
 
@@ -209,8 +207,7 @@ public class UserBean implements Serializable {
         log.info(((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/"));
         String basePath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/");
         // service.setCountry("USA");
-        rateList = reportDao.getRateList(service.getCountry(), service.getServiceName());
-        String path = reportService.exportRateSheet(basePath, service.getCountry(), service.getServiceName());
+        rateList = reportService.exportRateSheet(basePath, service.getCountry(), service.getServiceName());
         String pdfName = service.getServiceName() + "_" + service.getCountry() + ".pdf";
         String xlsName = service.getServiceName() + "_" + service.getCountry() + ".xls";
         InputStream stream1 = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/" + pdfName);
@@ -285,15 +282,15 @@ public class UserBean implements Serializable {
         /**
          * traffic summary for report*
          */
-        trafficSummary = reportDao.genMonthlyTrafficSummary(selectedDate);
 
         String basePath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/");
-        String path = reportService.generateTrafficSummary(basePath, selectedDate);
+        trafficSummary = reportService.generateTrafficSummary(basePath, selectedDate);
         InputStream stream1 = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/TrafficSummary.pdf");
         pdffile = new DefaultStreamedContent(stream1, "application/pdf", "TrafficSummary.pdf");
         InputStream stream2 = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/TrafficSummary.xls");
         xlsfile = new DefaultStreamedContent(stream2, "application/xls", "TrafficSummary.xls");
     }
+
     public List getTrafficSummary() {
         return trafficSummary;
     }
@@ -321,16 +318,16 @@ public class UserBean implements Serializable {
     public void generateCommissionReport() {
         log.info("inside method generateCommissionReport ");
         log.info("date : " + selectedDate);
-        commissionReport = reportDao.getSalesReport(selectedDate);
+
         String basePath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/");
-        String path = reportService.generateSalesCommissionReport(basePath, selectedDate);
+        commissionReport = reportService.generateSalesCommissionReport(basePath, selectedDate);
+
         InputStream stream1 = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/SalesRepReport.pdf");
         pdffile = new DefaultStreamedContent(stream1, "application/pdf", "SalesRepReport.pdf");
         InputStream stream2 = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/SalesRepReport.xls");
         xlsfile = new DefaultStreamedContent(stream2, "application/xls", "SalesRepReport.xls");
 
     }
-
 
     public List<Map<String, Object>> getCommissionReport() {
         return commissionReport;
@@ -367,10 +364,9 @@ public class UserBean implements Serializable {
     public void generateCustomerBill() {
         log.info("inside method generateCustomerBill " + getDateString(selectedDate));
         String basePath = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/");
-        String path = reportService.generateCustomerBill(basePath, customer.getTelephoneNumber(), selectedDate);
+        customerBill = reportService.generateCustomerBill(basePath, customer.getTelephoneNumber(), selectedDate);
         InputStream stream1 = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/CustomerBill.pdf");
         pdffile = new DefaultStreamedContent(stream1, "application/pdf", "CustomerBill.pdf");
-        customerBill = reportDao.genCustomerBill(customer.getTelephoneNumber(), selectedDate);
         InputStream stream2 = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/CustomerBill.xls");
         xlsfile = new DefaultStreamedContent(stream2, "application/xls", "CustomerBill.xls");
     }
