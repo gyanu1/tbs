@@ -30,7 +30,7 @@
                                         <f:selectItems value="#{userBean.serviceList}" var="service" itemLabel="#{service.serviceName}" itemValue="#{service.serviceName}" />
                                     </p:selectOneListbox>
                                 </h:panelGroup>
-                                <h:commandButton value="Show Current Rate" action="${userBean.searchCallingRates()}"/>
+                                <h:commandButton value="Generate Rate Sheet" class="btn btn-primary" action="${userBean.searchCallingRates()}"/>
                             </h:panelGrid>
                         </h:form>
                     </div>

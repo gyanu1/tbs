@@ -9,7 +9,7 @@
             <h3 class="h3 list-head text-primary">Dashboard</h3>
             <ul class="nav nav-tabs nav-stacked">
                 <sec:authorize ifAnyGranted="ROLE_ADMIN">
-                    <li class="list-group li-item-background "><h:link value="Upload Rate"   outcome="file_upload"/></li>
+                    <li class="list-group li-item-background "><h:link value="Upload File"   outcome="file_upload"/></li>
                     <li class="list-group li-item-background" ><h:link value="Customer Bill" outcome="customer_bill" /></li>
                     <li class="list-group li-item-background"><h:link value="Commission" outcome="commission" /></li>
                     <li class="list-group li-item-background"><h:link value="Traffic Summary" outcome="traffic_summary" /></li>
@@ -19,7 +19,7 @@
                     <li class="list-group li-item-background"><h:link value="Customer Registration" outcome="registration" /></li>
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
-                    <li class="list-group li-item-background"><h:outputLink value="#{request.contextPath}/j_spring_security_logout">logout</h:outputLink></li>
+                    <li class="list-group li-item-background"><h:outputLink value="#{request.contextPath}/j_spring_security_logout">Logout</h:outputLink></li>
                 </sec:authorize>
             </ul>
         </ui:insert>

@@ -32,7 +32,7 @@
        
         <sec:logout invalidate-session="true" delete-cookies="JSESSIONID" logout-success-url="/login.xhtml" />
 
-        <!--<sec:intercept-url pattern="/pages/**" access="isAuthenticated()" />-->
+        <sec:intercept-url pattern="/pages/**" access="isAuthenticated()" />
     </sec:http>
 
     <sec:authentication-manager>
