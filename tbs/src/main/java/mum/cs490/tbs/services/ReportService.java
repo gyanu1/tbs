@@ -103,9 +103,9 @@ public class ReportService implements IReportService {
                     = componentBuilder.createExcelRateSheetTable(component, new JRBeanCollectionDataSource(callingRateList));
 
             String outputPath = FileUtility.getServerFilePath("export");
-            exportService.exportToPdf(table, outputPath, "RateSheet");
-            exportService.exportToXls(excel, outputPath, "RateSheet");
-            return outputPath + "/RateSheet.pdf";
+            exportService.exportToPdf(table, outputPath, service+"_"+country);
+            exportService.exportToXls(excel, outputPath, service+"_"+country);
+            return service+"_"+country;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -219,7 +219,7 @@ public class ReportService implements IReportService {
                     = componentBuilder.createTrafficSummaryTable(component, date, new JRBeanCollectionDataSource(callingRateList));
             table.setTemplateDesign(TemplateProvider.getTemplate(basePath + "/" + "report_layout/sales.jrxml"));
             table.groupBy(repIdGroup);
-            table.subtotalsAtGroupHeader(repIdGroup, sbt.sum(col2));
+            table.subtotalsAtGroupFooter(repIdGroup, sbt.sum(col2));
             table.setSubtotalStyle(Templates.columnStyle);
 
             JasperReportBuilder excelReport

@@ -72,7 +72,7 @@ public class DynamicComponentBuilder {
         table = report();
         table.setPageMargin(DynamicReports.margin(20));
         table.setParameter("realPath", component.getBasePath());
-        table.setColumnTitleStyle(Templates.columnTitleStyle).ignorePageWidth().ignorePagination();
+        table.setColumnTitleStyle(Templates.excelColumnStyle).ignorePageWidth().ignorePagination();
         table.setColumnStyle(Templates.excelColumnStyle);
 //        table.setTemplate(Templates.reportTemplate);
 
