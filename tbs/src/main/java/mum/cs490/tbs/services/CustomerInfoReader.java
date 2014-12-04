@@ -32,7 +32,7 @@ public class CustomerInfoReader extends ExcelReader<Customer> {
     
     private Map<Long,SalesRep> salesRepMap=new HashMap<Long, SalesRep>();
     
-   
+  
     private PasswordEncoder encoder=new BCryptPasswordEncoder();
     
     public CustomerInfoReader(){
@@ -55,7 +55,7 @@ public class CustomerInfoReader extends ExcelReader<Customer> {
         customer.setTelephoneNumber(new Double(row.getCell(1).getNumericCellValue()).longValue());
         SalesRep salesRep=salesRepMap.get(customer.getTelephoneNumber());
         customer.setCommission(salesRep.getCommission());
-        TbsUser tbsUser=new TbsUser(new Long(salesRep.getId()),"sales", encoder.encode("sales"));
+        TbsUser tbsUser=new TbsUser(new Long(salesRep.getId()),"sales"+salesRep.getId(), encoder.encode("sales"));
         tbsUser.setUserRole(new UserRole("ROLE_USER"));
         customer.setSalesRep(tbsUser);
         customer.setService(new Service(row.getCell(2).getStringCellValue()));
