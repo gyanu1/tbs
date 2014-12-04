@@ -9,13 +9,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.transaction.Transactional;
-import mum.cs490.tbs.model.CallDetail;
 import mum.cs490.tbs.model.CallingCodes;
-import mum.cs490.tbs.model.CallingRate;
 import mum.cs490.tbs.model.Customer;
 import mum.cs490.tbs.model.PeakInfo;
 import mum.cs490.tbs.model.Service;
+import mum.cs490.tbs.model.TbsUser;
+import mum.cs490.tbs.model.UserRole;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -24,8 +24,20 @@ import org.junit.Test;
  */
 public class UpdateServiceTest extends BaseTestCase {
 
+    @BeforeClass
+    public static void beforeClass() {
+
+    }
+
     @Test
     public void customerDaoTest() throws IOException {
+
+        UserRole role = new UserRole("ROLE_ADMIN");
+        userDao.saveUserRole(role);
+        TbsUser user = new TbsUser("admin", encoder.encode("admin123"));
+        user.setId(1000L);
+        user.setUserRole(role);
+        userDao.saveUser(user);
 
         List<Service> services = new ArrayList<>();
         Reader reader = new Reader();
@@ -41,21 +53,18 @@ public class UpdateServiceTest extends BaseTestCase {
 
         updateService.storePeakInfo(data3);
 
-         reader.setReader(new CustomerInfoReader());
-        Map<String,List<Customer>> data4=reader.read("data/Customers.xls");
-        
-        
+        reader.setReader(new CustomerInfoReader());
+        Map<String, List<Customer>> data4 = reader.read("data/Customers.xls");
+
         updateService.storeCustomers(data4.get("Sheet1"));
-      
+
         reader.setReader(new CallingCodeReader());
-        Map<String,List<CallingCodes>> data=reader.read("data/calling_code.xls");
+        Map<String, List<CallingCodes>> data = reader.read("data/calling_code.xls");
         updateService.storeCallingCodes(data);
-        
-        
+
 //        reader.setReader(new CallDetailsReader());
 //        Map<String,List<CallDetail>> data1=reader.read("data/Calls_Dec2013.xls");
 //        updateService.storeCallDetails(data1);
-        
 //        reader.setReader(new CallDetailsReader());
 //        Map<String,List<CallDetail>> data5=reader.read("data/Calls_Dec2013.xls");
 //        updateService.storeCallDetails(data5);
@@ -70,9 +79,6 @@ public class UpdateServiceTest extends BaseTestCase {
 //   
 //        Map<String,List<CallingRate>> data5=reader.read("data/Rates_20131215.xls");
 //        updateService.updateRate(data5);
-        
-        
-       
     }
 
 }
