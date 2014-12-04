@@ -34,7 +34,7 @@ public class ReportDao implements IReportDao {
 
     @Override
     public List<CallingRate> getRateList(String country, String service) {
-        Query query = sessionFactory.getCurrentSession().createQuery("select r1 FROM CallingRate r1, CallingRate r2 where r1.id.destinationCountry.code=r2.id.destinationCountry.code and r1.id.service.serviceName=r2.id.service.serviceName and r1.id.updateDate>=r2.id.updateDate and r1.id.sourceCountry=:country and r2.id.sourceCountry=:country and r1.id.service.serviceName=:service and r2.id.service.serviceName=:service order by r1.id.destinationCountry.country");
+        Query query = sessionFactory.getCurrentSession().createQuery("select rr from CallingRate rr where rr.id.updateDate=(select MAX(r.id.updateDate) from CallingRate r where r.id.service.serviceName=:service and r.id.sourceCountry=:country ) and rr.id.service.serviceName=:service and rr.id.sourceCountry=:country  order by rr.id.destinationCountry.country");
         query.setString("country", country);
         query.setString("service", service);
         return query.list();
