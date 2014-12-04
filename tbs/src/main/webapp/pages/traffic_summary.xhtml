@@ -19,10 +19,6 @@
                             <h:messages errorClass="alert-danger" />
                             <div class="col-sm-offset-0 col-sm-2">
                                 <h:panelGrid columns="8">
-                                      <label class="control-label col-sm-2" for="customer">Service:</label>
-                                    <p:selectOneListbox id="customer"  value="#{userBean.service.serviceName}" required="true" requiredMessage="Please select service">
-                                        <f:selectItems value="#{userBean.serviceList}" var="service" itemLabel="#{service.serviceName } " itemValue="#{service.serviceName}" />
-                                    </p:selectOneListbox>
                                     <div class="col-sm-offset-0 col-sm-4">
                                         <div class="form-group">
                                             <label class="control-label col-sm-2" for="date">Select Month:</label>
