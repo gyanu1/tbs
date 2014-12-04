@@ -211,10 +211,12 @@ public class UserBean implements Serializable {
         // service.setCountry("USA");
         rateList = reportDao.getRateList(service.getCountry(), service.getServiceName());
         String path = reportService.exportRateSheet(basePath, service.getCountry(), service.getServiceName());
-        InputStream stream1 = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/RateSheet.pdf");
-        pdffile = new DefaultStreamedContent(stream1, "application/pdf", "RateSheet.pdf");
-        InputStream stream2 = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/RateSheet.xls");
-        xlsfile = new DefaultStreamedContent(stream2, "application/xls", "RateSheet.xls");
+        String pdfName = service.getServiceName() + "_" + service.getCountry() + ".pdf";
+        String xlsName = service.getServiceName() + "_" + service.getCountry() + ".xls";
+        InputStream stream1 = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/" + pdfName);
+        pdffile = new DefaultStreamedContent(stream1, "application/pdf", pdfName);
+        InputStream stream2 = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/uploads/export/" + xlsName);
+        xlsfile = new DefaultStreamedContent(stream2, "application/xls", xlsName);
 
     }
 
