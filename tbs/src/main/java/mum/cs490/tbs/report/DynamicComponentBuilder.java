@@ -26,7 +26,7 @@ public class DynamicComponentBuilder {
     public DynamicComponentBuilder() {
     }
 
-    public JasperReportBuilder createRateSheetTable(String service, String country, PeakInfo peakInfo,Date date, Component component, JRDataSource dataSource)
+    public JasperReportBuilder createRateSheetTable(String service, String country, PeakInfo peakInfo, Date date, Component component, JRDataSource dataSource)
             throws ComponentException {
 
 //		setColumns(component);
@@ -43,10 +43,12 @@ public class DynamicComponentBuilder {
         table.addParameter("country", String.class);
         table.setParameter("date", sdf.format(date));
         table.addParameter("date", String.class);
-        table.setParameter("peak", peakInfo.getPeakStart().toString());
-        table.addParameter("peak", String.class);
-        table.setParameter("offpeak", peakInfo.getOffPeakStart().toString());
-        table.addParameter("offpeak", String.class);
+        if (peakInfo != null) {
+            table.setParameter("peak", peakInfo.getPeakStart().toString());
+            table.addParameter("peak", String.class);
+            table.setParameter("offpeak", peakInfo.getOffPeakStart().toString());
+            table.addParameter("offpeak", String.class);
+        }
 
         table.setPageColumnSpace(10);
         table.setTemplate(Templates.reportTemplate);
@@ -88,7 +90,7 @@ public class DynamicComponentBuilder {
 
     }
 
-    public JasperReportBuilder createTrafficSummaryTable(Component component, Date date,JRDataSource dataSource)
+    public JasperReportBuilder createTrafficSummaryTable(Component component, Date date, JRDataSource dataSource)
             throws ComponentException {
 
 //		setColumns(component);
@@ -114,7 +116,7 @@ public class DynamicComponentBuilder {
 
     }
 
-    public JasperReportBuilder createCustomerBillTable(Component component,Date date, Customer customer, JRDataSource dataSource)
+    public JasperReportBuilder createCustomerBillTable(Component component, Date date, Customer customer, JRDataSource dataSource)
             throws ComponentException {
         Collection<TableColumn> columns = (Collection<TableColumn>) component.getColumns();
         JasperReportBuilder table;
