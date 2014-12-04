@@ -171,7 +171,7 @@ public class ExportService {
     private JasperXlsExporterBuilder getXlsExporter(String location, String name) {
         JasperXlsExporterBuilder excelExporter = export.xlsExporter(location + "/" + name + ".xls")
                 .setRemoveEmptySpaceBetweenColumns(true).setFontSizeFixEnabled(true)
-                .setCollapseRowSpan(false);
+                .setCollapseRowSpan(false).setDetectCellType(Boolean.TRUE);
         return excelExporter;
     }
 

@@ -83,8 +83,8 @@ public class ReportService implements IReportService {
         try {
             Collection<TableColumn> columns;
             TextColumnBuilder<String> destinationCountry = col.column("Destination Country", "id.destinationCountry.country", type.stringType());
-            TextColumnBuilder<Double> peak = col.column("Peak", "peak", type.doubleType());
-            TextColumnBuilder<Double> offPeak = col.column("Off Peak", "offPeak", type.doubleType());
+            TextColumnBuilder<Double> peak = col.column("Peak", "peak", type.doubleType()).setPattern("0.00");
+            TextColumnBuilder<Double> offPeak = col.column("Off Peak", "offPeak", type.doubleType()).setPattern("0.00");
             columns = new ArrayList<TableColumn>();
             columns.add(createColumn("", destinationCountry, 20, false));
             columns.add(createColumn("", peak, 20, false));
