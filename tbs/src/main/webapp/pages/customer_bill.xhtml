@@ -68,7 +68,9 @@
                                     <h:outputText value="#{bill.get('callTime')}"/>
                                 </p:column>
                                 <p:column headerText="Cost">
-                                    <h:outputText value="#{bill.get('amount')}"/>
+                                    <h:outputText value="#{bill.get('amount')}">
+                                        <f:convertNumber minFractionDigits="2" />
+                                    </h:outputText>
                                 </p:column>
                             </p:dataTable>
                         </h:form>

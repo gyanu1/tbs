@@ -47,7 +47,9 @@
                             <h:outputText value="#{commission.get('salesRep_id')}"/>
                         </p:column>
                         <p:column headerText="Total Commission">
-                            <h:outputText value="#{commission.get('commission')}"/>
+                            <h:outputText value="#{commission.get('commission')}">
+                                <f:convertNumber minFractionDigits="2" />
+                            </h:outputText>
                         </p:column>
                     </p:dataTable>
                     </h:form>
