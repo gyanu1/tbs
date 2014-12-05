@@ -83,7 +83,7 @@ public class Templates {
                 
                 excelColumnStyle    = stl.style(columnStyle)
 		                         .setBorder(stl.pen1Point())
-		                         .setHorizontalAlignment(HorizontalAlignment.CENTER);
+		                         ;
 		                         
 		groupStyle          = stl.style(boldStyle)
 		                         .setHorizontalAlignment(HorizontalAlignment.LEFT);
